@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Quick navigation">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_home"
+                    android:icon="@drawable/ic_baseline_home_24"
+                    android:title="@string/menu_home" />
+                <item
+                    android:id="@+id/todolist1"
+                    android:icon="@drawable/ic_baseline_list_alt_24"
+                    android:title="@string/todolist1" />
+                <item
+                    android:id="@+id/todolist2"
+                    android:icon="@drawable/ic_baseline_list_alt_24"
+                    android:title="@string/todolist2" />
+                <item
+                    android:id="@+id/todolist3"
+                    android:icon="@drawable/ic_baseline_list_alt_24"
+                    android:title="@string/todolist3" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/night_mode_switch"
+                android:title="Night mode"
+                app:actionLayout="@layout/switch_item" />
+            <item android:id="@+id/preferences"
+                android:icon="@drawable/ic_baseline_settings_applications_24"
+                android:title="Preferences" />
+            <item android:id="@+id/account"
+                android:icon="@drawable/ic_baseline_account_box_24"
+                android:title="Account" />
+        </menu>
+    </item>
+</menu>
