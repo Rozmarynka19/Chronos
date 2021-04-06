@@ -1,11 +1,14 @@
 package com.example.chronosapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.example.chronosapp.ui.home.HomeFragment;
 import com.example.chronosapp.ui.list.ListFragment;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -21,7 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMainActivity extends AppCompatActivity {
+public class MainMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private AppBarConfiguration mAppBarConfiguration;
     private ViewPager pager;
@@ -44,6 +47,7 @@ public class MainMainActivity extends AppCompatActivity {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -76,6 +80,23 @@ public class MainMainActivity extends AppCompatActivity {
         pager.setAdapter(pagerAdapter);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.home)
+        {
+            //when home is selected from the drawer, current activity is finished
+            //and we open new home activity
+            //in the future we need to mind about saving user data before activity closing
+            Intent intent = new Intent(this, MainMainActivity.class);
+            finish();
+            startActivity(intent);
+        }
+        //the next issue to discuss is how to add new ToDoLists dynamically to the drawer menu
+        //and handle it here (maybe some kind of iterator? and give following lists names like
+        // todolistx where x is current iterator value)
+        return false;
+    }
+
     //get rid of main in the upper right corner
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,6 +105,7 @@ public class MainMainActivity extends AppCompatActivity {
 //        return true;
 //    }
 
+    //get rid of nav graph
 //    @Override
 //    public boolean onSupportNavigateUp() {
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
