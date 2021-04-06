@@ -10,7 +10,7 @@ public class ListViewModel extends ViewModel {
 
     public ListViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is list fragment");
+        mText.setValue("This is list fragment - lists all user todolists");
     }
 
     public LiveData<String> getText() {

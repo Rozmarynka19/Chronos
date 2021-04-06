@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.chronosapp.R;
+import com.example.chronosapp.ui.list.ListViewModel;
 
 public class HomeFragment extends Fragment {
 
@@ -23,11 +24,13 @@ public class HomeFragment extends Fragment {
         
     }
 
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

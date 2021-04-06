@@ -20,14 +20,16 @@ public class ListFragment extends Fragment {
 
     public ListFragment()
     {
-
+        
     }
 
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         listViewModel =
                 new ViewModelProvider(this).get(ListViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_list, container, false);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_list, container, false);
         final TextView textView = root.findViewById(R.id.text_list);
         listViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

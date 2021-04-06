@@ -1,11 +1,14 @@
-package com.example.chronosapp.ui;
+package com.example.chronosapp;
 
 import android.transition.Slide;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.example.chronosapp.R;
 
 import java.util.List;
 
@@ -29,4 +32,5 @@ public class SlidePagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return fragmentList.size();
     }
+
 }
