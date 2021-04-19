@@ -19,6 +19,11 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="@drawable/medium_bar"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"/>
+        app:menu="@menu/activity_main_drawer"
+        app:itemBackground="@drawable/light_bar"
+
+
+        />
 </androidx.drawerlayout.widget.DrawerLayout>

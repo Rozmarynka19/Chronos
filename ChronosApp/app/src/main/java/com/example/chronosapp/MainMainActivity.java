@@ -1,14 +1,20 @@
 package com.example.chronosapp;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 
 import com.example.chronosapp.ui.home.HomeFragment;
 import com.example.chronosapp.ui.list.ListFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -30,11 +36,13 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -45,9 +53,19 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 //            }
 //        });
 
+        // Set fullscreen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Odracanie orientacji - nie oto chodziło xd
+        //getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -59,12 +77,41 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open, R.string.close);
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar,  R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+
+
         drawer.addDrawerListener(actionBarDrawerToggle);
+
+
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
 
-
+/*
+        Nawigacja z prawej strony - gravity end
+        Dodatkowa konieczność edycji 2x w activity_main_main na
+        android:layout_gravity="start"
+ */
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (drawer.isDrawerOpen(Gravity.RIGHT)) {
+//                    drawer.closeDrawer(Gravity.RIGHT);
+//                } else {
+//                    drawer.openDrawer(Gravity.RIGHT);
+//                }
+//            }
+//        });
 
         //SlidePager section -----------------------------------------
         List<Fragment> list = new ArrayList<>();

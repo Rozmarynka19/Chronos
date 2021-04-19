@@ -10,6 +10,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
         android:theme="@style/Theme.ChronosApp.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
@@ -19,23 +20,25 @@
             android:background="@drawable/bar"
             app:popupTheme="@style/Theme.ChronosApp.PopupOverlay"
         >
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                >
 
                 <ImageView
                     android:id="@+id/media_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="false"
+                    android:layout_marginLeft="13dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="Logo"
                     android:scaleType="centerCrop"
                     android:visibility="visible"
-                    app:srcCompat="@drawable/logo"
-                    />
-
-            </LinearLayout>
+                    app:srcCompat="@drawable/logo" />
+            </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
