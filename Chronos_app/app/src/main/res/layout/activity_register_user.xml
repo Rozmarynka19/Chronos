@@ -38,12 +38,12 @@
         />
 
     <EditText
-        android:id="@+id/NameRegistration"
+        android:id="@+id/LoginRegistration"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:ems="10"
-        android:hint="Full Name"
+        android:hint="Login"
         android:textColorHint="#e6e6e6"
         android:textColor="#e6e6e6"
         android:inputType="textEmailAddress"
@@ -54,19 +54,19 @@
         />
 
     <EditText
-        android:id="@+id/AgeRegistration"
+        android:id="@+id/PasswordRegistration"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Age"
+        android:hint="Password"
         android:textColorHint="#e6e6e6"
         android:textColor="#e6e6e6"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/NameRegistration"
+        app:layout_constraintTop_toBottomOf="@id/LoginRegistration"
         />
 
     <EditText
@@ -82,19 +82,19 @@
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AgeRegistration"
+        app:layout_constraintTop_toBottomOf="@id/PasswordRegistration"
         />
 
     <EditText
-        android:id="@+id/PasswordRegistration"
+        android:id="@+id/PhoneRegistration"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Phone"
         android:textColorHint="#e6e6e6"
         android:textColor="#e6e6e6"
-        android:inputType="textPassword"
+        android:inputType="textEmailAddress"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -113,7 +113,7 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/PasswordRegistration"
+        app:layout_constraintTop_toBottomOf="@id/PhoneRegistration"
         />
 
     <ProgressBar

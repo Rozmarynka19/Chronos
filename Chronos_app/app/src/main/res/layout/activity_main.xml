@@ -38,12 +38,12 @@
         />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/login"
         android:layout_width="240dp"
         android:layout_height="60dp"
         android:layout_marginTop="60dp"
         android:ems="10"
-        android:hint="E-mail"
+        android:hint="Login"
         android:textColorHint="#e6e6e6"
         android:textColor="#e6e6e6"
         android:background="@drawable/back"
@@ -68,7 +68,7 @@
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email" />
+        app:layout_constraintTop_toBottomOf="@id/login" />
 
     
     <Button
