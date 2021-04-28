@@ -3,15 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
+<style android:name="backround">
+    @drawable/medium_bar
+</style>
     <item
         android:title="@string/nav_title"
+        android:background="@drawable/medium_bar"
         >
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/home"
-                    android:icon="@drawable/ic_baseline_home_24"
+                    android:icon="@drawable/ic_baseline_home_24_white"
                     android:title="@string/menu_home"
                     />
                 <item
@@ -48,6 +51,9 @@
             <item android:id="@+id/account"
                 android:icon="@drawable/ic_baseline_account_box_24"
                 android:title="@string/nav_account" />
+            <item android:id="@+id/about_us"
+                android:icon="@drawable/ic_baseline_account_box_24"
+                android:title="@string/nav_about_us" />
         </menu>
     </item>
 </menu>

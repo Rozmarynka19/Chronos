@@ -12,11 +12,11 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="nav_title"><font fgcolor='#FFFFFF'>Navigation</font></string>
     <string name="nav_settings"><font fgcolor='#FFFFFF'>Settings</font></string>
-    <string name="todolist1"><font fgcolor='#FFFFFF'>ToDoList1</font></string>
-    <string name="todolist2"><font fgcolor='#FFFFFF'>ToDoList2</font></string>
-    <string name="todolist3"><font fgcolor='#FFFFFF'>ToDoList3</font></string>
-    <string name="todolist4"><font fgcolor='#FFFFFF'>ToDoList3</font></string>
-    <string name="nav_night_mode"><font fgcolor='#FFFFFF'>Night Mode</font></string>
+    <string name="todolist1"><font fgcolor='#FFFFFF'>Example list 1</font></string>
+    <string name="todolist2"><font fgcolor='#FFFFFF'>Example list 2</font></string>
+    <string name="todolist3"><font fgcolor='#FFFFFF'>Example list 3</font></string>
+    <string name="todolist4"><font fgcolor='#FFFFFF'>Example list 4</font></string>
+    <string name="nav_night_mode"><font fgcolor='#FFFFFF'>Notifications</font></string>
     <string name="nav_preferences"><font fgcolor='#FFFFFF'>Preferences</font></string>
     <string name="nav_account"><font fgcolor='#FFFFFF'>Account</font></string>
     <string name="title_activity_list_of_to_do_lists">Your Lists</string>
@@ -38,6 +38,7 @@
     <string name="title_placeholder">Title</string>
     <string name="subtitle_placeholder">Subtitle</string>
     <string name="description_placeholder">Description placeholder</string>
+    <string name="nav_about_us"><font fgcolor='#FFFFFF'>About us</font></string>
 
     <string-array name="listItemTitles">
         <item>Baseball</item>
