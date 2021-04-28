@@ -26,7 +26,7 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
         String type = strings[0];
-        String serverAdress = "http://192.168.56.2/chronos/";//"http://192.168.8.105/Example/";
+        String serverAdress = "http://192.168.8.105/Example/";//"http://192.168.8.105/Example/";
         String loginUrl = serverAdress + "login.php";
         String regUrl = serverAdress + "register.php";
         if(type.equals("reg")){
@@ -126,7 +126,7 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         CharSequence text = "Hello toast!";
         int duration = Toast.LENGTH_SHORT;
 
-        Toast toast = Toast.makeText(context, text, duration);
+        Toast toast = Toast.makeText(context, s, duration);
         toast.show();
     }
 }
