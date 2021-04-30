@@ -3,14 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
-    <item android:title="Quick navigation">
+<style android:name="backround">
+    @drawable/medium_bar
+</style>
+    <item
+        android:title="@string/nav_title"
+        android:background="@drawable/medium_bar"
+        >
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/home"
-                    android:icon="@drawable/ic_baseline_home_24"
-                    android:title="@string/menu_home" />
+                    android:icon="@drawable/ic_baseline_home_24_white"
+                    android:title="@string/menu_home"
+                    />
                 <item
                     android:id="@+id/todolist1"
                     android:icon="@drawable/ic_baseline_list_alt_24"
@@ -23,22 +29,31 @@
                     android:id="@+id/todolist3"
                     android:icon="@drawable/ic_baseline_list_alt_24"
                     android:title="@string/todolist3" />
+                <item
+                    android:id="@+id/todolist4"
+                    android:icon="@drawable/ic_baseline_list_alt_24"
+                    android:title="@string/todolist4" />
             </group>
         </menu>
     </item>
 
-    <item android:title="Settings">
+    <item
+        android:title="@string/nav_settings"
+        >
         <menu>
             <item
                 android:id="@+id/night_mode_switch"
-                android:title="Night mode"
+                android:title="@string/nav_night_mode"
                 app:actionLayout="@layout/switch_item" />
             <item android:id="@+id/preferences"
                 android:icon="@drawable/ic_baseline_settings_applications_24"
-                android:title="Preferences" />
+                android:title="@string/nav_preferences" />
             <item android:id="@+id/account"
                 android:icon="@drawable/ic_baseline_account_box_24"
-                android:title="Account" />
+                android:title="@string/nav_account" />
+            <item android:id="@+id/about_us"
+                android:icon="@drawable/ic_baseline_account_box_24"
+                android:title="@string/nav_about_us" />
             <item android:id="@+id/logout"
                 android:icon="@drawable/ic_baseline_power_settings_new_24"
                 android:title="Logout"/>

@@ -19,6 +19,16 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="@drawable/medium_bar"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"/>
+        app:menu="@menu/activity_main_drawer"
+        app:itemBackground="@drawable/light_bar"
+        app:itemShapeFillColor="@color/white"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:itemIconPadding="@dimen/fab_margin"
+
+
+
+        />
 </androidx.drawerlayout.widget.DrawerLayout>
