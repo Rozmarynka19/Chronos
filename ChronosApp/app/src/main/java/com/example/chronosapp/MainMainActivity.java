@@ -1,25 +1,24 @@
 package com.example.chronosapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.chronosapp.ui.home.HomeFragment;
 import com.example.chronosapp.ui.list.ListFragment;
 import com.google.android.material.navigation.NavigationView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +89,19 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(this, MainMainActivity.class);
             finish();
             startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.logout)
+        {
+            @SuppressLint("WrongConstant")
+            SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            if(sharedPreferences!=null)
+            {
+                editor.clear();
+                editor.apply();
+                startActivity(new Intent(this, com.example.chronosapp.login.MainLoginActivity.class));
+                this.finish();
+            }
         }
         //the next issue to discuss is how to add new ToDoLists dynamically to the drawer menu
         //and handle it here (maybe some kind of iterator? and give following lists names like

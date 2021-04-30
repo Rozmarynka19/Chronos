@@ -1,6 +1,9 @@
 package com.example.chronosapp.login;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -16,8 +19,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class BackgroundTask extends AsyncTask<String, String, String> {
     Context context;
+    String sharedLogin, sharedEmail, sharedPhone;
 
     BackgroundTask(Context context){
         this.context = context;
@@ -30,10 +36,10 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         String loginUrl = serverAdress + "login.php";
         String regUrl = serverAdress + "register.php";
         if(type.equals("reg")){
-            String login = strings[1];
+            String login  = strings[1];
             String password = strings[2];
-            String email = strings[3];
-            String phone = strings[4];
+            String email  = strings[3];
+            String phone  = strings[4];
             try{
                 URL url = new URL(regUrl);
                 try {
@@ -128,5 +134,30 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
 
         Toast toast = Toast.makeText(context, s, duration);
         toast.show();
+
+        //Saving user data to sharedPreferences to be able to recognize who's who
+        System.out.println(s);
+        String[] separatedOutput = s.split("\n");
+        for(int i=0;i<separatedOutput.length;i++)
+            System.out.println("i="+String.valueOf(i)+separatedOutput[i]);
+
+        if(separatedOutput[0].equals("connection sucess") &&
+                (separatedOutput[1].equals("registered succesfully") || separatedOutput[1].equals("login sucesfull")))
+        {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("userDataSharedPref",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("login",separatedOutput[2]);
+            editor.putString("email",separatedOutput[3]);
+            editor.putString("phone",separatedOutput[4]);
+            editor.apply();
+            context.startActivity(new Intent(context, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            if(context instanceof Activity)
+            {
+                System.out.println("context is activity");
+                ((Activity) context).finish();
+            }
+
+        }
+
     }
 }

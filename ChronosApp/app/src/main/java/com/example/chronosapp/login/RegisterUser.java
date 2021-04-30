@@ -95,7 +95,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
         progressBar.setVisibility(View.VISIBLE);
         String type="reg";
-        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext());
+//        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext());
+        BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute(type, login, password, email, phone);
         progressBar.setVisibility(View.GONE);
 
