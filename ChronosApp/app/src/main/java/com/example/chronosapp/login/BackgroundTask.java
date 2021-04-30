@@ -23,7 +23,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class BackgroundTask extends AsyncTask<String, String, String> {
     Context context;
-    String sharedLogin, sharedEmail, sharedPhone;
 
     BackgroundTask(Context context){
         this.context = context;
@@ -152,10 +151,7 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
             editor.apply();
             context.startActivity(new Intent(context, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             if(context instanceof Activity)
-            {
-                System.out.println("context is activity");
                 ((Activity) context).finish();
-            }
 
         }
 

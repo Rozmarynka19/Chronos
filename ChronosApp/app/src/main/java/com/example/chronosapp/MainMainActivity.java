@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -28,11 +30,23 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
     private AppBarConfiguration mAppBarConfiguration;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
+    private String sharedLogin, sharedEmail, sharedPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_main);
+
+        @SuppressLint("WrongConstant")
+        SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
+        if(sharedPreferences!=null && !(sharedPreferences.getString("login","").equals("")))
+        {
+            sharedLogin = sharedPreferences.getString("login","");
+            sharedEmail = sharedPreferences.getString("email","");
+            sharedPhone = sharedPreferences.getString("phone","");
+        }
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //        FloatingActionButton fab = findViewById(R.id.fab);
@@ -47,6 +61,17 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View drawerHeaderView = navigationView.getHeaderView(0);
+
+
+        TextView drawerHeaderUsername = (TextView) drawerHeaderView.findViewById(R.id.drawerHeaderUsername);
+        TextView drawerHeaderEmail = (TextView) drawerHeaderView.findViewById(R.id.drawerHeaderEmail);
+        if(drawerHeaderUsername!=null)
+            drawerHeaderUsername.setText(sharedLogin);
+        if(drawerHeaderEmail!=null)
+            drawerHeaderEmail.setText(sharedEmail);
+
+
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
