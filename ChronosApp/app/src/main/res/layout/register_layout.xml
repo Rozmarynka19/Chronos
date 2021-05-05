@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:id="@+id/layout_click_fix"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -58,7 +57,7 @@
             android:layout_centerVertical="true">
 
             <EditText
-                android:id="@+id/login"
+                android:id="@+id/LoginRegistration"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="50dp"
@@ -67,14 +66,15 @@
                 android:drawableEnd="@drawable/user_icon_32"
                 android:elevation="1dp"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="example@gmail.com"
+                android:hint="Login"
                 android:inputType="textEmailAddress"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white" />
+
             <RelativeLayout
-                android:id="@+id/show_password"
+                android:id="@+id/show_password_reg1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="50dp"
@@ -84,7 +84,7 @@
                 >
 
                 <ImageView
-                    android:id="@+id/show_password_image"
+                    android:id="@+id/show_password_image_reg1"
                     android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
@@ -94,7 +94,7 @@
 
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/PasswordRegistration"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/login_edit"
@@ -102,7 +102,7 @@
                     android:elevation="1dp"
                     android:layout_marginRight="50dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="********"
+                    android:hint="Password"
                     android:inputType="textPassword"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
@@ -110,51 +110,89 @@
                     android:textColorHint="@color/white"
                     android:layout_alignParentTop="true"
                     />
-
-
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/show_password_reg2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp">
-                <TextView
-                    android:id="@+id/forgotPassword"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Forgot password?"
-                    android:textColor="@color/white"
-                    android:textAlignment="center"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_password_background"
+                >
+
+                <ImageView
+                    android:id="@+id/show_password_image_reg2"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/login_eye"
+                    />
+
+
+                <EditText
+                    android:id="@+id/PasswordRegistration2"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/login_edit"
+                    android:drawableEnd="@drawable/lock_icon_32"
+                    android:elevation="1dp"
+                    android:layout_marginRight="50dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textSize="16dp"
-                    tools:ignore="Suspicious0dp" />
-
-                <TextView
-                    android:id="@+id/register"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Not a Member yet?"
+                    android:hint="Re-password"
+                    android:inputType="textPassword"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
                     android:textColor="@color/white"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textSize="16dp"
-                    tools:ignore="Suspicious0dp" />
+                    android:textColorHint="@color/white"
+                    android:layout_alignParentTop="true"
+                    />
+            </RelativeLayout>
 
+            <EditText
+                android:id="@+id/EmailRegistration"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/login_edit"
+                android:drawableEnd="@drawable/user_icon_32"
+                android:elevation="1dp"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="E-mail "
+                android:inputType="textEmailAddress"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
 
-            </LinearLayout>
+            <EditText
+                android:id="@+id/PhoneRegistration"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/login_edit"
+                android:drawableEnd="@drawable/user_icon_32"
+                android:elevation="1dp"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="Phone number"
+                android:inputType="phone"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
 
             <TextView
                 android:id="@+id/login_error_message"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/red"
                 android:text=""
                 android:fontFamily="@font/roboto_regular"
@@ -163,7 +201,7 @@
                 />
 
             <Button
-                android:id="@+id/signIn"
+                android:id="@+id/Register"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginLeft="50dp"
@@ -171,7 +209,7 @@
                 app:backgroundTint="@null"
                 android:background="@drawable/login_button_effects"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Sign In"
+                android:text="Register"
                 android:textAllCaps="false"
                 android:textSize="16dp" />
 
@@ -205,4 +243,19 @@
         </LinearLayout>
     </RelativeLayout>
 
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 </LinearLayout>
