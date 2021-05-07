@@ -17,6 +17,11 @@ import android.widget.Toast;
 
 import com.example.chronosapp.ui.home.HomeFragment;
 import com.example.chronosapp.ui.list.ListFragment;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.material.navigation.NavigationView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -53,6 +58,8 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
     private String sharedLogin, sharedEmail, sharedPhone;
     private Switch menu_notifications_switch;
 
+    private GoogleSignInClient mGoogleSignInClient;
+
     private Boolean menu_notifications_switch_status;
 
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -63,6 +70,13 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_main);
+
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         @SuppressLint("WrongConstant")
         SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
@@ -226,6 +240,10 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
             {
                 editor.clear();
                 editor.apply();
+                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+                if(account!=null){
+                    mGoogleSignInClient.signOut();
+                }
                 startActivity(new Intent(this, com.example.chronosapp.login.MainLoginActivity.class));
                 this.finish();
             }
