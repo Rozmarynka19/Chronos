@@ -39,6 +39,9 @@
     <string name="subtitle_placeholder">Subtitle</string>
     <string name="description_placeholder">Description placeholder</string>
     <string name="nav_about_us"><font fgcolor='#FFFFFF'>About us</font></string>
+    <string name="restart_password">Please enter your email to restart your password.</string>
+    <string name="welcome_msg">Let\'s start the adventure together!</string>
+    <string name="empty_login">Login</string>
 
     <string-array name="listItemTitles">
         <item>Baseball</item>

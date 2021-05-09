@@ -14,6 +14,19 @@
         android:layout_height="0dp"
         android:layout_weight="5">
 
+        <LinearLayout
+            android:id="@+id/back_to_login"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            >
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="9dp"
+                />
+        </LinearLayout>
         <ImageView
             android:layout_width="249dp"
             android:layout_height="96dp"
@@ -159,7 +172,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:background="@drawable/login_edit"
-                android:drawableEnd="@drawable/user_icon_32"
+                android:drawableEnd="@drawable/register_email_32"
                 android:elevation="1dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="E-mail "
@@ -177,7 +190,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:background="@drawable/login_edit"
-                android:drawableEnd="@drawable/user_icon_32"
+                android:drawableEnd="@drawable/register_phone_32"
                 android:elevation="1dp"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="Phone number"
@@ -187,23 +200,11 @@
                 android:textColor="@color/white"
                 android:textColorHint="@color/white" />
 
-            <TextView
-                android:id="@+id/login_error_message"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:textColor="@color/red"
-                android:text=""
-                android:fontFamily="@font/roboto_regular"
-                android:textAlignment="center"
-                android:textSize="16dp"
-                />
-
             <Button
                 android:id="@+id/Register"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 app:backgroundTint="@null"

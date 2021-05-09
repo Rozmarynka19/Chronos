@@ -23,7 +23,7 @@ import com.example.chronosapp.R;
 
 public class MainLoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private TextView register;
+    private TextView register, forgotPassword;
     private Button signButton;
     private EditText editTextLogin, editTextPassword;
     private ImageView passwordShown;
@@ -81,6 +81,10 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
         register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
 
+        forgotPassword = (TextView)findViewById(R.id.forgotPassword);
+        forgotPassword.setOnClickListener(this);
+
+
         signButton = (Button) findViewById(R.id.signIn);
         signButton.setOnClickListener(this);
     }
@@ -95,22 +99,35 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             case R.id.signIn:
                 login();
                 break;
+            case R.id.forgotPassword:
+                startActivity(new Intent(MainLoginActivity.this, com.example.chronosapp.login.RestartPassword.class));
+                this.finish();
+                break;
         }
     }
 
 
     private String login_error(String userName, String password){
-        if(userName.isEmpty() && password.isEmpty())
+        if(userName.isEmpty() && password.isEmpty()) {
+            editTextLogin.setError(errors.login_not_provided);
+            editTextPassword.setError(errors.password_not_provided);
+
+            editTextLogin.requestFocus();
             return errors.data_not_provided;
+        }
 
-        if(userName.isEmpty())
+        if(userName.isEmpty()){
+            editTextLogin.setError(errors.login_not_provided);
+
+            editTextLogin.requestFocus();
             return errors.login_not_provided;
+        }
 
-        if(password.isEmpty())
+        if(password.isEmpty()) {
+            editTextPassword.setError(errors.password_not_provided);
+            editTextPassword.requestFocus();
             return errors.password_not_provided;
-
-        if(!userName.contains("@") || !userName.contains("."))
-            return errors.invalid_email;
+        }
 
         return "";
     }

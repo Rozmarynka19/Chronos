@@ -7,5 +7,4 @@ public class login_error_informations{
     static protected String data_not_provided = "Login details have not been entered!";
     static protected String invalid_email = "An invalid e-mail address has been entered";
 
-
 }

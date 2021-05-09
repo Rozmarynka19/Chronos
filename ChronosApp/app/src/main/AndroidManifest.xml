@@ -14,7 +14,10 @@
         <activity
             android:name=".login.RegisterUser"
             android:theme="@style/Theme.ChronosApp.NoActionBar">
-
+        </activity>
+        <activity
+            android:name=".login.RestartPassword"
+            android:theme="@style/Theme.ChronosApp.NoActionBar">
         </activity>
         <activity
             android:name=".login.MainLoginActivity"

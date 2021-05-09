@@ -87,6 +87,14 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        LinearLayout back_arrow = (LinearLayout) findViewById(R.id.back_to_login);
+        back_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterUser.this, com.example.chronosapp.login.MainLoginActivity.class));
+            }
+        });
+
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
