@@ -1,5 +1,8 @@
 package com.example.chronosapp.ui.list;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -157,6 +160,11 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
         Snackbar.make(root, "listName: "+listName, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
-        //addListBackgroundTask
+        @SuppressLint("WrongConstant")
+        SharedPreferences sharedPreferences = root.getContext().getSharedPreferences("userDataSharedPref", Context.MODE_APPEND);
+        String sharedUserId = sharedPreferences.getString("userid","");
+
+        AddListBackgroundTask addListBackgroundTask = new AddListBackgroundTask(root.getContext());
+        addListBackgroundTask.execute(sharedUserId, listName);
     }
 }
