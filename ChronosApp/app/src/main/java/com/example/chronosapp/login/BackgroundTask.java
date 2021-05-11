@@ -31,7 +31,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
         String type = strings[0];
-        String serverAdress = "http://algolearn-team.prv.pl/1213146_fsa523/";//"http://192.168.8.105/Example/";
+//        String serverAdress = "http://algolearn-team.prv.pl/1213146_fsa523/";//"http://192.168.8.105/Example/"; //remote
+        String serverAdress = "http://192.168.56.2/chronos/";//"http://192.168.8.105/Example/"; //local
         String loginUrl = serverAdress + "login.php";
         String regUrl = serverAdress + "register.php";
         if(type.equals("reg")){
@@ -146,9 +147,10 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         {
             SharedPreferences sharedPreferences = context.getSharedPreferences("userDataSharedPref",MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("login",separatedOutput[2]);
-            editor.putString("email",separatedOutput[3]);
-            editor.putString("phone",separatedOutput[4]);
+            editor.putString("userid",separatedOutput[2]);
+            editor.putString("login",separatedOutput[3]);
+            editor.putString("email",separatedOutput[4]);
+            editor.putString("phone",separatedOutput[5]);
             editor.apply();
             context.startActivity(new Intent(context, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             if(context instanceof Activity)

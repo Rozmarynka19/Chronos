@@ -39,6 +39,7 @@
     <string name="subtitle_placeholder">Subtitle</string>
     <string name="description_placeholder">Description placeholder</string>
     <string name="nav_about_us"><font fgcolor='#FFFFFF'>About us</font></string>
+    <string name="add_new_list_dialog_edittext_hint">Enter list name</string>
 
     <string-array name="listItemTitles">
         <item>Baseball</item>

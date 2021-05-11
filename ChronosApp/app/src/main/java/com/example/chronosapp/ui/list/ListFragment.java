@@ -1,28 +1,27 @@
 package com.example.chronosapp.ui.list;
 
-import android.app.LauncherActivity;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chronosapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements AddNewListDialog.AddNewListDialogListener {
 
     private ListViewModel listViewModel;
 
@@ -30,13 +29,15 @@ public class ListFragment extends Fragment {
     private ArrayList<ListItem> mListItems;
     private ListItemAdapter mlistItemAdapter;
 
+    private ViewGroup root;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         listViewModel =
                 new ViewModelProvider(this).get(ListViewModel.class);
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_list, container, false);
+        root = (ViewGroup) inflater.inflate(R.layout.fragment_list, container, false);
 //        final TextView textView = root.findViewById(R.id.text_list);
 //        listViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
 //            @Override
@@ -45,15 +46,32 @@ public class ListFragment extends Fragment {
 //            }
 //        });
 
+
+        FloatingActionButton fab = root.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
+
         mRecyclerView = root.findViewById(R.id.ToDoListsRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         mListItems = new ArrayList<>();
         mlistItemAdapter = new ListItemAdapter(root.getContext(),mListItems);
         mRecyclerView.setAdapter(mlistItemAdapter);
 
-        initData();
+        //initData(); //getListsFromDatabase
+        //applyData
 
         return root;
+    }
+
+    public void openDialog()
+    {
+        AddNewListDialog addNewListDialog = new AddNewListDialog();
+        addNewListDialog.setTargetFragment(ListFragment.this,1);
+        addNewListDialog.show(getParentFragmentManager(), "Add new list");
     }
 
     /**
@@ -132,5 +150,13 @@ public class ListFragment extends Fragment {
 
         // Attach the helper to the RecyclerView.
         helper.attachToRecyclerView(mRecyclerView);
+    }
+
+    @Override
+    public void addNewList(String listName) {
+        Snackbar.make(root, "listName: "+listName, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+
+        //addListBackgroundTask
     }
 }

@@ -5,31 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.chronosapp.ui.home.HomeFragment;
-import com.example.chronosapp.ui.list.ListFragment;
-import com.google.android.material.navigation.NavigationView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.view.MenuItemCompat;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -50,7 +36,7 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
     private AppBarConfiguration mAppBarConfiguration;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
-    private String sharedLogin, sharedEmail, sharedPhone;
+    private String sharedLogin, sharedEmail, sharedPhone, sharedUserId;
     private Switch menu_notifications_switch;
 
     private Boolean menu_notifications_switch_status;
@@ -68,6 +54,7 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
         SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
         if(sharedPreferences!=null && !(sharedPreferences.getString("login","").equals("")))
         {
+            sharedUserId = sharedPreferences.getString("userid","");
             sharedLogin = sharedPreferences.getString("login","");
             sharedEmail = sharedPreferences.getString("email","");
             sharedPhone = sharedPreferences.getString("phone","");
