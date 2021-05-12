@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="lista" type="id"></item>
+    <item name="listToCreateTask" type="id"></item>
+    <item name="nameOfTask" type="id"></item>
+</resources>
