@@ -24,7 +24,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ListFragment extends Fragment implements AddNewListDialog.AddNewListDialogListener, GetListsBackgroundTaskListener {
+public class ListFragment extends Fragment implements AddNewListDialogListener, GetListsBackgroundTaskListener,
+                                            RemoveListBackgroundTaskListener{
 
     private ListViewModel listViewModel;
 
@@ -160,17 +161,24 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder,
                                  int direction) {
-                // Remove the item from the dataset.
-                mListItems.remove(viewHolder.getAdapterPosition());
-                // Notify the adapter.
-                mlistItemAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
                 // Remove from database.
-                
+                removeListFromDatabase(viewHolder, mListItems.get(viewHolder.getAdapterPosition()));
             }
         });
 
         // Attach the helper to the RecyclerView.
         helper.attachToRecyclerView(mRecyclerView);
+    }
+
+    public void removeListFromDatabase(RecyclerView.ViewHolder viewHolder, ListItem listItem)
+    {
+        Snackbar.make(root, "id list: "+listItem.getListID()+", listname: "+listItem.getTitle(),
+                Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+        Log.d("removeListFromDatabase", "id list: "+listItem.getListID()+", listname: "+listItem.getTitle());
+
+        RemoveListBackgroundTask removeListBackgroundTask = new RemoveListBackgroundTask(this, viewHolder, listItem);
+        removeListBackgroundTask.execute();
     }
 
     @Override
@@ -180,6 +188,8 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
 
         AddListBackgroundTask addListBackgroundTask = new AddListBackgroundTask(root.getContext());
         addListBackgroundTask.execute(sharedUserId, listName);
+
+        getListsFromDatabase();
     }
 
     @Override
@@ -191,5 +201,19 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
                     "id= "+ mListItems.get(i).getListID()
                     +", listname= "+mListItems.get(i).getTitle());
         applyLists();
+    }
+
+    @Override
+    public void removeListFromUI(RecyclerView.ViewHolder viewHolder) {
+        // Remove the item from the dataset.
+        mListItems.remove(viewHolder.getAdapterPosition());
+
+        // Notify the adapter.
+        mlistItemAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+    }
+
+    @Override
+    public void restoreListsFromDb() {
+        getListsFromDatabase();
     }
 }

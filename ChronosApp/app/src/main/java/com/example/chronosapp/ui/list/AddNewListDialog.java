@@ -55,9 +55,4 @@ public class AddNewListDialog extends AppCompatDialogFragment {
             throw new ClassCastException(context.toString() + " must implement AddNewListDialogListener");
         }
     }
-
-    public interface  AddNewListDialogListener
-    {
-        void addNewList(String listName);
-    }
 }
