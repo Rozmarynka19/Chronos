@@ -92,6 +92,16 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
         return mListItemData.size();
     }
 
+    /**
+     * Setting current lists
+     *
+     * @param lists  Array of current lists.
+     */
+    public void setListItemData(ArrayList<ListItem> lists){
+        mListItemData = lists;
+        this.notifyDataSetChanged();
+    }
+
 
     /**
      * ViewHolder class that represents each row of data in the RecyclerView.

@@ -3,7 +3,6 @@ package com.example.chronosapp.ui.list;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -73,9 +72,6 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
         sharedUserId = sharedPreferences.getString("userid","");
 
         getListsFromDatabase();
-
-        //initData();/applyData
-
         return root;
     }
 
@@ -94,32 +90,36 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
     }
 
     /**
-     * Initialize the list items from resources.
+     * Apply fetched lists from database to the view
      */
-    private void initData() {
-        // Get the resources from the XML file.
-        String[] listItemTitles = getResources()
-                .getStringArray(R.array.listItemTitles);
-        String[] listItemDescriptions = getResources()
-                .getStringArray(R.array.listItemDescription);
-        TypedArray listItemsBackgrounds = getResources()
-                .obtainTypedArray(R.array.listItemBackgrounds);
+    private void applyLists() {
+//        // Get the resources from the XML file.
+//        String[] listItemTitles = getResources()
+//                .getStringArray(R.array.listItemTitles);
+//        String[] listItemDescriptions = getResources()
+//                .getStringArray(R.array.listItemDescription);
+//        TypedArray listItemsBackgrounds = getResources()
+//                .obtainTypedArray(R.array.listItemBackgrounds);
+//
+//        // Clear the existing data (to avoid duplication).
+//        mListItems.clear();
 
-        // Clear the existing data (to avoid duplication).
-        mListItems.clear();
+//        // Create the ArrayList of List Item objects with the titles and
+//        // information about each list
+//        for (int i = 0; i < listItemTitles.length; i++) {
+//            mListItems.add(new ListItem(listItemTitles[i], listItemDescriptions[i],
+//                    listItemsBackgrounds.getResourceId(i, 0)));
+//        }
+//
+//        // Recycle the typed array.
+//        listItemsBackgrounds.recycle();
+        mlistItemAdapter.setListItemData(mListItems);
+        Log.d("size of array of list item: ",String.valueOf(mListItems.size()));
+        Log.d("size of list item adapter: ",String.valueOf(mlistItemAdapter.getItemCount()));
 
-        // Create the ArrayList of List Item objects with the titles and
-        // information about each list
-        for (int i = 0; i < listItemTitles.length; i++) {
-            mListItems.add(new ListItem(listItemTitles[i], listItemDescriptions[i],
-                    listItemsBackgrounds.getResourceId(i, 0)));
-        }
-
-        // Recycle the typed array.
-        listItemsBackgrounds.recycle();
 
         // Notify the adapter of the change.
-        mlistItemAdapter.notifyDataSetChanged();
+//        mlistItemAdapter.notifyDataSetChanged();
 
         // Helper class for creating swipe to dismiss and drag and drop
         // functionality.
@@ -164,6 +164,8 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
                 mListItems.remove(viewHolder.getAdapterPosition());
                 // Notify the adapter.
                 mlistItemAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                // Remove from database.
+                
             }
         });
 
@@ -182,10 +184,12 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
 
     @Override
     public void getLists(ArrayList<ListItem> arrayOfLists) {
-        mListItems = arrayOfLists;
+        mListItems.clear();
+        mListItems.addAll(arrayOfLists);
         for(int i=0;i<mListItems.size();i++)
             Log.d("Content of mListItems: ",
                     "id= "+ mListItems.get(i).getListID()
                     +", listname= "+mListItems.get(i).getTitle());
+        applyLists();
     }
 }
