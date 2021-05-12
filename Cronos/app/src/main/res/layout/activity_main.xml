@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/bill_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:onClick="onClickScanQR"
+        android:text="@string/addBillButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ReciverName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="128dp"
+        android:text="@string/ReciverName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/BillNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/PaymentNumber"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="199dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/paymentTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/PaymentTitle"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="267dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/Quota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Quota"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="334dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Description"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="403dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/PaymentDate"
+        android:layout_width="50dp"
+        android:layout_height="24dp"
+        android:text="@string/PaymentDate"
+        tools:layout_editor_absoluteX="15dp"
+        tools:layout_editor_absoluteY="461dp"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="267dp"
+        tools:layout_editor_absoluteY="119dp"
+        tools:ignore="MissingConstraints">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ReciverNameEdit"
+        android:layout_width="177dp"
+        android:layout_height="53dp"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="112dp"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/BillNumberEdit"
+        android:layout_width="177dp"
+        android:layout_height="53dp"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="181dp"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/paymentTitleEdit"
+        android:layout_width="177dp"
+        android:layout_height="53dp"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="253dp"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/QuotaEdit"
+        android:layout_width="177dp"
+        android:layout_height="53dp"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="319dp"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/DescriptionEdit"
+        android:layout_width="177dp"
+        android:layout_height="53dp"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="384dp"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/PaymentDateEdit"
+        android:layout_width="177dp"
+        android:layout_height="53dp"
+        tools:layout_editor_absoluteX="171dp"
+        tools:layout_editor_absoluteY="451dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/AcceptPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/acceptButton"
+        tools:layout_editor_absoluteX="255dp"
+        tools:layout_editor_absoluteY="595dp"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
