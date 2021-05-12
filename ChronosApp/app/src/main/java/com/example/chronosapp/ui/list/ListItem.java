@@ -22,20 +22,19 @@ package com.example.chronosapp.ui.list;
 class ListItem {
 
     // Member variables representing the list title and its description.
-    private String title;
-    private String description;
+    private String title, listID;
     private final int imageResource;
 
     /**
      * Constructor for the ListItem data model.
      *
-     * @param title The name if the sport.
-     * @param description Information about the sport.
+     * @param title The list name.
+     * @param listID List ID.
      * @param imageResource Background image
      */
-    public ListItem(String title, String description, int imageResource) {
+    public ListItem(String title, String listID, int imageResource) {
         this.title = title;
-        this.description = description;
+        this.listID = listID;
         this.imageResource = imageResource;
     }
 
@@ -49,12 +48,12 @@ class ListItem {
     }
 
     /**
-     * Gets the list description.
+     * Gets the list id.
      *
-     * @return List description.
+     * @return List id.
      */
-    String getDescription() {
-        return description;
+    String getListID() {
+        return listID;
     }
 
     /***

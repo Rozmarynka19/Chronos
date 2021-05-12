@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ListFragment extends Fragment implements AddNewListDialog.AddNewListDialogListener {
+public class ListFragment extends Fragment implements AddNewListDialog.AddNewListDialogListener, GetListsBackgroundTaskListener {
 
     private ListViewModel listViewModel;
 
@@ -33,7 +34,9 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
     private ListItemAdapter mlistItemAdapter;
 
     private ViewGroup root;
+    private String sharedUserId;
 
+    private Context contextOfFragment;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -48,6 +51,7 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
 //                textView.setText(s);
 //            }
 //        });
+        contextOfFragment = container.getContext();
 
 
         FloatingActionButton fab = root.findViewById(R.id.fab);
@@ -64,10 +68,22 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
         mlistItemAdapter = new ListItemAdapter(root.getContext(),mListItems);
         mRecyclerView.setAdapter(mlistItemAdapter);
 
-        //initData(); //getListsFromDatabase
-        //applyData
+        @SuppressLint("WrongConstant")
+        SharedPreferences sharedPreferences = root.getContext().getSharedPreferences("userDataSharedPref", Context.MODE_APPEND);
+        sharedUserId = sharedPreferences.getString("userid","");
+
+        getListsFromDatabase();
+
+        //initData();/applyData
 
         return root;
+    }
+
+    public void getListsFromDatabase()
+    {
+//        setTargetFragment(ListFragment.this,1);
+        GetListsBackgroundTask getListsBackgroundTask = new GetListsBackgroundTask(this);
+        getListsBackgroundTask.execute(sharedUserId);
     }
 
     public void openDialog()
@@ -160,11 +176,16 @@ public class ListFragment extends Fragment implements AddNewListDialog.AddNewLis
         Snackbar.make(root, "listName: "+listName, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
 
-        @SuppressLint("WrongConstant")
-        SharedPreferences sharedPreferences = root.getContext().getSharedPreferences("userDataSharedPref", Context.MODE_APPEND);
-        String sharedUserId = sharedPreferences.getString("userid","");
-
         AddListBackgroundTask addListBackgroundTask = new AddListBackgroundTask(root.getContext());
         addListBackgroundTask.execute(sharedUserId, listName);
+    }
+
+    @Override
+    public void getLists(ArrayList<ListItem> arrayOfLists) {
+        mListItems = arrayOfLists;
+        for(int i=0;i<mListItems.size();i++)
+            Log.d("Content of mListItems: ",
+                    "id= "+ mListItems.get(i).getListID()
+                    +", listname= "+mListItems.get(i).getTitle());
     }
 }
