@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.chronosapp.ui.list;
+package com.example.chronosapp.ui.itemList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,27 +27,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.chronosapp.R;
-import com.example.chronosapp.ui.itemList.ListOfItemsMain;
 
 import java.util.ArrayList;
 
 /***
  * The adapter class for the RecyclerView, contains the data about specific list.
  */
-class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
+class TaskItemAdapter extends RecyclerView.Adapter<TaskItemAdapter.ViewHolder> {
 
     // Member variables.
-    private ArrayList<ListItem> mListItemData;
+    private ArrayList<TaskItem> taskItemArrayList;
     private Context mContext;
 
     /**
      * Constructor that passes in the list item data and the context.
      *
-     * @param listItemData ArrayList containing the list item data.
+     * @param taskItemArrayList ArrayList containing the list item data.
      * @param context Context of the application.
      */
-    ListItemAdapter(Context context, ArrayList<ListItem> listItemData) {
-        this.mListItemData = listItemData;
+    TaskItemAdapter(Context context, ArrayList<TaskItem> taskItemArrayList) {
+        this.taskItemArrayList = taskItemArrayList;
         this.mContext = context;
     }
 
@@ -62,7 +60,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
      * @return The newly created ViewHolder.
      */
     @Override
-    public ListItemAdapter.ViewHolder onCreateViewHolder(
+    public TaskItemAdapter.ViewHolder onCreateViewHolder(
             ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(mContext).
                 inflate(R.layout.list_item, parent, false));
@@ -75,13 +73,13 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
      * @param position The adapter position.
      */
     @Override
-    public void onBindViewHolder(ListItemAdapter.ViewHolder holder,
+    public void onBindViewHolder(TaskItemAdapter.ViewHolder holder,
                                  int position) {
         // Get current list item.
-        ListItem currentListItem = mListItemData.get(position);
+        TaskItem currentTaskItem = taskItemArrayList.get(position);
 
         // Populate the textviews with data.
-        holder.bindTo(currentListItem);
+        holder.bindTo(currentTaskItem);
     }
 
     /**
@@ -91,7 +89,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return mListItemData.size();
+        return taskItemArrayList.size();
     }
 
     /**
@@ -99,8 +97,8 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
      *
      * @param lists  Array of current lists.
      */
-    public void setListItemData(ArrayList<ListItem> lists){
-        mListItemData = lists;
+    public void setListItemData(ArrayList<TaskItem> lists){
+        taskItemArrayList = lists;
         this.notifyDataSetChanged();
     }
 
@@ -133,7 +131,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
             itemView.setOnClickListener(this);
         }
 
-        void bindTo(ListItem currentListItem){
+        void bindTo(TaskItem currentListItem){
             // Populate the textviews with data.
             mTitleText.setText(currentListItem.getTitle());
 //            mDescriptionText.setText(currentListItem.getDescription());
@@ -150,15 +148,12 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
          */
         @Override
         public void onClick(View view) {
-            ListItem currentListItem = mListItemData.get(getAdapterPosition());
+//            ListItem currentListItem = mListItemData.get(getAdapterPosition());
 //            Intent detailIntent = new Intent(mContext, DetailActivity.class);
 //            detailIntent.putExtra("title", currentListItem.getTitle());
 //            detailIntent.putExtra("image_resource",
 //                    currentListItem.getImageResource());
 //            mContext.startActivity(detailIntent);
-            Intent details = new Intent(mContext, ListOfItemsMain.class);
-            details.putExtra("listid",currentListItem.getListID());
-            mContext.startActivity(details);
         }
     }
 }

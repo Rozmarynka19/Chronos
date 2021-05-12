@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.chronosapp.ui.list;
+package com.example.chronosapp.ui.itemList;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,27 +27,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.chronosapp.R;
-import com.example.chronosapp.ui.itemList.ListOfItemsMain;
 
 import java.util.ArrayList;
 
 /***
  * The adapter class for the RecyclerView, contains the data about specific list.
  */
-class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
+class BillItemAdapter extends RecyclerView.Adapter<BillItemAdapter.ViewHolder> {
 
     // Member variables.
-    private ArrayList<ListItem> mListItemData;
+    private ArrayList<BillItem> billItemArrayList;
     private Context mContext;
 
     /**
      * Constructor that passes in the list item data and the context.
      *
-     * @param listItemData ArrayList containing the list item data.
+     * @param billItemArrayList ArrayList containing the list item data.
      * @param context Context of the application.
      */
-    ListItemAdapter(Context context, ArrayList<ListItem> listItemData) {
-        this.mListItemData = listItemData;
+    BillItemAdapter(Context context, ArrayList<BillItem> billItemArrayList) {
+        this.billItemArrayList = billItemArrayList;
         this.mContext = context;
     }
 
@@ -62,7 +60,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
      * @return The newly created ViewHolder.
      */
     @Override
-    public ListItemAdapter.ViewHolder onCreateViewHolder(
+    public BillItemAdapter.ViewHolder onCreateViewHolder(
             ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(mContext).
                 inflate(R.layout.list_item, parent, false));
@@ -75,13 +73,13 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
      * @param position The adapter position.
      */
     @Override
-    public void onBindViewHolder(ListItemAdapter.ViewHolder holder,
+    public void onBindViewHolder(BillItemAdapter.ViewHolder holder,
                                  int position) {
         // Get current list item.
-        ListItem currentListItem = mListItemData.get(position);
+        BillItem currentBillItem = billItemArrayList.get(position);
 
         // Populate the textviews with data.
-        holder.bindTo(currentListItem);
+        holder.bindTo(currentBillItem);
     }
 
     /**
@@ -91,7 +89,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return mListItemData.size();
+        return billItemArrayList.size();
     }
 
     /**
@@ -99,8 +97,8 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
      *
      * @param lists  Array of current lists.
      */
-    public void setListItemData(ArrayList<ListItem> lists){
-        mListItemData = lists;
+    public void setListItemData(ArrayList<BillItem> lists){
+        billItemArrayList = lists;
         this.notifyDataSetChanged();
     }
 
@@ -133,14 +131,14 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
             itemView.setOnClickListener(this);
         }
 
-        void bindTo(ListItem currentListItem){
+        void bindTo(BillItem currentBillItem){
             // Populate the textviews with data.
-            mTitleText.setText(currentListItem.getTitle());
+            mTitleText.setText(currentBillItem.getTitle());
 //            mDescriptionText.setText(currentListItem.getDescription());
 
             // Load the images into the ImageView using the Glide library.
             Glide.with(mContext).load(
-                    currentListItem.getImageResource()).into(mSportsImage);
+                    currentBillItem.getImageResource()).into(mSportsImage);
         }
 
         /**
@@ -150,15 +148,12 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
          */
         @Override
         public void onClick(View view) {
-            ListItem currentListItem = mListItemData.get(getAdapterPosition());
+//            ListItem currentListItem = mListItemData.get(getAdapterPosition());
 //            Intent detailIntent = new Intent(mContext, DetailActivity.class);
 //            detailIntent.putExtra("title", currentListItem.getTitle());
 //            detailIntent.putExtra("image_resource",
 //                    currentListItem.getImageResource());
 //            mContext.startActivity(detailIntent);
-            Intent details = new Intent(mContext, ListOfItemsMain.class);
-            details.putExtra("listid",currentListItem.getListID());
-            mContext.startActivity(details);
         }
     }
 }

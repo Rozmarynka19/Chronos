@@ -54,7 +54,7 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
         contextOfFragment = container.getContext();
 
 
-        FloatingActionButton fab = root.findViewById(R.id.fab);
+        FloatingActionButton fab = root.findViewById(R.id.itemListFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

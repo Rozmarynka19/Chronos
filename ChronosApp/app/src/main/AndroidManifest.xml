@@ -28,7 +28,10 @@
         <activity
             android:name=".MainMainActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar">
-
+        </activity>
+        <activity
+            android:name=".ui.itemList.ListOfItemsMain"
+            android:theme="@style/Theme.ChronosApp.NoActionBar">
         </activity>
 
     </application>
