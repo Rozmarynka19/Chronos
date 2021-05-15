@@ -6,14 +6,14 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    
+
     <string name="ReciverName">Nazwa odbiorcy</string>
     <string name="PaymentNumber">Numer rachunku</string>
     <string name="PaymentTitle">Tytuł przelewu</string>
     <string name="Quota">Kwota</string>
     <string name="Description">Opis</string>
     <string name="PaymentDate">Termin</string>
-    
+
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="acceptButton">Akceptuj</string>

@@ -10,131 +10,163 @@
         android:id="@+id/bill_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:onClick="onClickScanQR"
-        android:text="@string/addBillButton"
+        android:text="Skanuj kod QR"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bill_add2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="Skanuj dokument"
+        app:layout_constraintBaseline_toBaselineOf="@+id/bill_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bill_add" />
 
     <TextView
         android:id="@+id/ReciverName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:text="@string/ReciverName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bill_add" />
 
     <TextView
         android:id="@+id/BillNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/PaymentNumber"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="199dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ReciverNameEdit"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/paymentTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/PaymentTitle"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="267dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BillNumberEdit"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/Quota"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/Quota"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="334dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentTitleEdit"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/Description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
         android:text="@string/Description"
-        tools:layout_editor_absoluteX="15dp"
-        tools:layout_editor_absoluteY="403dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/QuotaEdit"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/PaymentDate"
         android:layout_width="50dp"
-        android:layout_height="24dp"
-        android:text="@string/PaymentDate"
-        tools:layout_editor_absoluteX="15dp"
-        tools:layout_editor_absoluteY="461dp"
-        tools:ignore="MissingConstraints" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="267dp"
-        tools:layout_editor_absoluteY="119dp"
-        tools:ignore="MissingConstraints">
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/PaymentDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DescriptionEdit"
+        tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/ReciverNameEdit"
-        android:layout_width="177dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="112dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ReciverName"
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/BillNumberEdit"
-        android:layout_width="177dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="181dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BillNumber"
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/paymentTitleEdit"
-        android:layout_width="177dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="253dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentTitle"
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/QuotaEdit"
-        android:layout_width="177dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="319dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Quota"
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/DescriptionEdit"
-        android:layout_width="177dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="384dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Description"
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/PaymentDateEdit"
-        android:layout_width="177dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="451dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PaymentDate"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/AcceptPayment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:text="@string/acceptButton"
-        tools:layout_editor_absoluteX="255dp"
-        tools:layout_editor_absoluteY="595dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PaymentDateEdit"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
