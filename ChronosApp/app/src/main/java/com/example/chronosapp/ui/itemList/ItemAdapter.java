@@ -33,20 +33,20 @@ import java.util.ArrayList;
 /***
  * The adapter class for the RecyclerView, contains the data about specific list.
  */
-class BillItemAdapter extends RecyclerView.Adapter<BillItemAdapter.ViewHolder> {
+class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     // Member variables.
-    private ArrayList<BillItem> billItemArrayList;
+    private ArrayList<Item> itemArrayList;
     private Context mContext;
 
     /**
      * Constructor that passes in the list item data and the context.
      *
-     * @param billItemArrayList ArrayList containing the list item data.
+     * @param itemArrayList ArrayList containing the list item data.
      * @param context Context of the application.
      */
-    BillItemAdapter(Context context, ArrayList<BillItem> billItemArrayList) {
-        this.billItemArrayList = billItemArrayList;
+    ItemAdapter(Context context, ArrayList<Item> itemArrayList) {
+        this.itemArrayList = itemArrayList;
         this.mContext = context;
     }
 
@@ -60,7 +60,7 @@ class BillItemAdapter extends RecyclerView.Adapter<BillItemAdapter.ViewHolder> {
      * @return The newly created ViewHolder.
      */
     @Override
-    public BillItemAdapter.ViewHolder onCreateViewHolder(
+    public ItemAdapter.ViewHolder onCreateViewHolder(
             ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(mContext).
                 inflate(R.layout.list_item, parent, false));
@@ -73,13 +73,13 @@ class BillItemAdapter extends RecyclerView.Adapter<BillItemAdapter.ViewHolder> {
      * @param position The adapter position.
      */
     @Override
-    public void onBindViewHolder(BillItemAdapter.ViewHolder holder,
+    public void onBindViewHolder(ItemAdapter.ViewHolder holder,
                                  int position) {
         // Get current list item.
-        BillItem currentBillItem = billItemArrayList.get(position);
+        Item currentItem = itemArrayList.get(position);
 
         // Populate the textviews with data.
-        holder.bindTo(currentBillItem);
+        holder.bindTo(currentItem);
     }
 
     /**
@@ -89,7 +89,7 @@ class BillItemAdapter extends RecyclerView.Adapter<BillItemAdapter.ViewHolder> {
      */
     @Override
     public int getItemCount() {
-        return billItemArrayList.size();
+        return itemArrayList.size();
     }
 
     /**
@@ -97,8 +97,8 @@ class BillItemAdapter extends RecyclerView.Adapter<BillItemAdapter.ViewHolder> {
      *
      * @param lists  Array of current lists.
      */
-    public void setListItemData(ArrayList<BillItem> lists){
-        billItemArrayList = lists;
+    public void setListItemData(ArrayList<Item> lists){
+        itemArrayList = lists;
         this.notifyDataSetChanged();
     }
 
@@ -131,14 +131,14 @@ class BillItemAdapter extends RecyclerView.Adapter<BillItemAdapter.ViewHolder> {
             itemView.setOnClickListener(this);
         }
 
-        void bindTo(BillItem currentBillItem){
+        void bindTo(Item currentListItem){
             // Populate the textviews with data.
-            mTitleText.setText(currentBillItem.getTitle());
+            mTitleText.setText(currentListItem.getTitle());
 //            mDescriptionText.setText(currentListItem.getDescription());
 
             // Load the images into the ImageView using the Glide library.
             Glide.with(mContext).load(
-                    currentBillItem.getImageResource()).into(mSportsImage);
+                    currentListItem.getImageResource()).into(mSportsImage);
         }
 
         /**
@@ -148,6 +148,7 @@ class BillItemAdapter extends RecyclerView.Adapter<BillItemAdapter.ViewHolder> {
          */
         @Override
         public void onClick(View view) {
+            //TODO: edit mode depending on item type (task or bill)
 //            ListItem currentListItem = mListItemData.get(getAdapterPosition());
 //            Intent detailIntent = new Intent(mContext, DetailActivity.class);
 //            detailIntent.putExtra("title", currentListItem.getTitle());

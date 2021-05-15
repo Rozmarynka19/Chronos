@@ -19,9 +19,17 @@ package com.example.chronosapp.ui.itemList;
 /**
  * Data model for each row of the RecyclerView
  */
-class TaskItem {
+class Item {
     // Member variables representing the list title and its description.
-    private String type="task", title, itemID;
+    /*
+    type = "task" | "bill"
+        imageResource (background) depends on item's type
+        if type=="task"
+            imageResource is given depending on task's piority
+        if type=="bill"
+            another imageResource to indicate to user that's bill
+     */
+    private String type, title, itemID;
     private final int imageResource;
 
     /**
@@ -31,9 +39,10 @@ class TaskItem {
      * @param itemID item ID.
      * @param imageResource Background image
      */
-    public TaskItem(String title, String itemID, int imageResource) {
+    public Item(String title, String itemID, String type, int imageResource) {
         this.title = title;
         this.itemID = itemID;
+        this.type = type;
         this.imageResource = imageResource;
     }
 
@@ -54,6 +63,13 @@ class TaskItem {
     String getItemID() {
         return itemID;
     }
+
+    /**
+     * Gets the item type.
+     *
+     * @return Item type.
+     */
+    String getType() {return type;}
 
     /***
      * Gets the background image

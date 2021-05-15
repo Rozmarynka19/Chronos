@@ -2,7 +2,6 @@ package com.example.chronosapp.ui.itemList;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.chronosapp.Common;
@@ -18,40 +17,31 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
-public class AddTaskBackgroundTask extends AsyncTask<String, String, String> {
+public class GetItemsBackgroundTask extends AsyncTask<String, String, String>{
     Context context;
-    AddTaskBackgroundTaskListener listener;
+    GetItemsBackgroundTaskListener listener;
 
-    AddTaskBackgroundTask(Context context){
+    GetItemsBackgroundTask(Context context){
         this.context = context;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        //TODO: dates with time - deadline, notificationDate
-        //TODO: recurring - list of days in which deadline is set anew
-        //[]= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
-        String plainURL = Common.getDbAddress()+"addTask.php";
-        Log.d("AddTaskBackgroundTask: ","piority: "+strings[7]);
+        String plainURL = Common.getDbAddress()+"getItems.php";
+
         try{
             URL url = new URL(plainURL);
             try {
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestMethod("GET");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
                 BufferedWriter bufferWriter = new BufferedWriter(outputStreamWriter);
-                String insert_data = URLEncoder.encode("listid", "UTF-8") +"="+URLEncoder.encode(strings[0], "UTF-8")+
-                        "&"+URLEncoder.encode("itemname", "UTF-8")+"="+URLEncoder.encode(strings[1], "UTF-8")+
-                        "&"+URLEncoder.encode("itemtype", "UTF-8")+"="+URLEncoder.encode(strings[2], "UTF-8")+
-                        "&"+URLEncoder.encode("deadline", "UTF-8")+"="+URLEncoder.encode(strings[3], "UTF-8")+
-                        "&"+URLEncoder.encode("desc", "UTF-8")+"="+URLEncoder.encode(strings[4], "UTF-8")+
-                        "&"+URLEncoder.encode("recurring", "UTF-8")+"="+URLEncoder.encode(strings[5], "UTF-8")+
-                        "&"+URLEncoder.encode("notificationDate", "UTF-8")+"="+URLEncoder.encode(strings[6], "UTF-8")+
-                        "&"+URLEncoder.encode("piority", "UTF-8")+"="+URLEncoder.encode(strings[7], "UTF-8");
+                String insert_data = URLEncoder.encode("listid", "UTF-8") +"="+URLEncoder.encode(strings[0], "UTF-8");
                 System.out.println(insert_data);
                 bufferWriter.write(insert_data);
                 bufferWriter.flush();
@@ -86,13 +76,28 @@ public class AddTaskBackgroundTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        listener = (AddTaskBackgroundTaskListener) context;
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
-        Log.d("AddTaskBackgroundTask: ","resultMsg: "+s);
-        if(s.equals("task added successfully\n"))
-            listener.refreshListOfItems();
-        //TODO:
-        //if connections problem, print "No connection. Try again later."
-        //if problem with posting items (seldom instance), print "Error occured during posting your task"
+        listener = (GetItemsBackgroundTaskListener) context;
+        ArrayList<Item> arrayOfItems = new ArrayList<>();
+
+        System.out.println(s);
+
+        String[] separatedOutput = s.split("\n");
+        for(int i=0;i<separatedOutput.length;i++)
+            System.out.println("i="+String.valueOf(i)+" "+separatedOutput[i]);
+
+        if(!separatedOutput[0].equals("connection failed") && !separatedOutput[0].equals("error in request"))
+        {
+            int rows = Integer.parseInt(separatedOutput[0]);
+
+            for(int i=0;i<rows*3;i+=3)
+                arrayOfItems.add(new Item(separatedOutput[i+2],
+                        separatedOutput[i+1],
+                        separatedOutput[i+3],
+                         context.getResources().getIdentifier("img_basketball",
+                                                                    "drawable",
+                                                                    context.getPackageName())));
+        }
+        listener.getLists(arrayOfItems);
     }
 }

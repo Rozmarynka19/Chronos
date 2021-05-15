@@ -1,17 +1,17 @@
 package com.example.chronosapp.ui.itemList;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,11 +19,12 @@ import com.example.chronosapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class ListOfItemsMainActivity extends AppCompatActivity {
+public class ListOfItemsMainActivity extends AppCompatActivity implements GetItemsBackgroundTaskListener{
     private RecyclerView mRecyclerView;
-    private ArrayList<TaskItem> mtaskItemArrayList;
-    private TaskItemAdapter taskItemAdapter;
+    private ArrayList<Item> mItemArrayList;
+    private ItemAdapter itemAdapter;
     private String sharedUserId, listID;
 
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
@@ -32,6 +33,8 @@ public class ListOfItemsMainActivity extends AppCompatActivity {
     private Button addNewTaskButton, addNewBillButton;
 
     private boolean isAddNewItemButtonClicked = false;
+
+    private final static int NEW_TASK = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +55,18 @@ public class ListOfItemsMainActivity extends AppCompatActivity {
         addNewTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onAddNewItemFabClicked();
                 Toast.makeText(v.getContext(), "addNewTaskButton",Toast.LENGTH_SHORT).show();
 
                 Intent details = new Intent(v.getContext(), AddTaskActivity.class);
                 details.putExtra("listid",listID);
-                startActivity(details);
+                startActivityForResult(details,NEW_TASK);
             }
         });
         addNewBillButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onAddNewItemFabClicked();
                 Toast.makeText(v.getContext(), "addNewBillButton",Toast.LENGTH_SHORT).show();
             }
         });
@@ -76,13 +81,21 @@ public class ListOfItemsMainActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.itemListRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mtaskItemArrayList = new ArrayList<>();
-        taskItemAdapter = new TaskItemAdapter(this,mtaskItemArrayList);
-        mRecyclerView.setAdapter(taskItemAdapter);
+        mItemArrayList = new ArrayList<>();
+        itemAdapter = new ItemAdapter(this, mItemArrayList);
+        mRecyclerView.setAdapter(itemAdapter);
 
-        @SuppressLint("WrongConstant")
-        SharedPreferences sharedPreferences = this.getSharedPreferences("userDataSharedPref", Context.MODE_APPEND);
-        sharedUserId = sharedPreferences.getString("userid","");
+//        @SuppressLint("WrongConstant")
+//        SharedPreferences sharedPreferences = this.getSharedPreferences("userDataSharedPref", Context.MODE_APPEND);
+//        sharedUserId = sharedPreferences.getString("userid","");
+
+        getItemsFromDatabase();
+    }
+
+    public void getItemsFromDatabase()
+    {
+        GetItemsBackgroundTask getItemsBackgroundTask = new GetItemsBackgroundTask(this);
+        getItemsBackgroundTask.execute(listID);
     }
 
     private void onAddNewItemFabClicked() {
@@ -132,5 +145,104 @@ public class ListOfItemsMainActivity extends AppCompatActivity {
             addNewTaskButton.setClickable(false);
             addNewBillButton.setClickable(false);
         }
+    }
+
+    @Override
+    public void getLists(ArrayList<Item> arrayOfItems) {
+        mItemArrayList.clear();
+        mItemArrayList.addAll(arrayOfItems);
+        for(int i=0;i<mItemArrayList.size();i++)
+            Log.d("Content of mItemArrayList: ",
+                    "itemID= "+ mItemArrayList.get(i).getItemID()
+                            +", itemName= "+mItemArrayList.get(i).getTitle()
+                            +", itemType= "+mItemArrayList.get(i).getType());
+        applyItems();
+    }
+
+    /**
+     * Apply fetched items from database to the view
+     */
+    private void applyItems() {
+//        // Get the resources from the XML file.
+//        String[] listItemTitles = getResources()
+//                .getStringArray(R.array.listItemTitles);
+//        String[] listItemDescriptions = getResources()
+//                .getStringArray(R.array.listItemDescription);
+//        TypedArray listItemsBackgrounds = getResources()
+//                .obtainTypedArray(R.array.listItemBackgrounds);
+//
+//        // Clear the existing data (to avoid duplication).
+//        mListItems.clear();
+
+//        // Create the ArrayList of List Item objects with the titles and
+//        // information about each list
+//        for (int i = 0; i < listItemTitles.length; i++) {
+//            mListItems.add(new ListItem(listItemTitles[i], listItemDescriptions[i],
+//                    listItemsBackgrounds.getResourceId(i, 0)));
+//        }
+//
+//        // Recycle the typed array.
+//        listItemsBackgrounds.recycle();
+            itemAdapter.setListItemData(mItemArrayList);
+            Log.d("size of array of items: ",String.valueOf(mItemArrayList.size()));
+            Log.d("size of item adapter: ",String.valueOf(itemAdapter.getItemCount()));
+
+
+            // Notify the adapter of the change.
+//        mlistItemAdapter.notifyDataSetChanged();
+
+            // Helper class for creating swipe to dismiss and drag and drop
+            // functionality.
+            ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
+                    .SimpleCallback(
+                    ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
+                            ItemTouchHelper.DOWN | ItemTouchHelper.UP,
+                    ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                /**
+                 * Defines the drag and drop functionality.
+                 *
+                 * @param recyclerView The RecyclerView that contains the list items
+                 * @param viewHolder The ListViewViewHolder that is being moved
+                 * @param target The ListViewViewHolder that you are switching the
+                 *               original one with.
+                 * @return true if the item was moved, false otherwise
+                 */
+                @Override
+                public boolean onMove(RecyclerView recyclerView,
+                                      RecyclerView.ViewHolder viewHolder,
+                                      RecyclerView.ViewHolder target) {
+                    // Get the from and to positions.
+                    int from = viewHolder.getAdapterPosition();
+                    int to = target.getAdapterPosition();
+
+                    // Swap the items and notify the adapter.
+                    Collections.swap(mItemArrayList, from, to);
+                    itemAdapter.notifyItemMoved(from, to);
+                    return true;
+                }
+
+                /**
+                 * Defines the swipe to dismiss functionality.
+                 *
+                 * @param viewHolder The viewholder being swiped.
+                 * @param direction The direction it is swiped in.
+                 */
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                     int direction) {
+                    // Remove from database.
+//                    removeListFromDatabase(viewHolder, mListItems.get(viewHolder.getAdapterPosition()));
+                }
+            });
+
+            // Attach the helper to the RecyclerView.
+            helper.attachToRecyclerView(mRecyclerView);
+        }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == NEW_TASK && resultCode == RESULT_OK)
+            getItemsFromDatabase();
     }
 }

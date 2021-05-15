@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chronosapp.R;
 
-public class AddTaskActivity extends AppCompatActivity {
+public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgroundTaskListener {
 
     //TODO: dates with time - deadline, notificationDate
     //TODO: recurring - list of days in which deadline is set anew
@@ -78,7 +78,13 @@ public class AddTaskActivity extends AppCompatActivity {
         taskDescription = taskDescriptionEditText.getText().toString();
 
         AddTaskBackgroundTask addTaskBackgroundTask = new AddTaskBackgroundTask(this);
-//        []= {listid, itemname, deadline, desc, recurring, notificationDate, piority}
-        addTaskBackgroundTask.execute(listID, taskName, "", taskDescription, "", "", piority);
+//        []= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
+        addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), "", taskDescription, "", "", piority);
+    }
+
+    @Override
+    public void refreshListOfItems() {
+        setResult(RESULT_OK,new Intent());
+        this.finish();
     }
 }
