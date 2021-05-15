@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chronosapp.R;
+import com.example.chronosapp.Common;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,7 +34,7 @@ public class RemoveListBackgroundTask extends AsyncTask<String, String, String>{
 
     @Override
     protected String doInBackground(String... strings) {
-        String plainURL = context.getResources().getString(R.string.localMrServer)+"removeList.php";
+        String plainURL = Common.getDbAddress()+"removeList.php";
         String listid = listItem.getListID();
 
         try{

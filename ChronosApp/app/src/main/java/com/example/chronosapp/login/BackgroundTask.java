@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.example.chronosapp.Common;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -32,7 +34,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     protected String doInBackground(String... strings) {
         String type = strings[0];
 //        String serverAdress = "http://algolearn-team.prv.pl/1213146_fsa523/";//"http://192.168.8.105/Example/"; //remote
-        String serverAdress = "http://192.168.56.2/chronos/";//"http://192.168.8.105/Example/"; //local
+//        String serverAdress = "http://192.168.56.2/chronos/";//"http://192.168.8.105/Example/"; //local
+        String serverAdress = Common.getDbAddress();
         String loginUrl = serverAdress + "login.php";
         String regUrl = serverAdress + "register.php";
         if(type.equals("reg")){

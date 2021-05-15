@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.example.chronosapp.R;
+import com.example.chronosapp.Common;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -27,7 +27,7 @@ public class AddListBackgroundTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String plainURL = context.getResources().getString(R.string.localMrServer)+"addList.php";
+        String plainURL = Common.getDbAddress()+"addList.php";
         String userid = strings[0], listname = strings[1];
 
         try{

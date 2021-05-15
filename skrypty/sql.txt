@@ -16,26 +16,25 @@ CREATE TABLE user_lists (
 CREATE TABLE items_list (
     Item_ID INT NOT NULL AUTO_INCREMENT,
     List_ID INT NOT NULL,
+	Item_Name TEXT NOT NULL,
     PRIMARY KEY (Item_ID), 
     FOREIGN KEY (List_ID) REFERENCES user_lists(List_ID)   
 );
 CREATE TABLE tasks_list (
     Task_ID INT NOT NULL AUTO_INCREMENT,
 	Item_ID INT NOT NULL,
-    Task_Name TEXT NOT NULL,
     Task_Deadline DATETIME,
     Task_Desc TEXT,
-    Task_Recurring BOOLEAN,
-    Task_Notification BOOLEAN,
+    Task_Recurring TEXT,
+    Task_Notification DATETIME,
     Task_Priority ENUM('1', '2', '3') NOT NULL,
     Task_ID_main_task INT,
     PRIMARY KEY (Task_ID),
-	FOREIGN KEY (Item_ID) REFERENCES items(Item_ID)
+	FOREIGN KEY (Item_ID) REFERENCES items_list(Item_ID)
 );
 CREATE TABLE bills_list (
     Bill_ID INT NOT NULL AUTO_INCREMENT,
 	Item_ID INT NOT NULL,
-	Bill_Name TEXT NOT NULL,
     Bill_Reciptient TEXT NOT NULL,
     Bill_RecipientsBankAccount TEXT NOT NULL,
     Bill_TransferTitle TEXT NOT NULL,
@@ -43,7 +42,7 @@ CREATE TABLE bills_list (
 	Bill_Desc TEXT,
 	Task_Deadline DATETIME,
 	PRIMARY KEY (Bill_ID),
-	FOREIGN KEY (Item_ID) REFERENCES items(Item_ID)
+	FOREIGN KEY (Item_ID) REFERENCES items_list(Item_ID)
 );
 CREATE TABLE attachments_list (
     Attachment_ID INT NOT NULL AUTO_INCREMENT,

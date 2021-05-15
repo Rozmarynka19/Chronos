@@ -2,6 +2,7 @@ package com.example.chronosapp.ui.itemList;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -19,11 +20,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class ListOfItemsMain extends AppCompatActivity {
+public class ListOfItemsMainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ArrayList<TaskItem> mtaskItemArrayList;
     private TaskItemAdapter taskItemAdapter;
-    private String sharedUserId;
+    private String sharedUserId, listID;
 
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
 
@@ -37,6 +38,10 @@ public class ListOfItemsMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_tasks);
 
+        Intent details = getIntent();
+        listID =  details.getStringExtra("listid");
+//        Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
+
         rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim);
         fromBottom = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim);
@@ -48,6 +53,10 @@ public class ListOfItemsMain extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "addNewTaskButton",Toast.LENGTH_SHORT).show();
+
+                Intent details = new Intent(v.getContext(), AddTaskActivity.class);
+                details.putExtra("listid",listID);
+                startActivity(details);
             }
         });
         addNewBillButton.setOnClickListener(new View.OnClickListener() {

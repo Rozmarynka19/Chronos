@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.chronosapp.R;
-import com.example.chronosapp.ui.itemList.ListOfItemsMain;
+import com.example.chronosapp.ui.itemList.ListOfItemsMainActivity;
 
 import java.util.ArrayList;
 
@@ -156,7 +156,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
 //            detailIntent.putExtra("image_resource",
 //                    currentListItem.getImageResource());
 //            mContext.startActivity(detailIntent);
-            Intent details = new Intent(mContext, ListOfItemsMain.class);
+            Intent details = new Intent(mContext, ListOfItemsMainActivity.class);
             details.putExtra("listid",currentListItem.getListID());
             mContext.startActivity(details);
         }

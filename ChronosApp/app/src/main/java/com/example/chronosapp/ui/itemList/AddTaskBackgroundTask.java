@@ -1,7 +1,8 @@
-package com.example.chronosapp.ui.list;
+package com.example.chronosapp.ui.itemList;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.chronosapp.Common;
@@ -17,32 +18,38 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
-public class GetListsBackgroundTask extends AsyncTask<String, String, String>{
-    ListFragment context;
-    GetListsBackgroundTaskListener listener;
+public class AddTaskBackgroundTask extends AsyncTask<String, String, String> {
+    Context context;
 
-    GetListsBackgroundTask(ListFragment context){
+    AddTaskBackgroundTask(Context context){
         this.context = context;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String plainURL = Common.getDbAddress()+"getLists.php";
-        String userid = strings[0];
-
+        //TODO: dates with time - deadline, notificationDate
+        //TODO: recurring - list of days in which deadline is set anew
+        //[]= {listid, itemname, deadline, desc, recurring, notificationDate, piority}
+        String plainURL = Common.getDbAddress()+"addTask.php";
+        Log.d("AddTaskBackgroundTask: ","piority: "+strings[6]);
         try{
             URL url = new URL(plainURL);
             try {
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("GET");
+                httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
                 BufferedWriter bufferWriter = new BufferedWriter(outputStreamWriter);
-                String insert_data = URLEncoder.encode("userid", "UTF-8") +"="+URLEncoder.encode(userid, "UTF-8");
+                String insert_data = URLEncoder.encode("listid", "UTF-8") +"="+URLEncoder.encode(strings[0], "UTF-8")+
+                        "&"+URLEncoder.encode("itemname", "UTF-8")+"="+URLEncoder.encode(strings[1], "UTF-8")+
+                        "&"+URLEncoder.encode("deadline", "UTF-8")+"="+URLEncoder.encode(strings[2], "UTF-8")+
+                        "&"+URLEncoder.encode("desc", "UTF-8")+"="+URLEncoder.encode(strings[3], "UTF-8")+
+                        "&"+URLEncoder.encode("recurring", "UTF-8")+"="+URLEncoder.encode(strings[4], "UTF-8")+
+                        "&"+URLEncoder.encode("notificationDate", "UTF-8")+"="+URLEncoder.encode(strings[5], "UTF-8")+
+                        "&"+URLEncoder.encode("piority", "UTF-8")+"="+URLEncoder.encode(strings[6], "UTF-8");
                 System.out.println(insert_data);
                 bufferWriter.write(insert_data);
                 bufferWriter.flush();
@@ -75,30 +82,9 @@ public class GetListsBackgroundTask extends AsyncTask<String, String, String>{
         super.onPreExecute();
     }
 
-    @SuppressLint("ResourceType")
     @Override
     protected void onPostExecute(String s) {
-        Toast.makeText(context.getContext(), s, Toast.LENGTH_SHORT).show();
-        listener = (GetListsBackgroundTaskListener) context;
-        ArrayList<ListItem> arrayOfLists = new ArrayList<>();
-
-        System.out.println(s);
-
-        String[] separatedOutput = s.split("\n");
-        for(int i=0;i<separatedOutput.length;i++)
-            System.out.println("i="+String.valueOf(i)+" "+separatedOutput[i]);
-
-        if(separatedOutput[0].equals("connection sucess"))
-        {
-            int rows = Integer.parseInt(separatedOutput[1]);
-
-            for(int i=0;i<rows*2;i+=2)
-                arrayOfLists.add(new ListItem(separatedOutput[i+3],
-                        separatedOutput[i+2],
-                         context.getResources().getIdentifier("img_basketball",
-                                                                    "drawable",
-                                                                    context.getContext().getPackageName())));
-        }
-        listener.getLists(arrayOfLists);
+        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        Log.d("AddTaskBackgroundTask: ","resultMsg: "+s);
     }
 }
