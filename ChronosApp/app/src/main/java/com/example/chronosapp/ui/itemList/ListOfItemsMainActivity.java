@@ -17,11 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chronosapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ListOfItemsMainActivity extends AppCompatActivity implements GetItemsBackgroundTaskListener{
+public class ListOfItemsMainActivity extends AppCompatActivity
+                                    implements GetItemsBackgroundTaskListener,
+                                                RemoveItemBackgroundTaskListener{
     private RecyclerView mRecyclerView;
     private ArrayList<Item> mItemArrayList;
     private ItemAdapter itemAdapter;
@@ -36,10 +39,13 @@ public class ListOfItemsMainActivity extends AppCompatActivity implements GetIte
 
     private final static int NEW_TASK = 1;
 
+    private View itemListRelativeView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_tasks);
+        itemListRelativeView = (View) findViewById(R.id.itemListRelativeLayout);
 
         Intent details = getIntent();
         listID =  details.getStringExtra("listid");
@@ -231,7 +237,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity implements GetIte
                 public void onSwiped(RecyclerView.ViewHolder viewHolder,
                                      int direction) {
                     // Remove from database.
-//                    removeListFromDatabase(viewHolder, mListItems.get(viewHolder.getAdapterPosition()));
+                    removeItemFromDatabase(viewHolder, mItemArrayList.get(viewHolder.getAdapterPosition()));
                 }
             });
 
@@ -244,5 +250,34 @@ public class ListOfItemsMainActivity extends AppCompatActivity implements GetIte
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == NEW_TASK && resultCode == RESULT_OK)
             getItemsFromDatabase();
+    }
+
+    public void removeItemFromDatabase(RecyclerView.ViewHolder viewHolder, Item item)
+    {
+        Snackbar.make(itemListRelativeView, "item id: "+item.getItemID()
+                                                +", itemname: "+item.getTitle()
+                                                +", itemtype: "+item.getType(),
+                                                Snackbar.LENGTH_LONG)
+                                                .setAction("Action", null).show();
+        Log.d("removeListFromDatabase", "item id: "+item.getItemID()
+                                                    +", itemname: "+item.getTitle()
+                                                    +", itemtype: "+item.getType());
+
+        RemoveItemBackgroundTask removeItemBackgroundTask = new RemoveItemBackgroundTask(this, viewHolder, item);
+        removeItemBackgroundTask.execute();
+    }
+
+    @Override
+    public void removeListFromUI(RecyclerView.ViewHolder viewHolder) {
+        // Remove the item from the dataset.
+        mItemArrayList.remove(viewHolder.getAdapterPosition());
+
+        // Notify the adapter.
+        itemAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+    }
+
+    @Override
+    public void restoreListsFromDb() {
+        getItemsFromDatabase();
     }
 }
