@@ -16,7 +16,7 @@ if(isset($_POST['password']) && !empty($_POST['password'])){ $password = $_POST[
    throw new Exception('nie ma usera');
 }
 
-$query = "SELECT User_Name FROM registered_users where User_Name='$login'";
+$query = "SELECT 'Login' FROM user where Login='$login'";
 //$result = mysqli_query($conn, $query);
 $result = $mysqli->query($query);
 if(mysqli_num_rows($result)<=0){
@@ -25,8 +25,7 @@ if(mysqli_num_rows($result)<=0){
 else{
 	try {
 		
-		$query = "SELECT * FROM `registered_users` WHERE `User_Name`='" . $login . "'";
-
+		$query = "SELECT * FROM `user` WHERE `Login`='" . $login . "'";
 		$result2 = $mysqli->query($query);
 		//if($result2->num_rows > 0) {
 			//	while($results = $result2->fetch_assoc()) {
@@ -35,15 +34,19 @@ else{
 		//}
 		$user = $result2->fetch_assoc();
 		
-			 if(password_verify($password, $user['User_Password'])){
+		if(isset($user['Password']))
+		{
+			 if(password_verify($password, $user['Password'])){
 			echo("\nlogin sucesfull");
-			$userData = "\n".$user['User_ID']."\n".$user['User_Name']."\n".$user['User_Email']."\n".$user['User_Phone'];
-			echo($userData);
 			}
 			else{
-				echo("\nlogin failed");
+				echo("login failed");
 			}
-
+		}
+		else
+		{
+		   echo("setting value failed\n");
+		}
 	} catch(Exception $e) {
 		echo $e->getMessage();
 		echo $e->getError();
@@ -52,4 +55,6 @@ else{
 	
 	
 }
+
+
 ?>

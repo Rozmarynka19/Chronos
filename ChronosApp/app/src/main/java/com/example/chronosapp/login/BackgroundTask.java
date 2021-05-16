@@ -33,20 +33,23 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
         String type = strings[0];
-//        String serverAdress = "http://algolearn-team.prv.pl/1213146_fsa523/";//"http://192.168.8.105/Example/"; //remote
-//        String serverAdress = "http://192.168.56.2/chronos/";//"http://192.168.8.105/Example/"; //local
         String serverAdress = Common.getDbAddress();
+
         String loginUrl = serverAdress + "login.php";
         String regUrl = serverAdress + "register.php";
         if(type.equals("reg")){
-            String login  = strings[1];
+           /* String login  = strings[1];
             String password = strings[2];
             String email  = strings[3];
-            String phone  = strings[4];
+            String phone  = strings[4];*/
+            String [] params = {"login", "password", "email", "phone"};
+            String [] paramsValues = {strings[1], strings[2], strings[3], strings[4]};
             try{
                 URL url = new URL(regUrl);
-                try {
-                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                String result = postProcedure(url, params, paramsValues);
+                return result;
+
+               /*     HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                     httpURLConnection.setRequestMethod("POST");
                     httpURLConnection.setDoOutput(true);
                     httpURLConnection.setDoInput(true);
@@ -75,9 +78,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
                     inputStream.close();
                     httpURLConnection.disconnect();
                     return result;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                }*/
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -85,9 +87,13 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         else if(type.equals("login")){
             String login = strings[1];
             String password = strings[2];
+            String [] params = {"login", "password"};
+            String [] paramsValues = {strings[1], strings[2]};
             try{
                 URL url = new URL(loginUrl);
-                try {
+                String result = postProcedure(url, params, paramsValues);
+                return result;
+                /*try {
                     HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                     httpURLConnection.setRequestMethod("POST");
                     httpURLConnection.setDoOutput(true);
@@ -117,10 +123,23 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
                     return result;
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
+        }
+        else if(type.equals("GSignUp")){
+           /* String login = strings[1];
+            String password = strings[2];
+            String [] params = {"login", "password"};
+            String [] paramsValues = {strings[1], strings[2]};
+            try{
+                URL url = new URL(loginUrl);
+                String result = postProcedure(url, params, paramsValues);
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }*/
         }
         return null;
     }
@@ -160,6 +179,46 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
                 ((Activity) context).finish();
 
         }
-
     }
+
+    String postProcedure(URL url, String params[], String paramValues[]){
+        try {
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setDoInput(true);
+            OutputStream outputStream = httpURLConnection.getOutputStream();
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
+            BufferedWriter bufferWriter = new BufferedWriter(outputStreamWriter);
+            String insert_data = "";
+            for(int i=0;i<params.length;i++){
+                insert_data+=URLEncoder.encode(params[i], "UTF-8") +"="+URLEncoder.encode(paramValues[i], "UTF-8");
+                if(i!=params.length-1){
+                    insert_data+="&";
+                }
+            }
+            System.out.println(insert_data);
+            bufferWriter.write(insert_data);
+            bufferWriter.flush();
+            bufferWriter.close();
+            InputStream inputStream = httpURLConnection.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "ISO-8859-1");
+            BufferedReader bufferReader = new BufferedReader(inputStreamReader);
+            String result= "";
+            String line = "";
+            StringBuilder stringBuilder = new StringBuilder();
+            while((line=bufferReader.readLine())!=null){
+                stringBuilder.append(line).append("\n");
+            }
+            result=stringBuilder.toString();
+            bufferReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
