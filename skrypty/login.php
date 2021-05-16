@@ -21,12 +21,12 @@ $query = "SELECT User_Name FROM registered_users where User_Name='$login'";
 $result = $mysqli->query($query);
 if(mysqli_num_rows($result)<=0){
 	echo("no such user");
+
 }
 else{
 	try {
 		
 		$query = "SELECT * FROM `registered_users` WHERE `User_Name`='" . $login . "'";
-
 		$result2 = $mysqli->query($query);
 		//if($result2->num_rows > 0) {
 			//	while($results = $result2->fetch_assoc()) {
@@ -43,7 +43,6 @@ else{
 			else{
 				echo("\nlogin failed");
 			}
-
 	} catch(Exception $e) {
 		echo $e->getMessage();
 		echo $e->getError();
