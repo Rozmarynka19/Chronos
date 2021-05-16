@@ -85,10 +85,8 @@ public class RemoveListBackgroundTask extends AsyncTask<String, String, String>{
     protected void onPostExecute(String s) {
         Toast.makeText(context.getContext(), s, Toast.LENGTH_SHORT).show();
         listener = (RemoveListBackgroundTaskListener) context;
-
-        String[] separatedOutput = s.split("\n");
-        System.out.println("onPostExecute remove list: "+separatedOutput[1]);
-        if(separatedOutput[1].equals("list removed succesfully"))
+        
+        if(s.equals("list removed succesfully\n"))
             listener.removeListFromUI(viewHolder);
         else
             listener.restoreListsFromDb();
