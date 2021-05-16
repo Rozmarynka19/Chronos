@@ -42,6 +42,9 @@
     <string name="add_new_list_dialog_edittext_hint">Enter list name</string>
     <string name="addNewTaskButtonText">new Task</string>
     <string name="addNewBillButtonText">new Bill</string>
+    <string name="restart_password">Please enter your email to restart your password.</string>
+    <string name="welcome_msg">Let\'s start the adventure together!</string>
+    <string name="empty_login">Login</string>
 
     <string-array name="listItemTitles">
         <item>Baseball</item>
