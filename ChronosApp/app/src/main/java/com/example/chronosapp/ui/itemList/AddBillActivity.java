@@ -13,15 +13,12 @@ import android.view.View;
 import android.widget.Toast;
 
 
-public class AddBillActivity extends AppCompatActivity {
+public class AddBillActivity extends AppCompatActivity implements AddBillBackgroundTaskListener {
 
-    private String listID;
-    private TextInputEditText receiverNameEdit,
-            bankAccountNumberEdit,
-            paymentTitleEdit,
-            amountEdit,
-            descriptionEdit,
-            paymentDeadlineEdit;
+    private String listID, billName, receiverName, bankAccountNumber, paymentTitle, amount, desc,
+            paymentDeadline;
+    private TextInputEditText billNameEdit, receiverNameEdit, bankAccountNumberEdit,
+            paymentTitleEdit, amountEdit, descriptionEdit, paymentDeadlineEdit;
 
     private static final int SCAN_QR = 1;
 
@@ -35,6 +32,7 @@ public class AddBillActivity extends AppCompatActivity {
         listID =  details.getStringExtra("listid");
         Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
 
+        billNameEdit = findViewById(R.id.billNameEdit);
         receiverNameEdit = findViewById(R.id.reciverNameEdit);
         bankAccountNumberEdit = findViewById(R.id.bankAccountNumberEdit);
         paymentTitleEdit = findViewById(R.id.paymentTitleEdit);
@@ -75,11 +73,35 @@ public class AddBillActivity extends AppCompatActivity {
                 int plainAmountLen = plainAmount.length();
                 String leftSideComma = plainAmount.substring(0,plainAmountLen-2);
                 String rightSideComma = plainAmount.substring(plainAmountLen-2,plainAmountLen);
-                String amount = leftSideComma+","+rightSideComma;
+                String amount = leftSideComma+"."+rightSideComma;
                 amountEdit.setText(amount);
             }
             if(!splittedCodedData[4].equals("")) receiverNameEdit.setText(splittedCodedData[4]);
             if(!splittedCodedData[5].equals("")) paymentTitleEdit.setText(splittedCodedData[5]);
         }
+    }
+
+    public void sendNewBillToDb(View view) {
+        //[] = {listid, itemname, itemtype, billRecipient, billRecipientBankAccount,
+        // billTransferTitle, billAmount, billDesc, billDeadline}
+
+        billName = billNameEdit.getText().toString();
+        receiverName = receiverNameEdit.getText().toString();
+        bankAccountNumber = bankAccountNumberEdit.getText().toString();
+        paymentTitle = paymentTitleEdit.getText().toString();
+        amount = amountEdit.getText().toString();
+        Toast.makeText(this,amount,Toast.LENGTH_LONG).show();
+        desc = descriptionEdit.getText().toString();
+        paymentDeadline = paymentDeadlineEdit.getText().toString();
+
+        AddBillBackgroundTask addBillBackgroundTask = new AddBillBackgroundTask(this);
+        addBillBackgroundTask.execute(listID, billName, ItemTypes.Bill.toString(), receiverName,
+                bankAccountNumber, paymentTitle, amount, desc, paymentDeadline);
+    }
+
+    @Override
+    public void refreshListOfItems() {
+        setResult(RESULT_OK,new Intent());
+        this.finish();
     }
 }

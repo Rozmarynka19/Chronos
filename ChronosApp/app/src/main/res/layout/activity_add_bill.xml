@@ -38,6 +38,22 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/billName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:text="Bill name"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/billNameEdit"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="It will be displayed on the list."/>
+
+            <TextView
                 android:id="@+id/reciverName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -149,5 +165,6 @@
         android:text="Add bill"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:onClick="sendNewBillToDb"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

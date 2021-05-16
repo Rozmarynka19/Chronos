@@ -1,11 +1,9 @@
 package com.example.chronosapp.ui.itemList;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chronosapp.Common;
 
@@ -21,33 +19,39 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class RemoveItemBackgroundTask extends AsyncTask<String, String, String>{
+public class AddBillBackgroundTask extends AsyncTask<String, String, String> {
     Context context;
-    Item item;
-    RecyclerView.ViewHolder viewHolder;
-    RemoveItemBackgroundTaskListener listener;
+    AddBillBackgroundTaskListener listener;
 
-    RemoveItemBackgroundTask(Context context, RecyclerView.ViewHolder viewHolder, Item item){
-        this.context=context;
-        this.item = item;
-        this.viewHolder=viewHolder;
+    AddBillBackgroundTask(Context context){
+        this.context = context;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String plainURL = Common.getDbAddress()+"removeItem.php";
-
+        //TODO: dates with time - deadline
+        //[] = {listid, itemname, itemtype, billRecipient, billRecipientBankAccount,
+        // billTransferTitle, billAmount, billDesc, billDeadline}
+        String plainURL = Common.getDbAddress()+"addBill.php";
         try{
             URL url = new URL(plainURL);
             try {
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("GET");
+                httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
                 BufferedWriter bufferWriter = new BufferedWriter(outputStreamWriter);
-                String insert_data = URLEncoder.encode("itemid", "UTF-8") +"="+URLEncoder.encode(item.getItemID(), "UTF-8");
+                String insert_data = URLEncoder.encode("listid", "UTF-8") +"="+URLEncoder.encode(strings[0], "UTF-8")+
+                        "&"+URLEncoder.encode("itemname", "UTF-8")+"="+URLEncoder.encode(strings[1], "UTF-8")+
+                        "&"+URLEncoder.encode("itemtype", "UTF-8")+"="+URLEncoder.encode(strings[2], "UTF-8")+
+                        "&"+URLEncoder.encode("billRecipient", "UTF-8")+"="+URLEncoder.encode(strings[3], "UTF-8")+
+                        "&"+URLEncoder.encode("billRecipientBankAccount", "UTF-8")+"="+URLEncoder.encode(strings[4], "UTF-8")+
+                        "&"+URLEncoder.encode("billTransferTitle", "UTF-8")+"="+URLEncoder.encode(strings[5], "UTF-8")+
+                        "&"+URLEncoder.encode("billAmount", "UTF-8")+"="+URLEncoder.encode(strings[6], "UTF-8")+
+                        "&"+URLEncoder.encode("billDesc", "UTF-8")+"="+URLEncoder.encode(strings[7], "UTF-8")+
+                        "&"+URLEncoder.encode("billDeadline", "UTF-8")+"="+URLEncoder.encode(strings[8], "UTF-8");
                 System.out.println(insert_data);
                 bufferWriter.write(insert_data);
                 bufferWriter.flush();
@@ -80,16 +84,15 @@ public class RemoveItemBackgroundTask extends AsyncTask<String, String, String>{
         super.onPreExecute();
     }
 
-    @SuppressLint("ResourceType")
     @Override
     protected void onPostExecute(String s) {
+        listener = (AddBillBackgroundTaskListener) context;
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
-        listener = (RemoveItemBackgroundTaskListener) context;
-
-        if(s.equals("item removed successfully"))
-            listener.removeListFromUI(viewHolder);
-        else
-            listener.restoreListsFromDb();
-
+        Log.d("AddBillBackgroundTask: ","resultMsg: "+s);
+        if(s.equals("bill added successfully\n"))
+            listener.refreshListOfItems();
+        //TODO:
+        //if connections problem, print "No connection. Try again later."
+        //if problem with posting items (seldom instance), print "Error occured during posting your task"
     }
 }

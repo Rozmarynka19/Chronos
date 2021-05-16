@@ -37,7 +37,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 
     private boolean isAddNewItemButtonClicked = false;
 
-    private final static int NEW_TASK = 1;
+    private final static int NEW_TASK = 1, NEW_BILL = 2;
 
     private View itemListRelativeView;
 
@@ -77,7 +77,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 
                 Intent details = new Intent(v.getContext(), AddBillActivity.class);
                 details.putExtra("listid",listID);
-                startActivityForResult(details,NEW_TASK);
+                startActivityForResult(details,NEW_BILL);
             }
         });
 
@@ -253,6 +253,8 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == NEW_TASK && resultCode == RESULT_OK)
+            getItemsFromDatabase();
+        else if(requestCode == NEW_BILL && resultCode == RESULT_OK)
             getItemsFromDatabase();
     }
 

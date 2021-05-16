@@ -91,12 +91,28 @@ public class GetItemsBackgroundTask extends AsyncTask<String, String, String>{
             int rows = Integer.parseInt(separatedOutput[0]);
 
             for(int i=0;i<rows*3;i+=3)
-                arrayOfItems.add(new Item(separatedOutput[i+2],
-                        separatedOutput[i+1],
-                        separatedOutput[i+3],
-                         context.getResources().getIdentifier("img_basketball",
-                                                                    "drawable",
-                                                                    context.getPackageName())));
+            {
+                if(separatedOutput[i + 3].equals(ItemTypes.Task.toString()))
+                {
+                    //TODO: set appropriate bg for TASK (piority)
+                    arrayOfItems.add(new Item(separatedOutput[i+2],
+                            separatedOutput[i+1],
+                            separatedOutput[i+3],
+                            context.getResources().getIdentifier("img_basketball",
+                                    "drawable",
+                                    context.getPackageName())));
+                }
+                else if(separatedOutput[i + 3].equals(ItemTypes.Bill.toString()))
+                {
+                    //TODO: set appropriate bg for BILL
+                    arrayOfItems.add(new Item(separatedOutput[i+2],
+                            separatedOutput[i+1],
+                            separatedOutput[i+3],
+                            context.getResources().getIdentifier("img_basketball",
+                                    "drawable",
+                                    context.getPackageName())));
+                }
+            }
         }
         listener.getLists(arrayOfItems);
     }

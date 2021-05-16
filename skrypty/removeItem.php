@@ -17,6 +17,12 @@ if($_POST){
 			//echo("error in removing from tasks_list");
 			throw new \mysqli_sql_exception("exception msg");
 		}	
+
+		$query="DELETE FROM bills_list WHERE Item_ID = ".$itemid;
+		if(!mysqli_query($conn, $query)){
+			//echo("error in removing from tasks_list");
+			throw new \mysqli_sql_exception("exception msg");
+		}	
 		
 		$query="DELETE FROM items_list WHERE Item_ID = ".$itemid;
 		if(!mysqli_query($conn, $query)){
@@ -25,7 +31,7 @@ if($_POST){
 		}	
 	
 		$conn->commit();
-		echo("task removed successfully");
+		echo("item removed successfully");
 	} catch(mysqli_sql_exception $exception)
 	{
 		echo("error occured!");
