@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.chronosapp">
 
+    <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +16,8 @@
         android:theme="@style/Theme.ChronosApp"
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.itemList.AddTaskActivity"></activity>
+        <activity android:name=".ui.itemList.AddBillActivity"></activity>
+        <activity android:name=".ui.itemList.ScannerQR"></activity>
         <activity
             android:name=".login.RegisterUser"
             android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>

@@ -1,4 +1,4 @@
-package com.example.cronos;
+package com.example.chronosapp.ui.itemList;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,16 +6,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.example.chronosapp.R;
 import com.google.zxing.Result;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class ScannerQR extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan);
+        setContentView(R.layout.activity_scan_qr);
         textView = findViewById(R.id.textView);
         scannerView = findViewById(R.id.scanner_view);
         if(scannerView==null)
@@ -49,8 +51,13 @@ public class ScannerQR extends AppCompatActivity {
                     @Override
                     public void run() {
                         textView.setText(result.getText());
-//                        Toast.makeText(context, result.getText(), Toast.LENGTH_SHORT).show();
+                        String codedData = result.getText();
+                        Intent intent = new Intent();
+                        intent.putExtra("codedData",codedData);
+                        setResult(RESULT_OK,intent);
+                        mCodeScanner.stopPreview();
                         mCodeScanner.releaseResources();
+                        ((Activity)context).finish();
                     }
                 });
             }

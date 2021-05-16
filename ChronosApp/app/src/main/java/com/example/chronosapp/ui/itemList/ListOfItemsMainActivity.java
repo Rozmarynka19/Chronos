@@ -74,6 +74,10 @@ public class ListOfItemsMainActivity extends AppCompatActivity
             public void onClick(View v) {
                 onAddNewItemFabClicked();
                 Toast.makeText(v.getContext(), "addNewBillButton",Toast.LENGTH_SHORT).show();
+
+                Intent details = new Intent(v.getContext(), AddBillActivity.class);
+                details.putExtra("listid",listID);
+                startActivityForResult(details,NEW_TASK);
             }
         });
 
