@@ -39,6 +39,12 @@
     <string name="subtitle_placeholder">Subtitle</string>
     <string name="description_placeholder">Description placeholder</string>
     <string name="nav_about_us"><font fgcolor='#FFFFFF'>About us</font></string>
+    <string name="add_new_list_dialog_edittext_hint">Enter list name</string>
+    <string name="addNewTaskButtonText">new Task</string>
+    <string name="addNewBillButtonText">new Bill</string>
+    <string name="restart_password">Please enter your email to restart your password.</string>
+    <string name="welcome_msg">Let\'s start the adventure together!</string>
+    <string name="empty_login">Login</string>
 
     <string-array name="listItemTitles">
         <item>Baseball</item>
@@ -82,4 +88,30 @@
         <item>@drawable/img_tabletennis</item>
         <item>@drawable/img_tennis</item>
     </array>
+
+    <string name="add">Add+</string>
+    <string name="zadanie1">zadanie3</string>
+    <string name="zadanie2">zadanie3</string>
+    <string name="zadanie3">zadanie3</string>
+    <string name="Lista1">Lista1</string>
+    <string name="Lista2">Lista2</string>
+    <string name="Lista3">Lista3</string>
+    <string name="add_event">add event</string>
+    <string name="creating_a_new_task">Creating a new task</string>
+    <string name="creating_task">Creating task</string>
+    <string name="godzina">Godzina</string>
+    <string name="malo_istotny">Mało istotny</string>
+    <string name="najwazniejszy">Najważniejszy</string>
+    <string name="data">Data</string>
+    <string name="tworzenie_zadania">Tworzenie zadania</string>
+    <string name="prorytet_zadania">Prorytet zadania:</string>
+    <string name="nazwa_zadania">"Nazwa zadania"</string>
+    <string name="normalny">Normalny</string>
+    <string name="stworz">Stwórz</string>
+    <string name="zadania_domowe">Zadania Domowe</string>
+    <string name="oplaty">Opłaty</string>
+    <string name="prace_domowe">Prace domowe</string>
+    <string name="dd_mm_yyyy">dd.mm.yyyy</string>
+    <string name="hh_mm">hh:mm</string>
+    <string name="addItemTaskDesc">Opis zadania</string>
 </resources>

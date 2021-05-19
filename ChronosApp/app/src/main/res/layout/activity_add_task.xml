@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Taski"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <LinearLayout
+        android:id="@+id/listToCreateTask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/addItemHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/tworzenie_zadania"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/nameOfTaskEditText"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:hint="@string/nazwa_zadania"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF" />
+
+        <EditText
+            android:id="@+id/taskDescriptionEditText"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textNoSuggestions"
+            android:hint="@string/addItemTaskDesc"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/data"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/taskDateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:gravity="center"
+            android:hint="@string/dd_mm_yyyy"
+            android:inputType="date"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/godzina"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/taskTimeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:inputType="time"
+            android:gravity="center"
+            android:hint="@string/hh_mm"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/prorytet_zadania"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupPriority"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:textSize="18sp"
+                android:id="@+id/radioHighPriority"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="@string/najwazniejszy"
+                android:textColor="#FF0000"
+                android:onClick="onRadioButtonClicked"
+                />
+
+            <RadioButton
+                android:textSize="18sp"
+                android:id="@+id/radioNormalPriority"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="@string/normalny"
+                android:textColor="#FFD500"
+                android:onClick="onRadioButtonClicked"
+                />
+
+            <RadioButton
+                android:textSize="18sp"
+                android:id="@+id/radioLowPriority"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="@string/malo_istotny"
+                android:textColor="#2BFF00"
+                android:onClick="onRadioButtonClicked"
+                />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/sendNewTaskToDbButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="sendNewTaskToDb"
+            android:text="@string/stworz" />
+    </LinearLayout>
+</RelativeLayout>

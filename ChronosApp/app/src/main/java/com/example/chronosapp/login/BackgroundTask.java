@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.example.chronosapp.Common;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -31,7 +33,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
         String type = strings[0];
-        String serverAdress = "http://192.168.8.105/Example/";//"http://192.168.8.105/Example/";
+        String serverAdress = Common.getDbAddress();
+
         String loginUrl = serverAdress + "login.php";
         String regUrl = serverAdress + "register.php";
         if(type.equals("reg")){
@@ -76,6 +79,7 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         int duration = Toast.LENGTH_SHORT;
 
         Toast toast = Toast.makeText(context, s, duration);
+
         toast.show();
 
         //Saving user data to sharedPreferences to be able to recognize who's who
@@ -89,9 +93,10 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         {
             SharedPreferences sharedPreferences = context.getSharedPreferences("userDataSharedPref",MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("login",separatedOutput[2]);
-            editor.putString("email",separatedOutput[3]);
-            editor.putString("phone",separatedOutput[4]);
+            editor.putString("userid",separatedOutput[2]);
+            editor.putString("login",separatedOutput[3]);
+            editor.putString("email",separatedOutput[4]);
+            editor.putString("phone",separatedOutput[5]);
             editor.apply();
             context.startActivity(new Intent(context, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             if(context instanceof Activity)

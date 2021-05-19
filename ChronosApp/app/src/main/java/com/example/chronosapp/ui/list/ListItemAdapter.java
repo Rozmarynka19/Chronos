@@ -17,6 +17,7 @@
 package com.example.chronosapp.ui.list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.chronosapp.R;
+import com.example.chronosapp.ui.itemList.ListOfItemsMainActivity;
 
 import java.util.ArrayList;
 
@@ -92,6 +94,16 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
         return mListItemData.size();
     }
 
+    /**
+     * Setting current lists
+     *
+     * @param lists  Array of current lists.
+     */
+    public void setListItemData(ArrayList<ListItem> lists){
+        mListItemData = lists;
+        this.notifyDataSetChanged();
+    }
+
 
     /**
      * ViewHolder class that represents each row of data in the RecyclerView.
@@ -101,7 +113,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
 
         // Member Variables for the TextViews
         private TextView mTitleText;
-        private TextView mDescriptionText;
+//        private TextView mDescriptionText;
         private ImageView mSportsImage;
 
         /**
@@ -114,7 +126,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
 
             // Initialize the views.
             mTitleText = itemView.findViewById(R.id.titleOnBackground);
-            mDescriptionText = itemView.findViewById(R.id.listDescription);
+//            mDescriptionText = itemView.findViewById(R.id.listDescription);
             mSportsImage = itemView.findViewById(R.id.backgroundImage);
 
             // Set the OnClickListener to the entire view.
@@ -124,7 +136,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
         void bindTo(ListItem currentListItem){
             // Populate the textviews with data.
             mTitleText.setText(currentListItem.getTitle());
-            mDescriptionText.setText(currentListItem.getDescription());
+//            mDescriptionText.setText(currentListItem.getDescription());
 
             // Load the images into the ImageView using the Glide library.
             Glide.with(mContext).load(
@@ -138,12 +150,15 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
          */
         @Override
         public void onClick(View view) {
-//            ListItem currentListItem = mListItemData.get(getAdapterPosition());
+            ListItem currentListItem = mListItemData.get(getAdapterPosition());
 //            Intent detailIntent = new Intent(mContext, DetailActivity.class);
 //            detailIntent.putExtra("title", currentListItem.getTitle());
 //            detailIntent.putExtra("image_resource",
 //                    currentListItem.getImageResource());
 //            mContext.startActivity(detailIntent);
+            Intent details = new Intent(mContext, ListOfItemsMainActivity.class);
+            details.putExtra("listid",currentListItem.getListID());
+            mContext.startActivity(details);
         }
     }
 }
