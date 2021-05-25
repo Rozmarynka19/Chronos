@@ -9,7 +9,8 @@
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
     android:paddingTop="64dp"
-    tools:context=".ui.list.ListFragment">
+    tools:context=".ui.list.ListFragment"
+    android:background="@drawable/light_bar">
 
 <!--    <TextView-->
 <!--        android:id="@+id/text_list"-->

@@ -48,7 +48,6 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
     private Switch menu_notifications_switch;
 
     private GoogleSignInClient mGoogleSignInClient;
-
     private Boolean menu_notifications_switch_status;
 
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -59,8 +58,6 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_main);
-
-
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()

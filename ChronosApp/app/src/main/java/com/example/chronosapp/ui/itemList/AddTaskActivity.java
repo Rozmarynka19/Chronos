@@ -23,7 +23,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_task);
+        setContentView(R.layout.activity_add_task_layout);
 
         Intent details = getIntent();
         listID =  details.getStringExtra("listid");

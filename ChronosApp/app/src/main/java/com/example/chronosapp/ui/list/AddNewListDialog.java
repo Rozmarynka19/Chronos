@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,8 @@ public class AddNewListDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.add_new_list_dialog, null);
 
+
+        view.setDrawingCacheBackgroundColor(R.drawable.light_bar);
         builder.setView(view)
                 .setTitle("Add new list")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
