@@ -28,7 +28,6 @@ public class AddNewListDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.add_new_list_dialog, null);
 
-
         view.setDrawingCacheBackgroundColor(R.drawable.light_bar);
         builder.setView(view)
                 .setTitle("Add new list")

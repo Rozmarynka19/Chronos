@@ -294,6 +294,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:textAlignment="center"
                         android:background="#106e29"
+                        android:checked="true"
                         android:layout_margin="2dp"/>
 
                     <RadioButton
@@ -339,6 +340,8 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:background="@drawable/medium_bar"
+        android:shadowRadius="10.0"
+        android:shadowColor="@color/white"
         >
         <LinearLayout
             android:layout_width="match_parent"
