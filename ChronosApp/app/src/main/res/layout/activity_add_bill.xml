@@ -125,6 +125,7 @@
                 android:layout_height="53dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
+                android:drawableEnd="@drawable/description_ico_32"
                 android:backgroundTint="@color/dark_blue"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
@@ -146,6 +147,7 @@
                 android:layout_marginStart="32dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
+                android:drawableEnd="@drawable/ic_name_32"
                 android:backgroundTint="@color/dark_blue"
                 android:layout_marginEnd="32dp"
                 android:hint="Your partner's name."/>
@@ -164,6 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
                 android:layout_marginStart="32dp"
+                android:drawableEnd="@drawable/ic_account_32"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:backgroundTint="@color/dark_blue"
@@ -187,6 +190,7 @@
                 android:layout_marginEnd="32dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
+                android:drawableEnd="@drawable/ic_payment_32"
                 android:backgroundTint="@color/dark_blue"
                 android:hint="Enter here payment title."/>
 
@@ -208,6 +212,7 @@
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:backgroundTint="@color/dark_blue"
+                android:drawableEnd="@drawable/ic_money_32"
                 android:inputType="numberDecimal"
                 android:hint="Money you want to transfer."/>
 
@@ -226,10 +231,11 @@
                 android:layout_height="53dp"
                 android:layout_marginStart="32dp"
                 android:textColor="@color/white"
+                android:drawableEnd="@drawable/ic_desc_32"
                 android:textColorHint="@color/white"
                 android:backgroundTint="@color/dark_blue"
                 android:layout_marginEnd="32dp"
-                android:hint="Description of payment for yourself."/>
+                android:hint="Description of payment."/>
 
             <TextView
                 android:id="@+id/paymentDeadline"
@@ -248,6 +254,7 @@
                 android:layout_marginStart="32dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
+                android:drawableEnd="@drawable/calendar_ico_32"
                 android:backgroundTint="@color/dark_blue"
                 android:layout_marginEnd="32dp"
                 android:hint="Enter here your payment's deadline."/>
