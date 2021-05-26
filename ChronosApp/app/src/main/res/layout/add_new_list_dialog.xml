@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/medium_bar"
     >
 
     <EditText
@@ -17,6 +16,7 @@
         android:inputType="textNoSuggestions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:drawableEnd="@drawable/description_ico_32"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/light_bar"
         android:textColor="@color/white"

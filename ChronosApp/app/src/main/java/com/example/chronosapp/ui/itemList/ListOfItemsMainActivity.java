@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -34,7 +35,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 
     private FloatingActionButton addNewItemFab;
     private Button addNewTaskButton, addNewBillButton;
-
+    private LinearLayout bckArrow;
     private boolean isAddNewItemButtonClicked = false;
 
     private final static int NEW_TASK = 1, NEW_BILL = 2;
@@ -51,6 +52,14 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         listID =  details.getStringExtra("listid");
 //        Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
 
+
+        bckArrow = findViewById(R.id.go_back);
+        bckArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim);
         fromBottom = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim);

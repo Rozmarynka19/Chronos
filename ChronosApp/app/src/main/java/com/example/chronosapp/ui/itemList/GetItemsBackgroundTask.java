@@ -98,7 +98,7 @@ public class GetItemsBackgroundTask extends AsyncTask<String, String, String>{
                     arrayOfItems.add(new Item(separatedOutput[i+2],
                             separatedOutput[i+1],
                             separatedOutput[i+3],
-                            context.getResources().getIdentifier("img_basketball",
+                            context.getResources().getIdentifier("ic_belka_low_test2",
                                     "drawable",
                                     context.getPackageName())));
                 }
@@ -108,7 +108,7 @@ public class GetItemsBackgroundTask extends AsyncTask<String, String, String>{
                     arrayOfItems.add(new Item(separatedOutput[i+2],
                             separatedOutput[i+1],
                             separatedOutput[i+3],
-                            context.getResources().getIdentifier("img_basketball",
+                            context.getResources().getIdentifier("ic_belka_low_test2",
                                     "drawable",
                                     context.getPackageName())));
                 }

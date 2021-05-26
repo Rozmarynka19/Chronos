@@ -24,23 +24,29 @@ public class AddNewListDialog extends AppCompatDialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder((getActivity()));
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), AlertDialog.THEME_HOLO_DARK);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.add_new_list_dialog, null);
 
         view.setDrawingCacheBackgroundColor(R.drawable.light_bar);
         builder.setView(view)
                 .setTitle("Add new list")
-                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 })
-                .setPositiveButton("create", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String newListName = newListNameEditText.getText().toString();
+                        String newListName = newListNameEditText.getText().toString().trim();
+
+                        if (newListName.isEmpty()){
+
+                            return;
+                        }
+
                         addNewListDialogListener.addNewList(newListName);
                     }
                 });

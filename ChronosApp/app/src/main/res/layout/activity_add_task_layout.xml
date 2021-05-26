@@ -44,10 +44,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:textSize="26sp"
+                android:textSize="24sp"
                 android:text="Create tasks"
                 android:layout_gravity="center"
-                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="@color/white"/>
         </LinearLayout>
@@ -334,6 +333,12 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:layout_marginTop="5sp"
+        android:background="#000000"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

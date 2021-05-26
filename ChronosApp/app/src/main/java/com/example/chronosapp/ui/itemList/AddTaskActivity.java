@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -34,6 +35,8 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 
     private EditText timeField;
     private EditText dateField;
+
+    private LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,14 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         initTimePicker();
         taskNameEditText = findViewById(R.id.nameOfTaskEditText);
         taskDescriptionEditText = findViewById(R.id.taskDescriptionEditText);
+
+        linearLayout = findViewById(R.id.go_back);
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         timeField = findViewById(R.id.taskTimeEditText);
         timeField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
