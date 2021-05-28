@@ -16,6 +16,7 @@
         android:theme="@style/Theme.ChronosApp"
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.itemList.AddTaskActivity"></activity>
+        <activity android:name=".ui.itemList.EditTaskActivity"></activity>
         <activity android:name=".ui.itemList.AddBillActivity"></activity>
         <activity android:name=".ui.itemList.ScannerQR"></activity>
         <activity

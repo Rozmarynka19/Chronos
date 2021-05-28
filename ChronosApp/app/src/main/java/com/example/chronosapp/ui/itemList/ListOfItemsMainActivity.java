@@ -37,7 +37,8 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 
     private boolean isAddNewItemButtonClicked = false;
 
-    private final static int NEW_TASK = 1, NEW_BILL = 2;
+    public final static int NEW_TASK = 1, NEW_BILL = 2,
+                            EDIT_TASK = 3, EDIT_BILL = 4;
 
     private View itemListRelativeView;
 
@@ -92,7 +93,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         mRecyclerView = findViewById(R.id.itemListRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mItemArrayList = new ArrayList<>();
-        itemAdapter = new ItemAdapter(this, mItemArrayList);
+        itemAdapter = new ItemAdapter(this, mItemArrayList, Integer.parseInt(listID));
         mRecyclerView.setAdapter(itemAdapter);
 
 //        @SuppressLint("WrongConstant")
@@ -255,6 +256,10 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         if(requestCode == NEW_TASK && resultCode == RESULT_OK)
             getItemsFromDatabase();
         else if(requestCode == NEW_BILL && resultCode == RESULT_OK)
+            getItemsFromDatabase();
+        else if(requestCode == EDIT_TASK && resultCode == RESULT_OK)
+            getItemsFromDatabase();
+        else if(requestCode == EDIT_BILL && resultCode == RESULT_OK)
             getItemsFromDatabase();
     }
 

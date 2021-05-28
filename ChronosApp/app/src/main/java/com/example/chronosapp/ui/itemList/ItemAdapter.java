@@ -16,7 +16,9 @@
 
 package com.example.chronosapp.ui.itemList;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     // Member variables.
     private ArrayList<Item> itemArrayList;
     private Context mContext;
+    private int listId;
 
     /**
      * Constructor that passes in the list item data and the context.
@@ -45,9 +48,10 @@ class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
      * @param itemArrayList ArrayList containing the list item data.
      * @param context Context of the application.
      */
-    ItemAdapter(Context context, ArrayList<Item> itemArrayList) {
+    ItemAdapter(Context context, ArrayList<Item> itemArrayList, int listId) {
         this.itemArrayList = itemArrayList;
         this.mContext = context;
+        this.listId = listId;
     }
 
 
@@ -149,7 +153,21 @@ class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             //TODO: edit mode depending on item type (task or bill)
-//            ListItem currentListItem = mListItemData.get(getAdapterPosition());
+            Item currentItem = itemArrayList.get(getAdapterPosition());
+
+            if(currentItem.getType().equals(ItemTypes.Task.toString()))
+            {
+                //TODO: update Task
+                Intent details = new Intent(mContext, EditTaskActivity.class);
+                details.putExtra("itemid",currentItem.getItemID());
+                details.putExtra("itemName",currentItem.getTitle());
+                ((Activity)mContext).startActivityForResult(details,ListOfItemsMainActivity.EDIT_TASK);
+            }
+            else if(currentItem.getType().equals(ItemTypes.Bill.toString()))
+            {
+                //TODO: update Bill
+            }
+
 //            Intent detailIntent = new Intent(mContext, DetailActivity.class);
 //            detailIntent.putExtra("title", currentListItem.getTitle());
 //            detailIntent.putExtra("image_resource",
