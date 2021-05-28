@@ -16,14 +16,19 @@
 
 package com.example.chronosapp.ui.list;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -104,17 +109,31 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
         this.notifyDataSetChanged();
     }
 
+    public String getTitleByListId(int listId)
+    {
+        Log.d("getTitleByListId - arg: listId",String.valueOf(listId));
+        for(ListItem mList : mListItemData)
+        {
+            Log.d("getTitleByListId","listId: "+mList.getListID()+", title: "+mList.getTitle());
+            if(mList.getListID().equals(String.valueOf(listId)))
+                return mList.getTitle();
+        }
+
+        return null;
+    }
+
 
     /**
      * ViewHolder class that represents each row of data in the RecyclerView.
      */
     class ViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener{
+            implements View.OnClickListener, View.OnCreateContextMenuListener{
 
         // Member Variables for the TextViews
         private TextView mTitleText;
 //        private TextView mDescriptionText;
         private ImageView mSportsImage;
+        private CardView mCardView;
 
         /**
          * Constructor for the ViewHolder, used in onCreateViewHolder().
@@ -128,6 +147,9 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
             mTitleText = itemView.findViewById(R.id.titleOnBackground);
 //            mDescriptionText = itemView.findViewById(R.id.listDescription);
             mSportsImage = itemView.findViewById(R.id.backgroundImage);
+            mCardView = itemView.findViewById(R.id.cardView);
+            mCardView.setOnCreateContextMenuListener(this);
+
 
             // Set the OnClickListener to the entire view.
             itemView.setOnClickListener(this);
@@ -159,6 +181,13 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
             Intent details = new Intent(mContext, ListOfItemsMainActivity.class);
             details.putExtra("listid",currentListItem.getListID());
             mContext.startActivity(details);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle(mTitleText.getText());
+            String currentListId = mListItemData.get(getAdapterPosition()).getListID();
+            menu.add(Integer.parseInt(currentListId), 1, 100, "Rename the list");
         }
     }
 }
