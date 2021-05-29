@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
     private String itemID, taskName, taskDescription, priority ="";
     private EditText taskNameEditText, taskDescriptionEditText;
     private RadioButton radioHighPriority, radioNormalPriority, radioLowPriority;
+    private Button editTaskButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,8 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
 
         taskNameEditText = findViewById(R.id.nameOfTaskEditText);
         taskDescriptionEditText = findViewById(R.id.taskDescriptionEditText);
+        editTaskButton = findViewById(R.id.sendNewTaskToDbButton);
+        editTaskButton.setText("Edit Task");
 
         radioHighPriority = findViewById(R.id.radioHighPriority);
         radioNormalPriority = findViewById(R.id.radioNormalPriority);

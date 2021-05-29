@@ -18,6 +18,7 @@
         <activity android:name=".ui.itemList.AddTaskActivity"></activity>
         <activity android:name=".ui.itemList.EditTaskActivity"></activity>
         <activity android:name=".ui.itemList.AddBillActivity"></activity>
+        <activity android:name=".ui.itemList.EditBillActivity"></activity>
         <activity android:name=".ui.itemList.ScannerQR"></activity>
         <activity
             android:name=".login.RegisterUser"

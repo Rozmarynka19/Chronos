@@ -166,6 +166,10 @@ class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             else if(currentItem.getType().equals(ItemTypes.Bill.toString()))
             {
                 //TODO: update Bill
+                Intent details = new Intent(mContext, EditBillActivity.class);
+                details.putExtra("itemid",currentItem.getItemID());
+                details.putExtra("itemName",currentItem.getTitle());
+                ((Activity)mContext).startActivityForResult(details,ListOfItemsMainActivity.EDIT_BILL);
             }
 
 //            Intent detailIntent = new Intent(mContext, DetailActivity.class);
