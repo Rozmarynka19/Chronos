@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.example.chronosapp.Common;
+import com.example.chronosapp.login.DataBaseHelper;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -28,41 +29,15 @@ public class AddListBackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
         String plainURL = Common.getDbAddress()+"addList.php";
-        String userid = strings[0], listname = strings[1];
+        //String userid = strings[0], listname = strings[1];
 
+        String [] params = {"userid", "listname"};
+        String [] paramsValues = {strings[0],  strings[1]};
         try{
             URL url = new URL(plainURL);
-            try {
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
-                BufferedWriter bufferWriter = new BufferedWriter(outputStreamWriter);
-                String insert_data = URLEncoder.encode("userid", "UTF-8") +"="+URLEncoder.encode(userid, "UTF-8")+
-                        "&"+URLEncoder.encode("listname", "UTF-8")+"="+URLEncoder.encode(listname, "UTF-8");
-                System.out.println(insert_data);
-                bufferWriter.write(insert_data);
-                bufferWriter.flush();
-                bufferWriter.close();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "ISO-8859-1");
-                BufferedReader bufferReader = new BufferedReader(inputStreamReader);
-                String result= "";
-                String line = "";
-                StringBuilder stringBuilder = new StringBuilder();
-                while((line=bufferReader.readLine())!=null){
-                    stringBuilder.append(line).append("\n");
-                }
-                result=stringBuilder.toString();
-                bufferReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return result;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String result = DataBaseHelper.postProcedure(url, params, paramsValues);
+            return result;
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

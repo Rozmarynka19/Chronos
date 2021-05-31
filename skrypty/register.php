@@ -13,7 +13,7 @@ if($_POST){
 	if(isset($_POST['email'])){ $email=$_POST['email']; }
 	if(isset($_POST['phone'])){ $phone=$_POST['phone']; }
 	$crypted = password_hash($pass, PASSWORD_DEFAULT);
-	$query="INSERT INTO registered_users (User_Name, User_Password, User_Email, User_Phone) VALUES ('$login', '$crypted', '$email',  '$phone')";
+	$query="INSERT INTO registered_users (User_Name, User_Password, User_Email, User_Phone, Is_Verified) VALUES ('$login', '$crypted', '$email',  '$phone', '0')";
 	if(mysqli_query($conn, $query)){
 		echo("\nregistered succesfully");
 		$query = "SELECT * FROM registered_users WHERE `User_Name`='" . $login . "'";

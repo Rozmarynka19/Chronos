@@ -15,17 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChronosApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.itemList.AddTaskActivity"></activity>
-        <activity android:name=".ui.itemList.AddBillActivity"></activity>
-        <activity android:name=".ui.itemList.ScannerQR"></activity>
+        <activity android:name=".login.VerifyActivity"></activity>
+        <activity android:name=".ui.itemList.AddTaskActivity" />
+        <activity android:name=".ui.itemList.AddBillActivity" />
+        <activity android:name=".ui.itemList.ScannerQR" />
         <activity
             android:name=".login.RegisterUser"
-            android:theme="@style/Theme.ChronosApp.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>
         <activity
             android:name=".login.RestartPassword"
-            android:theme="@style/Theme.ChronosApp.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>
         <activity
             android:name=".login.MainLoginActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar">
@@ -37,10 +36,10 @@
         </activity>
         <activity
             android:name=".MainMainActivity"
-            android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>
+            android:theme="@style/Theme.ChronosApp.NoActionBar" />
         <activity
             android:name=".ui.itemList.ListOfItemsMainActivity"
-            android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>
+            android:theme="@style/Theme.ChronosApp.NoActionBar" />
     </application>
 
 </manifest>

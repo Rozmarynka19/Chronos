@@ -31,7 +31,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.shobhitpuri.custombuttons.GoogleSignInButton;
+
 
 public class MainLoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -44,7 +44,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 
     private Boolean isPasswordShown = false;
 //    private SignInButton signInButton;
-    private GoogleSignInButton signInButton;
+//    private GoogleSignInButton signInButton;
     private GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
 
@@ -75,7 +75,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 //        SignInButton signInButton = findViewById(R.id.sign_in_button);
 //        signInButton.setSize(SignInButton.SIZE_WIDE);
 
-        GoogleSignInButton signInButton = findViewById(R.id.sign_in_button);
+//        GoogleSignInButton signInButton = findViewById(R.id.sign_in_button);
 //        signInButton.setSize(SignInButton.SIZE_WIDE);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -96,7 +96,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             this.finish();
         }
 
-        signInButton = findViewById(R.id.sign_in_button);
+//        signInButton = findViewById(R.id.sign_in_button);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
         editTextLogin = (EditText) findViewById(R.id.login);
@@ -132,6 +132,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 this.finish();
                 break;
             case R.id.signIn:
+                //this.startActivity(new Intent(this, com.example.chronosapp.login.VerifyActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 login();
                 break;
             case R.id.forgotPassword:
@@ -212,12 +213,15 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             //updateUI(account);
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
-                String personName = acct.getDisplayName();
-                String personGivenName = acct.getGivenName();
-                String personFamilyName = acct.getFamilyName();
-                String personEmail = acct.getEmail();
-                String personId = acct.getId();
-                Uri personPhoto = acct.getPhotoUrl();
+
+
+
+
+                String type = "GsignUp";
+                BackgroundTask backgroundTask = new BackgroundTask(this);
+                backgroundTask.execute(type, acct.getGivenName(), acct.getEmail());
+                //com.example.chronosapp.login.BackgroundTask backgroundTask = new com.example.chronosapp.login.BackgroundTask(this);
+                //backgroundTask.execute(type, acct.getGivenName(), acct.getEmail());
 
                 SharedPreferences sharedPreferences = this.getSharedPreferences("userDataSharedPref",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -225,6 +229,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 editor.putString("email",acct.getEmail());
                 editor.putString("phone","");
                 editor.apply();
+
                 this.startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
                 /*System.out.println("dane z google: " + personName + " " + personEmail);
