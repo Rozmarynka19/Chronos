@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.chronosapp">
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ChronosApp"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.itemList.AddTaskActivity" />
+        <activity android:name=".ui.itemList.AddBillActivity" />
+        <activity android:name=".ui.itemList.ScannerQR" />
+        <activity android:name=".ui.itemList.ScannerOCR" />
+        <activity
+            android:name=".login.RegisterUser"
+            android:theme="@style/Theme.ChronosApp.NoActionBar">
+        </activity>
+        <activity
+            android:name=".login.RestartPassword"
+            android:theme="@style/Theme.ChronosApp.NoActionBar">
+        </activity>
+        <activity
+            android:name=".login.MainLoginActivity"
+            android:theme="@style/Theme.ChronosApp.NoActionBar">
+            <meta-data
+                android:name="com.google.mlkit.vision.DEPENDENCIES"
+                android:value="ocr"
+                />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainMainActivity"
+            android:theme="@style/Theme.ChronosApp.NoActionBar" />
+        <activity
+            android:name=".ui.itemList.ListOfItemsMainActivity"
+            android:theme="@style/Theme.ChronosApp.NoActionBar" />
+    </application>
+
+</manifest>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/scanQRCode_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:onClick="onClickScanQR"
+        android:text="Scan (QR Code)"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/scanByOCR_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="Scan (OCR)"
+        android:onClick="onClickScanOCR"
+        app:layout_constraintBaseline_toBaselineOf="@+id/scanQRCode_button"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/scanQRCode_button"
+        app:layout_constraintBottom_toTopOf="@id/addBillButton">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/billName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:text="Bill name"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/billNameEdit"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="It will be displayed on the list."/>
+
+            <TextView
+                android:id="@+id/reciverName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:text="Receiver Name"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reciverNameEdit"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="Your partner's name."/>
+
+            <TextView
+                android:id="@+id/bankAccountNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Bank account number"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bankAccountNumberEdit"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="Your partner's bank account no."/>
+
+            <TextView
+                android:id="@+id/paymentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Payment title"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/paymentTitleEdit"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="Enter here payment title."/>
+
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Amount"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amountEdit"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:inputType="numberDecimal"
+                android:hint="Money you want to transfer."/>
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Description"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descriptionEdit"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="Description of payment for yourself."/>
+
+            <TextView
+                android:id="@+id/paymentDeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:text="Payment deadline"/>
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/paymentDeadlineEdit"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="Enter here your payment's deadline."/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <Button
+        android:id="@+id/addBillButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:text="Add bill"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints"
+        android:onClick="sendNewBillToDb"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
