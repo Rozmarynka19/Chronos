@@ -164,6 +164,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
         for(int i=0;i<separatedOutput.length;i++)
             System.out.println("i="+String.valueOf(i)+separatedOutput[i]);
 
+
+
         if(separatedOutput[0].equals("connection sucess") &&
                 (separatedOutput[1].equals("registered succesfully") || separatedOutput[1].equals("login sucesfull")))
         {

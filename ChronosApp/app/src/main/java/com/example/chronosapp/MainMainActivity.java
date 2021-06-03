@@ -77,6 +77,8 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
             sharedPhone = sharedPreferences.getString("phone","");
         }
 
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -201,7 +203,6 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-
         menu_notifications_switch_status = sharedPreferences.getBoolean(MENU_NOTIFICATIONS_SWITCH, false);
     }
 

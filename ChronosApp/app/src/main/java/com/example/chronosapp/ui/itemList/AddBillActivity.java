@@ -4,13 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.chronosapp.R;
+import com.google.android.gms.common.util.NumberUtils;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.zxing.common.StringUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class AddBillActivity extends AppCompatActivity implements AddBillBackgroundTaskListener {
@@ -54,39 +60,68 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == SCAN_QR && resultCode == RESULT_OK)
-        {
+        if (requestCode == SCAN_QR && resultCode == RESULT_OK) {
             String codedData = data.getStringExtra("codedData");
 
-            if(codedData == null)
+            if (codedData == null)
                 return;
 
             String[] splittedCodedData = codedData.split("\\|");
-            if(splittedCodedData.length == 1)
-            {
-                Toast.makeText(this,"Unrecognized format",Toast.LENGTH_LONG).show();
+            if (splittedCodedData.length == 1) {
+                Toast.makeText(this, "Unrecognized format", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(!splittedCodedData[2].equals("")) bankAccountNumberEdit.setText(splittedCodedData[2]);
-            if(!splittedCodedData[3].equals(""))
-            {
+            if (!splittedCodedData[2].equals(""))
+                bankAccountNumberEdit.setText(splittedCodedData[2]);
+            if (!splittedCodedData[3].equals("")) {
                 String plainAmount = splittedCodedData[3];
                 int plainAmountLen = plainAmount.length();
-                String leftSideComma = plainAmount.substring(0,plainAmountLen-2);
-                String rightSideComma = plainAmount.substring(plainAmountLen-2,plainAmountLen);
-                String amount = leftSideComma+"."+rightSideComma;
+                String leftSideComma = plainAmount.substring(0, plainAmountLen - 2);
+                String rightSideComma = plainAmount.substring(plainAmountLen - 2, plainAmountLen);
+                String amount = leftSideComma + "." + rightSideComma;
                 amountEdit.setText(amount);
             }
-            if(!splittedCodedData[4].equals("")) receiverNameEdit.setText(splittedCodedData[4]);
-            if(!splittedCodedData[5].equals("")) paymentTitleEdit.setText(splittedCodedData[5]);
+            if (!splittedCodedData[4].equals("")) receiverNameEdit.setText(splittedCodedData[4]);
+            if (!splittedCodedData[5].equals("")) paymentTitleEdit.setText(splittedCodedData[5]);
         }
-
-        if(requestCode == SCAN_OCR && resultCode == RESULT_OK) {
+        else if (requestCode == SCAN_OCR && resultCode == RESULT_OK) {
             String codedData = data.getStringExtra("codedData");
-            if(codedData == null)
+            if (codedData == null) {
                 return;
+            }
 
 
+            String[] splittedCodedData = codedData.split("\n");
+
+            List<String> wordList = Arrays.asList(splittedCodedData);
+            Iterator<String> it = wordList.listIterator();
+
+            while(it.hasNext()) {
+                String currentLine = it.next();
+                System.out.println("CURRENT LINE: " + currentLine);
+                if (currentLine.equals("END")) {
+                    break;
+                }
+                switch (currentLine) {
+                    case "Nazwa odbiorcy":
+                        receiverNameEdit.setText(it.next());
+                        break;
+                    case "Na rachunek":
+                        bankAccountNumberEdit.setText(it.next());
+                        break;
+                    case "Kwota":
+                        amountEdit.setText(it.next());
+                        break;
+                    case "Tytuł przelewu":
+                        paymentTitleEdit.setText(it.next());
+                        break;
+                    case "Opis przelewu":
+                        descriptionEdit.setText(it.next());
+                        break;
+                    case "Data operacji":
+                        paymentDeadlineEdit.setText(it.next());
+                }
+            }
         }
     }
 

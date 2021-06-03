@@ -83,8 +83,10 @@ public class GetItemsBackgroundTask extends AsyncTask<String, String, String>{
         System.out.println(s);
 
         String[] separatedOutput = s.split("\n");
-        for(int i=0;i<separatedOutput.length;i++)
-            System.out.println("i="+String.valueOf(i)+" "+separatedOutput[i]);
+        for(int i=0;i<separatedOutput.length;i++) {
+
+        }
+            //System.out.println("i="+String.valueOf(i)+" "+separatedOutput[i]);
 
         if(!separatedOutput[0].equals("connection failed") && !separatedOutput[0].equals("error in request"))
         {

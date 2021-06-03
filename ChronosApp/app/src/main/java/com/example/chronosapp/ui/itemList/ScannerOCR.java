@@ -6,13 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,8 +29,6 @@ public class ScannerOCR extends AppCompatActivity {
 
     private CameraSource mCameraSource;
     private SurfaceView mSurfaceView;
-    private TextRecognizer mTextRecognizer;
-    private TextView mTextView;
     private Context context;
 
     private static final int RC_HANDLE_CAMERA_PERM = 2;
@@ -43,7 +38,6 @@ public class ScannerOCR extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_ocr);
 
-        mTextView = findViewById(R.id.textView);
         mSurfaceView = findViewById(R.id.surfaceView);
 
         context = this;
@@ -62,7 +56,7 @@ public class ScannerOCR extends AppCompatActivity {
     }
 
     private void startTextRecognizer() {
-        mTextRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+        TextRecognizer mTextRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
 
         mCameraSource = new CameraSource.Builder(getApplicationContext(), mTextRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
@@ -99,7 +93,6 @@ public class ScannerOCR extends AppCompatActivity {
         mTextRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
             @Override
             public void release() {
-                mCameraSource.release();
             }
 
             @Override
@@ -118,10 +111,12 @@ public class ScannerOCR extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("codedData", fullText);
                 setResult(RESULT_OK,intent);
-                System.out.println(fullText);
 
-                //mCameraSource.release();
-               // ((Activity)context).finish();
+                final Button button = findViewById(R.id.button_capture);
+                button.setOnClickListener(v -> {
+                    mCameraSource.release();
+                    ((Activity)context).finish();
+                });
             }
         });
     }
@@ -137,7 +132,6 @@ public class ScannerOCR extends AppCompatActivity {
 
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             startTextRecognizer();
-            return;
         }
 
     }
@@ -149,7 +143,6 @@ public class ScannerOCR extends AppCompatActivity {
         if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.CAMERA)) {
             ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM);
-            return;
         }
 
     }

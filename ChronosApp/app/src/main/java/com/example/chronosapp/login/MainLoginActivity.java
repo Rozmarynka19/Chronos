@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -33,6 +34,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
+import java.util.concurrent.ExecutionException;
+
 public class MainLoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private TextView register, forgotPassword;
@@ -47,6 +50,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
     private GoogleSignInButton signInButton;
     private GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
+    private String isUserInDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +96,18 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
         SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
         if(sharedPreferences!=null && !(sharedPreferences.getString("login","").equals("")))
         {
-            startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class));
-            this.finish();
+            com.example.chronosapp.login.BackgroundCheckUserTask backgroundCheckUserTask = new com.example.chronosapp.login.BackgroundCheckUserTask(this);
+            String result = null;
+            try {
+                result = backgroundCheckUserTask.execute(sharedPreferences.getString("login","")).get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if(result.equals("0")) {
+                startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class));
+                this.finish();
+            }
         }
 
         signInButton = findViewById(R.id.sign_in_button);
@@ -227,7 +241,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 editor.apply();
                 this.startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
-                /*System.out.println("dane z google: " + personName + " " + personEmail);
+                /*SystemV.out.println("dane z google: " + personName + " " + personEmail);
 
                 Toast.makeText(this, "User email :" + personEmail, Toast.LENGTH_SHORT).show();
                 mGoogleSignInClient.signOut();*/
