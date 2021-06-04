@@ -31,7 +31,7 @@ if($_POST){
 	{
 		$query="INSERT INTO items_list (List_Id, Item_Name, Item_Type) VALUES ('$listid', '$itemname', '$itemtype')";
 		if(!mysqli_query($conn, $query)){
-			//echo("\nerror in adding new item");
+			echo("\nerror in adding new item");
 			throw new \mysqli_sql_exception("exception msg");
 		}
 		
@@ -39,7 +39,7 @@ if($_POST){
 		$result = $conn->query($query);
 		
 		if($result->num_rows == 0){
-			//echo("\nerror: something went wrong");
+			echo("\nerror: something went wrong");
 			throw new \mysqli_sql_exception("exception msg");
 		}
 		$currentItem_ID = ($result->fetch_assoc())['Item_ID'];
@@ -47,7 +47,7 @@ if($_POST){
 		$query="INSERT INTO bills_list (Item_ID, Bill_Recipient, Bill_RecipientsBankAccount , Bill_TransferTitle , Bill_Amount , Bill_Desc, Bill_Deadline) 
 					VALUES ('$currentItem_ID', '$billRecipient', '$billRecipientBankAccount', '$billTransferTitle', '$billAmount', '$billDesc', '$billDeadline')";
 		if(!mysqli_query($conn, $query)){
-			//echo("\nerror in adding new task");
+			echo("\nerror in adding new task");
 			throw new \mysqli_sql_exception("exception msg");
 		}
 		$conn->commit();

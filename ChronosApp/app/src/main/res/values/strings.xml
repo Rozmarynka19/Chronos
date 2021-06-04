@@ -45,6 +45,8 @@
     <string name="restart_password">Please enter your email to restart your password.</string>
     <string name="welcome_msg">Let\'s start the adventure together!</string>
     <string name="empty_login">Login</string>
+    <string name="empty_verify">Verify</string>
+    <string name="email_verify_window_text">Write code given in email into field.\n In case of not receiving code in few minutes, click send again button.</string>
 
     <string-array name="listItemTitles">
         <item>Baseball</item>

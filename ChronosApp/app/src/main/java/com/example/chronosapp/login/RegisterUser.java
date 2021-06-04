@@ -20,10 +20,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chronosapp.R;
 
-public class RegisterUser extends AppCompatActivity implements View.OnClickListener{
+public class RegisterUser extends AppCompatActivity implements View.OnClickListener {
 
     private TextView registerUser;
-    private EditText  editTextPhone, editTextEmail, editTextPassword, editTextPassword2, editTextLogin;
+    private EditText editTextPhone, editTextEmail, editTextPassword, editTextPassword2, editTextLogin;
     private ProgressBar progressBar;
     private login_error_informations errors;
 
@@ -50,21 +50,21 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
 
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.layout_click_fix);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_click_fix);
 
-        passwordShown_reg1 = (ImageView)findViewById(R.id.show_password_image_reg1);
-        RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.show_password_reg1);
+        passwordShown_reg1 = (ImageView) findViewById(R.id.show_password_image_reg1);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.show_password_reg1);
 
-        passwordShown_reg2 = (ImageView)findViewById(R.id.show_password_image_reg2);
-        RelativeLayout relativeLayout2 = (RelativeLayout)findViewById(R.id.show_password_reg2);
+        passwordShown_reg2 = (ImageView) findViewById(R.id.show_password_image_reg2);
+        RelativeLayout relativeLayout2 = (RelativeLayout) findViewById(R.id.show_password_reg2);
 
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isPasswordShown_reg1){
+                if (isPasswordShown_reg1) {
                     passwordShown_reg1.setImageResource(R.drawable.login_eye);
                     editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }else{
+                } else {
                     passwordShown_reg1.setImageResource(R.drawable.login_close_32);
                     editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
@@ -76,14 +76,14 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         relativeLayout2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isPasswordShown_reg2){
+                if (isPasswordShown_reg2) {
                     passwordShown_reg2.setImageResource(R.drawable.login_eye);
                     editTextPassword2.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }else{
+                } else {
                     passwordShown_reg2.setImageResource(R.drawable.login_close_32);
                     editTextPassword2.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
-                isPasswordShown_reg2= !isPasswordShown_reg2;
+                isPasswordShown_reg2 = !isPasswordShown_reg2;
             }
         });
 
@@ -98,8 +98,8 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager inputMethodManager = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         });
 
@@ -107,7 +107,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.baner:
                 startActivity(new Intent(this, MainLoginActivity.class));
                 break;
@@ -124,37 +124,37 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         String phone = (editTextPhone.getText().toString().trim());
         String login = (editTextLogin.getText().toString().trim());
 
-        if(login.isEmpty()){
+        if (login.isEmpty()) {
             editTextLogin.setError("second name required");
             editTextLogin.requestFocus();
             return;
         }
 
-        if(phone.isEmpty()){
+        if (phone.isEmpty()) {
             editTextPhone.setError("Phone required");
             editTextPhone.requestFocus();
             return;
         }
 
-        if(email.isEmpty()){
+        if (email.isEmpty()) {
             editTextEmail.setError("Email required");
             editTextEmail.requestFocus();
             return;
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editTextEmail.setError("Please enter valid email adress!");
             editTextEmail.requestFocus();
             return;
         }
 
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             editTextPassword.setError("Password required");
             editTextPassword.requestFocus();
             return;
         }
 
-        if(!password.equals(password2)){
+        if (!password.equals(password2)) {
             editTextPassword.setError("Passwords do not match!");
             editTextPassword.requestFocus();
 
@@ -163,14 +163,14 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if(password.length() < 6){
+        if (password.length() < 6) {
             editTextPassword.setError("Min password length is 6");
             editTextPassword.requestFocus();
             return;
         }
 
         progressBar.setVisibility(View.VISIBLE);
-        String type="reg";
+        String type = "reg";
 //        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext());
         BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute(type, login, password, email, phone);
