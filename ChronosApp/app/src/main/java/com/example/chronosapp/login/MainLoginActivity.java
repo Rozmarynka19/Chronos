@@ -150,6 +150,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             case R.id.forgotPassword:
                 startActivity(new Intent(MainLoginActivity.this, com.example.chronosapp.login.RestartPassword.class));
                 this.finish();
+                break;
             case R.id.sign_in_button:
                 signInGoogle();
                 break;
