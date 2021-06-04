@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 public class AddBillActivity extends AppCompatActivity implements AddBillBackgroundTaskListener {
@@ -95,32 +96,34 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
 
             List<String> wordList = Arrays.asList(splittedCodedData);
             Iterator<String> it = wordList.listIterator();
-
-            while(it.hasNext()) {
-                String currentLine = it.next();
-                System.out.println("CURRENT LINE: " + currentLine);
-                if (currentLine.equals("END")) {
-                    break;
+            try {
+                while (it.hasNext()) {
+                    String currentLine = it.next();
+                    if (currentLine.equals("END")) {
+                        break;
+                    }
+                    switch (currentLine) {
+                        case "Nazwa odbiorcy":
+                            receiverNameEdit.setText(it.next());
+                            break;
+                        case "Na rachunek":
+                            bankAccountNumberEdit.setText(it.next());
+                            break;
+                        case "Kwota":
+                            amountEdit.setText(it.next());
+                            break;
+                        case "Tytuł przelewu":
+                            paymentTitleEdit.setText(it.next());
+                            break;
+                        case "Opis przelewu":
+                            descriptionEdit.setText(it.next());
+                            break;
+                        case "Data operacji":
+                            paymentDeadlineEdit.setText(it.next());
+                    }
                 }
-                switch (currentLine) {
-                    case "Nazwa odbiorcy":
-                        receiverNameEdit.setText(it.next());
-                        break;
-                    case "Na rachunek":
-                        bankAccountNumberEdit.setText(it.next());
-                        break;
-                    case "Kwota":
-                        amountEdit.setText(it.next());
-                        break;
-                    case "Tytuł przelewu":
-                        paymentTitleEdit.setText(it.next());
-                        break;
-                    case "Opis przelewu":
-                        descriptionEdit.setText(it.next());
-                        break;
-                    case "Data operacji":
-                        paymentDeadlineEdit.setText(it.next());
-                }
+            } catch (NoSuchElementException e) {
+                it.hasNext();
             }
         }
     }
