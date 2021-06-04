@@ -106,17 +106,29 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
             editor.putString("login", separatedOutput[3]);
             editor.putString("email", separatedOutput[4]);
             editor.putString("phone", separatedOutput[5]);
-            editor.putString("is_verified", separatedOutput[6]);
+            editor.putString("is_verified", separatedOutput[6].substring(0,1));
             editor.apply();
-            System.out.println("test generalny: " + separatedOutput[6]);
+            System.out.println("smieci \n" + separatedOutput[2]);
             String str = "0";
-            System.out.println(str.compareTo(separatedOutput[6]));
-            if (str.compareTo(separatedOutput[6]) != 0) {
+            if (str.compareTo(separatedOutput[6].substring(0,1)) != 0) {
                 System.out.println("\nscam moment\n");
-                context.startActivity(new Intent(context, com.example.chronosapp.login.VerifyActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            } else {
                 context.startActivity(new Intent(context, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            } else {
+                context.startActivity(new Intent(context, com.example.chronosapp.login.VerifyActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
+            if (context instanceof Activity)
+                ((Activity) context).finish();
+
+        }
+        else if (separatedOutput[0].equals("connection sucess") &&
+                (separatedOutput[1].equals("gregistered succesfully") || separatedOutput[1].equals("glogin sucesfull"))) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("userDataSharedPref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("userid", separatedOutput[2]);
+            editor.putString("login", separatedOutput[3]);
+            editor.putString("email", separatedOutput[4]);
+            editor.apply();
+            context.startActivity(new Intent(context, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             if (context instanceof Activity)
                 ((Activity) context).finish();
 

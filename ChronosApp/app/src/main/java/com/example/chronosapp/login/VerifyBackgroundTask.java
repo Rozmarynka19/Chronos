@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 import com.example.chronosapp.Common;
@@ -50,8 +51,10 @@ public class VerifyBackgroundTask extends AsyncTask<String, String, String> {
             }
         }
         else if (type.equals("setVerified")) {
-            String[] params = {"is_verified", "code"};
-            String[] paramsValues = {strings[1], strings[2]};
+            SystemClock.sleep(5000);
+            System.out.println("ver test 1");
+            String[] params = {"login", "is_verified", "code"};
+            String[] paramsValues = {strings[1], strings[2], strings[3]};
             try {
                 URL url = new URL(verifyUrl);
                 String result = DataBaseHelper.postProcedure(url, params, paramsValues);
@@ -89,6 +92,8 @@ public class VerifyBackgroundTask extends AsyncTask<String, String, String> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("key", separatedOutput[2]);
             editor.apply();
+            System.out.println("key test:  \n" + separatedOutput[2]);
+            VerifyActivity.code = separatedOutput[2].substring(0, 4);
             //context.startActivity(new Intent(context, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
         }
