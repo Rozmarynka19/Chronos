@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -22,6 +23,8 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
 
     private static final int SCAN_QR = 1;
 
+    private LinearLayout bckArrow;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,15 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
         Intent details = getIntent();
         listID =  details.getStringExtra("listid");
         Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
+
+        bckArrow = findViewById(R.id.go_back);
+
+        bckArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         billNameEdit = findViewById(R.id.billNameEdit);
         receiverNameEdit = findViewById(R.id.reciverNameEdit);

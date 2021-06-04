@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -27,6 +28,8 @@ public class EditBillActivity extends AppCompatActivity implements EditBillBackg
 
     private static final int SCAN_QR = 1;
 
+    private LinearLayout bckArrow;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,15 @@ public class EditBillActivity extends AppCompatActivity implements EditBillBackg
         paymentDeadlineEdit = findViewById(R.id.paymentDeadlineEdit);
         editBillButton = findViewById(R.id.addBillButton);
         editBillButton.setText("Edit Bill");
+
+        bckArrow = findViewById(R.id.go_back);
+
+        bckArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         getBill(itemID);
     }

@@ -6,6 +6,7 @@ public class Common {
                 "http://192.168.56.2/chronosg/"                 //localMrServer
 //                "http://a005c36c1440.ngrok.io/chronos/"         //localMrServer
 //            "http://192.168.8.105/Example/"                        //localJkServer
+//                "http://192.168.1.99/"                             //localOmServer
     ;
     public static String getDbAddress() {return dbAddress;}
 }
