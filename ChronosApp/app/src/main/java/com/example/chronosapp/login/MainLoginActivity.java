@@ -103,8 +103,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            if(result.equals("0")) {
+            if(result.equals("0\n")) {
                 startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class));
                 this.finish();
             }

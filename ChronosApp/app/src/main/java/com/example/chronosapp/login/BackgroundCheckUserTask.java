@@ -43,6 +43,16 @@ public class BackgroundCheckUserTask extends AsyncTask<String, String, String> {
         return null;
     }
 
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        System.out.println("RESULT: " + s);
+    }
+
     String postProcedure(URL url, String[] params, String[] paramValues){
         try {
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
