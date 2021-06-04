@@ -32,7 +32,7 @@ public class BackgroundCheckUserTask extends AsyncTask<String, String, String> {
     protected String doInBackground(String... strings) {
         String serverAdress = Common.getDbAddress();
         String checkUrl = serverAdress + "checkUser.php";
-        String[] params = {"login"};
+        String[] params = {"userid"};
         String[] paramsValues = {strings[0]};
         try {
             URL url = new URL(checkUrl);

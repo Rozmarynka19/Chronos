@@ -99,11 +99,15 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             com.example.chronosapp.login.BackgroundCheckUserTask backgroundCheckUserTask = new com.example.chronosapp.login.BackgroundCheckUserTask(this);
             String result = null;
             try {
-                result = backgroundCheckUserTask.execute(sharedPreferences.getString("login","")).get();
+                result = backgroundCheckUserTask.execute(sharedPreferences.getString("userid","")).get();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if(result.equals("0\n")) {
+            String[] resultRemote = result.split("\n");
+
+            System.out.println("RESULT12: " + resultRemote[0]);
+
+            if(resultRemote[0].equals("0")) {
                 startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class));
                 this.finish();
             }
