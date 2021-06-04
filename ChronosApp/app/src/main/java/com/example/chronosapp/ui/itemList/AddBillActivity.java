@@ -99,9 +99,6 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
             try {
                 while (it.hasNext()) {
                     String currentLine = it.next();
-                    if (currentLine.equals("END")) {
-                        break;
-                    }
                     switch (currentLine) {
                         case "Nazwa odbiorcy":
                             receiverNameEdit.setText(it.next());
