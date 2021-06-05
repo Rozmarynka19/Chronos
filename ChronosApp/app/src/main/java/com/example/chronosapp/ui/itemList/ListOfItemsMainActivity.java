@@ -1,5 +1,6 @@
 package com.example.chronosapp.ui.itemList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,10 +22,11 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class ListOfItemsMainActivity extends AppCompatActivity
-                                    implements GetItemsBackgroundTaskListener,
-                                                RemoveItemBackgroundTaskListener{
+                                            implements GetItemsBackgroundTaskListener,
+                                                       RemoveItemBackgroundTaskListener{
     private RecyclerView mRecyclerView;
     private ArrayList<Item> mItemArrayList;
     private ItemAdapter itemAdapter;
@@ -33,7 +35,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
 
     private FloatingActionButton addNewItemFab;
-    private Button addNewTaskButton, addNewBillButton;
+    private Button addNewTaskButton, addNewBillButton, sortByDataButton;
 
     private boolean isAddNewItemButtonClicked = false;
 
@@ -58,6 +60,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 
         addNewTaskButton = findViewById(R.id.addNewTaskButton);
         addNewBillButton = findViewById(R.id.addNewBillButton);
+
         addNewTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +84,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
             }
         });
 
+
         addNewItemFab = findViewById(R.id.itemListFab);
         addNewItemFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,12 +102,10 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 //        @SuppressLint("WrongConstant")
 //        SharedPreferences sharedPreferences = this.getSharedPreferences("userDataSharedPref", Context.MODE_APPEND);
 //        sharedUserId = sharedPreferences.getString("userid","");
-
         getItemsFromDatabase();
     }
 
-    public void getItemsFromDatabase()
-    {
+    public void getItemsFromDatabase() {
         GetItemsBackgroundTask getItemsBackgroundTask = new GetItemsBackgroundTask(this);
         getItemsBackgroundTask.execute(listID);
     }
@@ -143,8 +145,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         }
     }
 
-    private void setClickable()
-    {
+    private void setClickable() {
         if(!isAddNewItemButtonClicked)
         {
             addNewTaskButton.setClickable(true);
@@ -157,6 +158,14 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         }
     }
 
+    public void Sorting(View v){
+        Toast.makeText(v.getContext(), "Sortuje",Toast.LENGTH_SHORT).show();
+            Collections.sort(mItemArrayList, new Comparator<Item>() {
+                public int compare(Item o1, Item o2) {
+                    return o1.getTitle().compareTo(o2.getTitle());
+                }
+            });
+    }
     @Override
     public void getLists(ArrayList<Item> arrayOfItems) {
         mItemArrayList.clear();
@@ -238,8 +247,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
                  * @param direction The direction it is swiped in.
                  */
                 @Override
-                public void onSwiped(RecyclerView.ViewHolder viewHolder,
-                                     int direction) {
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                     // Remove from database.
                     removeItemFromDatabase(viewHolder, mItemArrayList.get(viewHolder.getAdapterPosition()));
                 }
@@ -258,8 +266,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
             getItemsFromDatabase();
     }
 
-    public void removeItemFromDatabase(RecyclerView.ViewHolder viewHolder, Item item)
-    {
+    public void removeItemFromDatabase(RecyclerView.ViewHolder viewHolder, Item item) {
         Snackbar.make(itemListRelativeView, "item id: "+item.getItemID()
                                                 +", itemname: "+item.getTitle()
                                                 +", itemtype: "+item.getType(),
