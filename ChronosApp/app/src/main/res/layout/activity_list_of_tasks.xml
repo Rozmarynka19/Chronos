@@ -147,7 +147,7 @@
                     app:backgroundTint="#1A1A1A"
                     android:src="@drawable/add_32" />
             </RelativeLayout>
-            />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>
+

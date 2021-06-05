@@ -198,7 +198,6 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 
     public void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-
         menu_notifications_switch_status = sharedPreferences.getBoolean(MENU_NOTIFICATIONS_SWITCH, false);
     }
 

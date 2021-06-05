@@ -43,7 +43,6 @@ public class GetListsBackgroundTask extends AsyncTask<String, String, String>{
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 

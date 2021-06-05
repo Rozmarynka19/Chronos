@@ -26,7 +26,6 @@
             android:background="@drawable/bar"
             android:layout_weight="1"/>
 
-
         <EditText
             android:id="@+id/nameOfTaskEditText"
             android:textSize="18sp"

@@ -69,7 +69,6 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
                 URL url = new URL(regGoogleUrl);
                 String result = DataBaseHelper.postProcedure(url, params, paramsValues);
                 return result;
-
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -86,9 +85,8 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
         CharSequence text = "Hello toast!";
         int duration = Toast.LENGTH_SHORT;
-
+        System.out.println(s);
         Toast toast = Toast.makeText(context, s, duration);
-
         toast.show();
 
         //Saving user data to sharedPreferences to be able to recognize who's who

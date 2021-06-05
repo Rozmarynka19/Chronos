@@ -33,9 +33,6 @@ public class AddTaskBackgroundTask extends AsyncTask<String, String, String> {
         //TODO: dates with time - deadline, notificationDate
         //TODO: recurring - list of days in which deadline is set anew
         //[]= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
-
-
-
         String plainURL = Common.getDbAddress()+"addTask.php";
 
         String [] params = {"listid", "itemname", "itemtype", "deadline", "desc", "recurring", "notificationDate", "piority"};

@@ -27,6 +27,7 @@ public class EditBillActivity extends AppCompatActivity implements EditBillBackg
     private Button editBillButton;
 
     private static final int SCAN_QR = 1;
+    private static final int SCAN_OCR = 2;
 
     private LinearLayout bckArrow;
 
@@ -69,7 +70,7 @@ public class EditBillActivity extends AppCompatActivity implements EditBillBackg
     }
 
     public void onClickScanOCR(View view) {
-        //TODO: implement scanning document with OCR
+        startActivityForResult(new Intent(getApplicationContext(), ScannerOCR.class),SCAN_OCR);
     }
 
     @Override
@@ -116,6 +117,42 @@ public class EditBillActivity extends AppCompatActivity implements EditBillBackg
 //        Toast.makeText(this,amount,Toast.LENGTH_LONG).show();
         desc = descriptionEdit.getText().toString();
         paymentDeadline = paymentDeadlineEdit.getText().toString();
+
+        if(billName.isEmpty()){
+            billNameEdit.setError("Bill name is required");
+            billNameEdit.requestFocus();
+            return;
+        }
+
+        if(receiverName.isEmpty()){
+            receiverNameEdit.setError("Receiver name is required");
+            receiverNameEdit.requestFocus();
+            return;
+        }
+
+        if(bankAccountNumber.isEmpty()){
+            bankAccountNumberEdit.setError("Bank account number is required");
+            bankAccountNumberEdit.requestFocus();
+            return;
+        }
+
+        if(bankAccountNumber.length() < 26){
+            bankAccountNumberEdit.setError("Correct bank account number must contain 26 digits.");
+            bankAccountNumberEdit.requestFocus();
+            return;
+        }
+
+        if(paymentTitle.isEmpty()){
+            paymentTitleEdit.setError("Payment title is required");
+            paymentTitleEdit.requestFocus();
+            return;
+        }
+
+        if(amount.isEmpty()){
+            amountEdit.setError("Amount is required");
+            amountEdit.requestFocus();
+            return;
+        }
 
         EditBillBackgroundTask editBillBackgroundTask = new EditBillBackgroundTask(this);
         editBillBackgroundTask.execute(itemID, billName, receiverName,

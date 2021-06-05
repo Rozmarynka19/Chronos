@@ -160,6 +160,31 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         taskName = taskNameEditText.getText().toString();
         taskDescription = taskDescriptionEditText.getText().toString();
 
+        if(taskName.isEmpty()){
+            taskNameEditText.setError("Task name is required");
+            taskNameEditText.requestFocus();
+            return;
+        }
+
+//        String date = dateField.getText().toString().trim();
+//        if(date.isEmpty()){
+//            dateField.setError("Task date is required");
+//            dateField.requestFocus();
+//            return;
+//        }
+//
+//        String time = timeField.getText().toString().trim();
+//        if(time.isEmpty()){
+//            timeField.setError("Task time is required");
+//            timeField.requestFocus();
+//            return;
+//        }
+//
+//        Log.d("sendNewTaskToDb - date",date);
+//        Log.d("sendNewTaskToDb - time",time);
+
+//        String deadline = date + " " + time;+
+
         EditTaskBackgroundTask editTaskBackgroundTask = new EditTaskBackgroundTask(this);
 //        []= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
         editTaskBackgroundTask.execute(itemID, taskName, ItemTypes.Task.toString(), "", taskDescription, "", "", priority);

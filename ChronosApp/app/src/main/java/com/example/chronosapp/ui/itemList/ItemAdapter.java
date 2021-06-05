@@ -152,12 +152,10 @@ class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
          */
         @Override
         public void onClick(View view) {
-            //TODO: edit mode depending on item type (task or bill)
             Item currentItem = itemArrayList.get(getAdapterPosition());
 
             if(currentItem.getType().equals(ItemTypes.Task.toString()))
             {
-                //TODO: update Task
                 Intent details = new Intent(mContext, EditTaskActivity.class);
                 details.putExtra("itemid",currentItem.getItemID());
                 details.putExtra("itemName",currentItem.getTitle());
@@ -165,18 +163,11 @@ class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             }
             else if(currentItem.getType().equals(ItemTypes.Bill.toString()))
             {
-                //TODO: update Bill
                 Intent details = new Intent(mContext, EditBillActivity.class);
                 details.putExtra("itemid",currentItem.getItemID());
                 details.putExtra("itemName",currentItem.getTitle());
                 ((Activity)mContext).startActivityForResult(details,ListOfItemsMainActivity.EDIT_BILL);
             }
-
-//            Intent detailIntent = new Intent(mContext, DetailActivity.class);
-//            detailIntent.putExtra("title", currentListItem.getTitle());
-//            detailIntent.putExtra("image_resource",
-//                    currentListItem.getImageResource());
-//            mContext.startActivity(detailIntent);
         }
     }
 }

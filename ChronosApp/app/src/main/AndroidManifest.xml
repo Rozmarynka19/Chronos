@@ -32,6 +32,7 @@
             android:theme="@style/Theme.ChronosApp.NoActionBar"
             />
         <activity android:name=".ui.itemList.ScannerQR"></activity>
+        <activity android:name=".ui.itemList.ScannerOCR" />
         <activity android:name=".login.VerifyActivity"></activity>
         <activity
             android:name=".login.RegisterUser"
@@ -42,6 +43,10 @@
         <activity
             android:name=".login.MainLoginActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar">
+            <meta-data
+                android:name="com.google.mlkit.vision.DEPENDENCIES"
+                android:value="ocr"
+                />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

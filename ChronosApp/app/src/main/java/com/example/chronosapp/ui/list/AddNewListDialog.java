@@ -43,10 +43,8 @@ public class AddNewListDialog extends AppCompatDialogFragment {
                         String newListName = newListNameEditText.getText().toString().trim();
 
                         if (newListName.isEmpty()){
-
                             return;
                         }
-
                         addNewListDialogListener.addNewList(newListName);
                     }
                 });

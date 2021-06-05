@@ -143,7 +143,6 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         return picked_hour + ":" + picked_minute;
     }
 
-
     /**
      * Enum piority:
      *      * 1 - lowPiority
@@ -194,25 +193,24 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
             return;
         }
 
-        String date = dateField.getText().toString().trim();
-        if(date.isEmpty()){
-            dateField.setError("Task date is required");
-            dateField.requestFocus();
-            return;
-        }
+//        String date = dateField.getText().toString().trim();
+//        if(date.isEmpty()){
+//            dateField.setError("Task date is required");
+//            dateField.requestFocus();
+//            return;
+//        }
+//
+//        String time = timeField.getText().toString().trim();
+//        if(time.isEmpty()){
+//            timeField.setError("Task time is required");
+//            timeField.requestFocus();
+//            return;
+//        }
 
-        String time = timeField.getText().toString().trim();
-        if(time.isEmpty()){
-            timeField.setError("Task time is required");
-            timeField.requestFocus();
-            return;
-        }
-
-        Log.d("sendNewTaskToDb - date",date);
-        Log.d("sendNewTaskToDb - time",time);
+//        Log.d("sendNewTaskToDb - date",date);
+//        Log.d("sendNewTaskToDb - time",time);
 
 //        String deadline = date + " " + time;
-
 
         AddTaskBackgroundTask addTaskBackgroundTask = new AddTaskBackgroundTask(this);
 //        []= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}

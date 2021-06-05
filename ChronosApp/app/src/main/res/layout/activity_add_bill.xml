@@ -85,7 +85,6 @@
                 android:layout_marginRight="10sp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10sp"
-
                 android:text="Scan (OCR)"
                 android:onClick="onClickScanOCR"
                 app:backgroundTint="@null"

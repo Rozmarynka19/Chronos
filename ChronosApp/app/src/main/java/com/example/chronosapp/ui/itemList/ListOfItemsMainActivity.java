@@ -35,6 +35,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 
     private FloatingActionButton addNewItemFab;
     private Button addNewTaskButton, addNewBillButton;
+
     private LinearLayout bckArrow;
     private boolean isAddNewItemButtonClicked = false;
 
@@ -52,7 +53,6 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         Intent details = getIntent();
         listID =  details.getStringExtra("listid");
 //        Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
-
 
         bckArrow = findViewById(R.id.go_back);
         bckArrow.setOnClickListener(new View.OnClickListener() {

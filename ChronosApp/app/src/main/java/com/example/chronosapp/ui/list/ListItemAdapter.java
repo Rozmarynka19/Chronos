@@ -122,7 +122,6 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
         return null;
     }
 
-
     /**
      * ViewHolder class that represents each row of data in the RecyclerView.
      */
