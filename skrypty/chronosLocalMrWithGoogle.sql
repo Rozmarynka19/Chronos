@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 21 Maj 2021, 20:14
--- Wersja serwera: 10.4.11-MariaDB
--- Wersja PHP: 7.4.3
+-- Czas generowania: 05 Cze 2021, 11:25
+-- Wersja serwera: 10.4.14-MariaDB
+-- Wersja PHP: 7.2.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `1213146_fsa523`
+-- Baza danych: `chronosg`
 --
 
 -- --------------------------------------------------------
@@ -48,7 +47,7 @@ CREATE TABLE `bills_list` (
   `Bill_Recipient` text NOT NULL,
   `Bill_RecipientsBankAccount` text NOT NULL,
   `Bill_TransferTitle` text NOT NULL,
-  `Bill_Amount` decimal(35,30) NOT NULL,
+  `Bill_Amount` decimal(35,2) NOT NULL,
   `Bill_Desc` text DEFAULT NULL,
   `Bill_Deadline` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -58,10 +57,11 @@ CREATE TABLE `bills_list` (
 --
 
 INSERT INTO `bills_list` (`Bill_ID`, `Item_ID`, `Bill_Recipient`, `Bill_RecipientsBankAccount`, `Bill_TransferTitle`, `Bill_Amount`, `Bill_Desc`, `Bill_Deadline`) VALUES
-(1, 52, 'jan kowalski abc bvn', '11111111111111111111111111', 'Płatność za FV 44/2019', '4887.000000000000000000000000000000', '', '0000-00-00 00:00:00'),
-(3, 54, 'jan kowalski abc bvn', '11111111111111111111111111', 'Płatność za FV 44/2019', '4887.000000000000000000000000000000', '', '0000-00-00 00:00:00'),
-(5, 57, 'qweqwe', '13123213213', 'rqwwqerqwewqewq', '123.000000000000000000000000000000', '', '0000-00-00 00:00:00'),
-(6, 59, 'test', '21323131231231321', 'test', '123.000000000000000000000000000000', '', '0000-00-00 00:00:00');
+(1, 52, 'jan kowalski abc bvn', '11111111111111111111111111', 'Płatność za FV 44/2019', '4887.00', '', '0000-00-00 00:00:00'),
+(5, 57, 'qweqwe', '13123213213', 'rqwwqerqwewqewq', '123.00', '', '0000-00-00 00:00:00'),
+(6, 59, 'test', '21323131231231321', 'test', '123.00', '', '0000-00-00 00:00:00'),
+(7, 62, '', '', '', '0.00', '', '0000-00-00 00:00:00'),
+(11, 72, 'test', '1111', 'test', '12.00', '', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -81,17 +81,22 @@ CREATE TABLE `items_list` (
 --
 
 INSERT INTO `items_list` (`Item_ID`, `List_ID`, `Item_Name`, `Item_Type`) VALUES
-(25, 35, 'test', 'Task'),
 (45, 33, 'test', 'Task'),
 (51, 38, 'test22', 'Task'),
 (52, 38, 'kowalskiExample', 'Bill'),
-(54, 35, 'kowalskiExample3', 'Bill'),
-(56, 35, 'a', 'Task'),
 (57, 45, 'eqwewq', 'Bill'),
 (58, 45, 'adawda', 'Task'),
 (59, 46, 'testBill', 'Bill'),
 (60, 46, '', 'Task'),
-(61, 46, 'testowe', 'Task');
+(61, 46, 'testowe', 'Task'),
+(62, 48, 'test', 'Bill'),
+(63, 48, 'test', 'Task'),
+(65, 49, 'testTask1', 'Task'),
+(66, 49, 'testTask2', 'Task'),
+(67, 49, 'test2', 'Task'),
+(68, 38, 'testTask33', 'Task'),
+(69, 38, 'test44', 'Task'),
+(72, 38, 'test', 'Bill');
 
 -- --------------------------------------------------------
 
@@ -120,7 +125,11 @@ INSERT INTO `registered_users` (`User_ID`, `User_Name`, `User_Password`, `User_E
 (11, 'test33', '$2y$10$aWW7KaJHp5.dKxj1SxQANewfKUmQEQndTo98r8c0cBaFU97pAYibG', 'test33@test.pl', '123123123', '', '', 0),
 (13, 'test', '$2y$10$1xWsoZ91x1kp.Bwwb946l.ocnwzsdBb9R/nXNcXwudzUHVN7PjMCm', 'kj@zut.edu.pl', '123123123', '', '', 0),
 (14, 'user', '$2y$10$i2s.CSLZ9ITNNIHSdwa7euzW58Mtn.62FoWIafQdLNB8UJ13rv6.m', 'kj44387@zut.edu.pl', '123123123', '', '', 0),
-(17, '', '', '', '', 'Jakub', 'kuchar465@gmail.com', 1);
+(17, '', '', '', '', 'Jakub', 'kuchar465@gmail.com', 1),
+(18, 'test44', '$2y$10$jR9tgScHXh2FCf2IlFrGVeo2bKF1v3Ty3oxpbPhMsjAj6JRePe9Pa', 'test44@test.pl', '123123123', '', '', 0),
+(19, 'test55', '$2y$10$zp/ojHXbrMMhZC0hNvxg2eKey0vpLn7gnPpE.tXalFx38tGoDbQJS', 'test55@test.pl', '123123123', '', '', 0),
+(20, 'test666', '$2y$10$jWee6EpZyzaU29oqjwEA3uDC.Eiru.rFSQZxmviE2XXdhl.L87Nvq', 'wahec4225@pidhoes.com', '123123123', '', '', 0),
+(21, 'test111', '$2y$10$2hDvDZLS12IzwTTfguYbTujdYPWa76XjRy/2KEss1X3OQugHAxUsC', 'test111@test.pl', '123123123', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -144,13 +153,17 @@ CREATE TABLE `tasks_list` (
 --
 
 INSERT INTO `tasks_list` (`Task_ID`, `Item_ID`, `Task_Deadline`, `Task_Desc`, `Task_Recurring`, `Task_Notification`, `Task_Priority`, `Task_ID_main_task`) VALUES
-(8, 25, '0000-00-00 00:00:00', 'test', '', '0000-00-00 00:00:00', '1', NULL),
 (28, 45, '0000-00-00 00:00:00', 'test', '', '0000-00-00 00:00:00', '3', NULL),
-(34, 51, '0000-00-00 00:00:00', 'test22', '', '0000-00-00 00:00:00', '1', NULL),
-(35, 56, '0000-00-00 00:00:00', 'a', '', '0000-00-00 00:00:00', '3', NULL),
+(34, 51, '0000-00-00 00:00:00', 'test223', '', '0000-00-00 00:00:00', '3', NULL),
 (36, 58, '0000-00-00 00:00:00', 'awdawdwa', '', '0000-00-00 00:00:00', '', NULL),
 (37, 60, '0000-00-00 00:00:00', '3123', '', '0000-00-00 00:00:00', '', NULL),
-(38, 61, '0000-00-00 00:00:00', 'test', '', '0000-00-00 00:00:00', '', NULL);
+(38, 61, '0000-00-00 00:00:00', 'test', '', '0000-00-00 00:00:00', '', NULL),
+(39, 63, '0000-00-00 00:00:00', '', '', '0000-00-00 00:00:00', '', NULL),
+(40, 65, '0000-00-00 00:00:00', 'desc', '', '0000-00-00 00:00:00', '', NULL),
+(41, 66, '0000-00-00 00:00:00', 'testTask2Desc', '', '0000-00-00 00:00:00', '', NULL),
+(42, 67, '0000-00-00 00:00:00', 'test2', '', '0000-00-00 00:00:00', '', NULL),
+(43, 68, '0000-00-00 00:00:00', 'testTask33Desc', '', '0000-00-00 00:00:00', '1', NULL),
+(44, 69, '0000-00-00 00:00:00', 'test44', '', '0000-00-00 00:00:00', '2', NULL);
 
 -- --------------------------------------------------------
 
@@ -228,12 +241,19 @@ CREATE TABLE `user_lists` (
 
 INSERT INTO `user_lists` (`List_ID`, `User_ID`, `List_Name`) VALUES
 (33, 11, 'praca'),
-(35, 11, 'dom'),
 (38, 11, 'testowa lista'),
 (39, 11, 'rachunki'),
 (40, 11, 'test2'),
 (45, 13, 'test'),
-(46, 14, 'test');
+(46, 14, 'test'),
+(48, 1, 'test'),
+(49, 11, 'testLista1'),
+(50, 20, 'Dom'),
+(51, 20, 'Praca'),
+(52, 20, 'Rachunki'),
+(53, 21, 'Dom'),
+(54, 21, 'Praca'),
+(55, 21, 'Rachunki');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -314,25 +334,25 @@ ALTER TABLE `attachments_list`
 -- AUTO_INCREMENT dla tabeli `bills_list`
 --
 ALTER TABLE `bills_list`
-  MODIFY `Bill_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Bill_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT dla tabeli `items_list`
 --
 ALTER TABLE `items_list`
-  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `Item_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT dla tabeli `registered_users`
 --
 ALTER TABLE `registered_users`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT dla tabeli `tasks_list`
 --
 ALTER TABLE `tasks_list`
-  MODIFY `Task_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `Task_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT dla tabeli `transfers_data`
@@ -356,7 +376,7 @@ ALTER TABLE `users_preference`
 -- AUTO_INCREMENT dla tabeli `user_lists`
 --
 ALTER TABLE `user_lists`
-  MODIFY `List_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `List_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- Ograniczenia dla zrzutów tabel
