@@ -59,7 +59,7 @@ public class AddTaskBackgroundTask extends AsyncTask<String, String, String> {
         listener = (AddTaskBackgroundTaskListener) context;
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
         Log.d("AddTaskBackgroundTask: ","resultMsg: "+s);
-        if(s.equals("task added successfully\n"))
+        if(s.contains("task added successfully"))
             listener.refreshListOfItems();
         //TODO:
         //if connections problem, print "No connection. Try again later."

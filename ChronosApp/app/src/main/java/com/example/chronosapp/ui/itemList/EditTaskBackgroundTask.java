@@ -90,7 +90,7 @@ public class EditTaskBackgroundTask extends AsyncTask<String, String, String> {
         listener = (EditTaskBackgroundTaskListener) context;
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
         Log.d("EditTaskBackgroundTask: ","resultMsg: "+s);
-        if(s.equals("task updated successfully\n"))
+        if(s.contains("task updated successfully\n"))
             listener.refreshListOfItems();
         //TODO:
         //if connections problem, print "No connection. Try again later."

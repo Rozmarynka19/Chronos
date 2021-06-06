@@ -279,6 +279,7 @@
                     android:orientation="horizontal"
                     android:gravity="center"
                     android:weightSum="3"
+                    android:id="@+id/radioGroupPriority"
                     >
                     <RadioButton
                         android:id="@+id/radioLowPriority"

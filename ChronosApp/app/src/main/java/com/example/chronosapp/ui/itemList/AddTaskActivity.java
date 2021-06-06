@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 
     private String listID, taskName, taskDescription, piority="";
     private EditText taskNameEditText, taskDescriptionEditText;
+    private RadioButton radioButtonLowPriority;
 
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
@@ -50,6 +52,8 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         initTimePicker();
         taskNameEditText = findViewById(R.id.nameOfTaskEditText);
         taskDescriptionEditText = findViewById(R.id.taskDescriptionEditText);
+        radioButtonLowPriority = findViewById(R.id.radioLowPriority);
+        onRadioButtonClicked(radioButtonLowPriority);
 
         linearLayout = findViewById(R.id.go_back);
         linearLayout.setOnClickListener(new View.OnClickListener() {

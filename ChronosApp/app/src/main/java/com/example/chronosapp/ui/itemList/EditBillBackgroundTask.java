@@ -88,7 +88,7 @@ public class EditBillBackgroundTask extends AsyncTask<String, String, String> {
         listener = (EditBillBackgroundTaskListener) context;
 //        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
         Log.d("EditBillBackgroundTaskListener: ","resultMsg: "+s);
-        if(s.equals("bill updated successfully\n"))
+        if(s.contains("bill updated successfully\n"))
             listener.refreshListOfItems();
         //TODO:
         //if connections problem, print "No connection. Try again later."

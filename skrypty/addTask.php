@@ -23,7 +23,7 @@ if($_POST){
 	if(isset($_POST['piority'])){ $piority = $_POST['piority']; }
 	
 	
-	$conn->begin_transaction();
+	//$conn->begin_transaction();
 
 	try 
 	{
@@ -46,13 +46,16 @@ if($_POST){
 					VALUES ('$currentItem_ID', '$deadline', '$desc', '$recurring', '$notificationDate', '$piority')";
 		if(!mysqli_query($conn, $query)){
 			echo("\nerror in adding new task");
+			$query="DELETE FROM items_list WHERE Item_ID=".$currentItem_ID;
+			$result = $conn->query($query);
 			throw new \mysqli_sql_exception("exception msg");
 		}
-		$conn->commit();
+		
+		//$conn->commit();
 		echo("task added successfully\n");
 	} catch (mysqli_sql_exception $exception) {
+		//$conn->rollback();
 		echo("error occured!");
-		$conn->rollback();
 	}
 }
 else{
