@@ -20,6 +20,7 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
     private Button verifyButton, reSendEmail;
     private EditText editTextVerify;
     private String sharedLogin, sharedEmail, sharedPhone, sharedUserId, sharedKey;
+    private ImageView backToLoginImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,8 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
         editTextVerify = (EditText) findViewById(R.id.verify);
         reSendEmail = (Button) findViewById(R.id.repeatSendEmail);
         reSendEmail.setOnClickListener(this);
+        backToLoginImage = (ImageView) findViewById(R.id.back_to_login);
+        backToLoginImage.setOnClickListener(this);
         sendEmail();
     }
 
@@ -47,7 +50,19 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.repeatSendEmail:
                 sendEmail();
                 break;
+            case R.id.back_to_login:
+                backToLogin();
+                break;
         }
+    }
+
+    private void backToLogin() {
+        SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        startActivity(new Intent(this, com.example.chronosapp.login.MainLoginActivity.class));
+        this.finish();
     }
 
     private void verify() {
@@ -68,9 +83,7 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
         String type = "setVerified";
         @SuppressLint("WrongConstant") SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
         if (sharedPreferences != null && !(sharedPreferences.getString("login", "").equals(""))) {
-            sharedUserId = sharedPreferences.getString("userid", "");
             sharedLogin = sharedPreferences.getString("login", "");
-            sharedEmail = sharedPreferences.getString("email", "");
         }
 
         com.example.chronosapp.login.VerifyBackgroundTask backgroundTask = new com.example.chronosapp.login.VerifyBackgroundTask(this);

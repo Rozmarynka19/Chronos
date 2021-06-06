@@ -1,6 +1,7 @@
 package com.example.chronosapp.login;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import com.example.chronosapp.NotificationBuilder;
 import com.example.chronosapp.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -31,6 +35,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+
+import static com.example.chronosapp.NotificationBuilder.CHANNEL_2_ID;
 
 
 public class MainLoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,6 +47,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
     private ImageView passwordShown;
     private TextView login_error_message;
     private login_error_informations errors;
+    private NotificationManagerCompat notificationManager;
 
     private Boolean isPasswordShown = false;
     //    private SignInButton signInButton;
@@ -52,6 +59,8 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+
+        notificationManager = NotificationManagerCompat.from(this);
 
         login_error_message = findViewById(R.id.login_error_message);
         passwordShown = (ImageView) findViewById(R.id.show_password_image);
@@ -70,6 +79,13 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 isPasswordShown = !isPasswordShown;
             }
         });
+
+        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("My notification")
+                .setContentText("Much longer text that cannot fit one line...")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Much longer text that cannot fit one line..."))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);*/
 
 
 //        SignInButton signInButton = findViewById(R.id.sign_in_button);
@@ -135,7 +151,19 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 this.finish();
                 break;
             case R.id.signIn:
-                //this.startActivity(new Intent(this, com.example.chronosapp.login.VerifyActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+               /* String title = "Jebanie Mantiuka";
+                String message = "To czas jebania śmieci";
+
+                Notification notification = new NotificationCompat.Builder(this, CHANNEL_2_ID)
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .build();
+
+                notificationManager.notify(1, notification);*/
+
                 login();
                 break;
             case R.id.forgotPassword:
@@ -145,6 +173,18 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 signInGoogle();
                 break;
         }
+    }
+
+    public static void createNotification(Context context, String title, String Description) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "test notify");
+        builder.setContentTitle(title);
+        builder.setContentText(Description);
+        builder.setSmallIcon(R.drawable.ic_launcher_background);
+        builder.setAutoCancel(true);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
+
+        managerCompat.notify(0, builder.build());
     }
 
 
