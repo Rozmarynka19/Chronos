@@ -19,6 +19,12 @@
             android:name=".ui.itemList.AddTaskActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar"
             />
+        <activity android:name=".ui.home.AboutUs"
+            android:theme="@style/Theme.ChronosApp.NoActionBar"
+            />
+        <activity android:name=".ui.home.Account"
+            android:theme="@style/Theme.ChronosApp.NoActionBar"
+            />
         <activity
             android:name=".ui.itemList.AddBillActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar"

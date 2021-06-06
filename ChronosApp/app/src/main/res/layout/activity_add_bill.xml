@@ -11,11 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="20">
+        android:weightSum="14">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="70dp"
             android:background="@drawable/bar">
 
             <LinearLayout
@@ -55,8 +54,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:layout_weight="2"
+            android:layout_height="70dp"
             android:weightSum="2"
             android:orientation="horizontal"
             android:background="@drawable/medium_bar">
@@ -166,6 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
                 android:layout_marginStart="32dp"
+                android:inputType="number"
                 android:drawableEnd="@drawable/ic_account_32"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
@@ -270,8 +269,7 @@
             android:background="#000000"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0sp"
-            android:layout_weight="2"
+            android:layout_height="70dp"
             android:background="@drawable/medium_bar"
             >
             <Button
