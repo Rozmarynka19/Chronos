@@ -16,9 +16,11 @@ import com.example.chronosapp.R;
 
 public class VerifyActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static String code;
     private Button verifyButton, reSendEmail;
     private EditText editTextVerify;
     private String sharedLogin, sharedEmail, sharedPhone, sharedUserId, sharedKey;
+    private ImageView backToLoginImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,8 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
         editTextVerify = (EditText) findViewById(R.id.verify);
         reSendEmail = (Button) findViewById(R.id.repeatSendEmail);
         reSendEmail.setOnClickListener(this);
+        backToLoginImage = (ImageView) findViewById(R.id.back_to_login);
+        backToLoginImage.setOnClickListener(this);
         sendEmail();
     }
 
@@ -38,12 +42,27 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.VerifyProceed:
                 verify();
-                System.out.println(sharedKey);
+                System.out.println("\n");
+                System.out.println("klucz\n");
+                System.out.println(code);
+                System.out.println("\n");
                 break;
             case R.id.repeatSendEmail:
                 sendEmail();
                 break;
+            case R.id.back_to_login:
+                backToLogin();
+                break;
         }
+    }
+
+    private void backToLogin() {
+        SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        startActivity(new Intent(this, com.example.chronosapp.login.MainLoginActivity.class));
+        this.finish();
     }
 
     private void verify() {
@@ -55,27 +74,31 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
             return;
         }
 
-        if(verifyText.compareTo(sharedKey)!=0){
+        if(verifyText.compareTo(code)!=0){
             editTextVerify.setError("Wrong code");
             editTextVerify.requestFocus();
             return;
         }
 
         String type = "setVerified";
-        VerifyBackgroundTask backgroundTask = new VerifyBackgroundTask(this);
-        backgroundTask.execute(type, "1", "");
+        @SuppressLint("WrongConstant") SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
+        if (sharedPreferences != null && !(sharedPreferences.getString("login", "").equals(""))) {
+            sharedLogin = sharedPreferences.getString("login", "");
+        }
+
+        com.example.chronosapp.login.VerifyBackgroundTask backgroundTask = new com.example.chronosapp.login.VerifyBackgroundTask(this);
+        backgroundTask.execute(type, sharedLogin, "1", code);
+        System.out.println("task test: \n" +sharedLogin +"\n"+code+"\n");
         this.startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     private void sendEmail() {
         String type = "email";
-//        com.example.chronosapp.login.BackgroundTask backgroundTask = new com.example.chronosapp.login.BackgroundTask(getApplicationContext());
         @SuppressLint("WrongConstant") SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
         if (sharedPreferences != null && !(sharedPreferences.getString("login", "").equals(""))) {
             sharedUserId = sharedPreferences.getString("userid", "");
             sharedLogin = sharedPreferences.getString("login", "");
             sharedEmail = sharedPreferences.getString("email", "");
-            sharedPhone = sharedPreferences.getString("phone", "");
         }
 
         com.example.chronosapp.login.VerifyBackgroundTask backgroundTask = new com.example.chronosapp.login.VerifyBackgroundTask(this);
@@ -83,7 +106,10 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
 
         @SuppressLint("WrongConstant") SharedPreferences sharedPreferences2 = getSharedPreferences("userDataVerCode", MODE_APPEND);
         if (sharedPreferences2 != null && !(sharedPreferences2.getString("key", "").equals(""))) {
+            System.out.println("shared test\n");
             sharedKey = sharedPreferences.getString("key", "");
+            System.out.println(sharedKey);
+            System.out.println("\n");
         }
     }
 }

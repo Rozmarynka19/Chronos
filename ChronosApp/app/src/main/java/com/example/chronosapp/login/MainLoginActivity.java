@@ -1,6 +1,7 @@
 package com.example.chronosapp.login;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import com.example.chronosapp.NotificationBuilder;
 import com.example.chronosapp.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -35,8 +39,10 @@ import com.google.android.gms.tasks.Task;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
 import java.util.concurrent.ExecutionException;
+import static com.example.chronosapp.NotificationBuilder.CHANNEL_2_ID;
 
-public class MainLoginActivity extends AppCompatActivity implements View.OnClickListener{
+
+public class MainLoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView register, forgotPassword;
     private Button signButton;
@@ -44,9 +50,10 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
     private ImageView passwordShown;
     private TextView login_error_message;
     private login_error_informations errors;
+    private NotificationManagerCompat notificationManager;
 
     private Boolean isPasswordShown = false;
-//    private SignInButton signInButton;
+    //    private SignInButton signInButton;
 //    private GoogleSignInButton signInButton;
     private GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
@@ -57,23 +64,32 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
 
+        notificationManager = NotificationManagerCompat.from(this);
+
         login_error_message = findViewById(R.id.login_error_message);
-        passwordShown = (ImageView)findViewById(R.id.show_password_image);
-        RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.show_password);
+        passwordShown = (ImageView) findViewById(R.id.show_password_image);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.show_password);
 
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isPasswordShown){
+                if (isPasswordShown) {
                     passwordShown.setImageResource(R.drawable.login_eye);
                     editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }else{
+                } else {
                     passwordShown.setImageResource(R.drawable.login_close_32);
                     editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 }
                 isPasswordShown = !isPasswordShown;
             }
         });
+
+        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("My notification")
+                .setContentText("Much longer text that cannot fit one line...")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Much longer text that cannot fit one line..."))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);*/
 
 
 //        SignInButton signInButton = findViewById(R.id.sign_in_button);
@@ -94,6 +110,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 
         @SuppressLint("WrongConstant")
         SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
+//<<<<<<< HEAD
         if(sharedPreferences!=null && !(sharedPreferences.getString("login","").equals("")))
         {
             com.example.chronosapp.login.BackgroundCheckUserTask backgroundCheckUserTask = new com.example.chronosapp.login.BackgroundCheckUserTask(this);
@@ -108,9 +125,17 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             System.out.println("RESULT12: " + resultRemote[0]);
 
             if(resultRemote[0].equals("0")) {
-                startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class));
+                if (sharedPreferences.getString("is_verified", "").compareTo("0") != 0) {
+                    startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class));
+                } else {
+                    startActivity(new Intent(this, com.example.chronosapp.login.VerifyActivity.class));
+                }
                 this.finish();
             }
+//=======
+//        if (sharedPreferences != null && !(sharedPreferences.getString("login", "").equals(""))) {
+
+//>>>>>>> jk
         }
 
 //        signInButton = findViewById(R.id.sign_in_button);
@@ -119,21 +144,21 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
         editTextLogin = (EditText) findViewById(R.id.login);
         editTextPassword = (EditText) findViewById(R.id.password);
 
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.layout_click_fix);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.layout_click_fix);
 
 
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InputMethodManager inputMethodManager = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                InputMethodManager inputMethodManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         });
 
         register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
 
-        forgotPassword = (TextView)findViewById(R.id.forgotPassword);
+        forgotPassword = (TextView) findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
 
 
@@ -143,13 +168,25 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.register:
                 startActivity(new Intent(this, com.example.chronosapp.login.RegisterUser.class));
                 this.finish();
                 break;
             case R.id.signIn:
-                //this.startActivity(new Intent(this, com.example.chronosapp.login.VerifyActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+               /* String title = "Jebanie Mantiuka";
+                String message = "To czas jebania śmieci";
+
+                Notification notification = new NotificationCompat.Builder(this, CHANNEL_2_ID)
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setContentTitle(title)
+                        .setContentText(message)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .build();
+
+                notificationManager.notify(1, notification);*/
+
                 login();
                 break;
             case R.id.forgotPassword:
@@ -162,8 +199,8 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private String login_error(String userName, String password){
-        if(userName.isEmpty() && password.isEmpty()) {
+    private String login_error(String userName, String password) {
+        if (userName.isEmpty() && password.isEmpty()) {
             editTextLogin.setError(errors.login_not_provided);
             editTextPassword.setError(errors.password_not_provided);
 
@@ -171,14 +208,14 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             return errors.data_not_provided;
         }
 
-        if(userName.isEmpty()){
+        if (userName.isEmpty()) {
             editTextLogin.setError(errors.login_not_provided);
 
             editTextLogin.requestFocus();
             return errors.login_not_provided;
         }
 
-        if(password.isEmpty()) {
+        if (password.isEmpty()) {
             editTextPassword.setError(errors.password_not_provided);
             editTextPassword.requestFocus();
             return errors.password_not_provided;
@@ -192,14 +229,14 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void login(){
+    private void login() {
         String username = (editTextLogin.getText().toString().trim());
         String password = (editTextPassword.getText().toString().trim());
 
         String msg = login_error(username, password);
 
         login_error_message.setText(msg);
-        if(!msg.isEmpty())
+        if (!msg.isEmpty())
             return;
 
         String type = "login";
@@ -229,6 +266,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             //updateUI(account);
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
+
                 String type = "GsignUp";
                 BackgroundTask backgroundTask = new BackgroundTask(this);
                 backgroundTask.execute(type, acct.getGivenName(), acct.getEmail());
@@ -245,8 +283,8 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 SharedPreferences sharedPreferences = this.getSharedPreferences("userDataSharedPref",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("login", acct.getGivenName());
-                editor.putString("email",acct.getEmail());
-                editor.putString("phone","");
+                editor.putString("email", acct.getEmail());
+                editor.putString("phone", "");
                 editor.apply();
 
                 this.startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -263,7 +301,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             //Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
             //updateUI(null);
-            Log.d("wyjatek google",  e.toString());
+            Log.d("wyjatek google", e.toString());
         }
     }
 }
