@@ -120,7 +120,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String[] resultRemote = result.split("\n");
+            String[] resultRemote = result.split("<");
 
             System.out.println("RESULT12: " + resultRemote[0]);
 

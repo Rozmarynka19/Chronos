@@ -24,6 +24,10 @@ if($_POST){
 		$user = $result->fetch_assoc();
 		$userData = "\n".$user['User_ID']."\n".$login."\n".$email."\n";
 		echo($userData);
+		
+		$userID = $user['User_ID'];
+		$sql_new_lists="INSERT INTO user_lists(User_ID, List_Name) VALUES ($userID, 'Dom'),($userID, 'Praca'),($userID, 'Rachunki')";
+		$result_new_lists = $conn->query($sql_new_lists);
 	}
 	else{
 		echo("error in registration");
