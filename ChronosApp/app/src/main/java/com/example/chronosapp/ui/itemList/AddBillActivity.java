@@ -106,6 +106,34 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
         desc = descriptionEdit.getText().toString();
         paymentDeadline = paymentDeadlineEdit.getText().toString();
 
+
+        if(billName.isEmpty()){
+            billNameEdit.setError("Bill name is required");
+            billNameEdit.requestFocus();
+            return;
+        }
+        if(receiverName.isEmpty()){
+            receiverNameEdit.setError("Receiver name is required");
+            receiverNameEdit.requestFocus();
+            return;
+        }
+        if(bankAccountNumber.isEmpty()){
+            bankAccountNumberEdit.setError("Bank account number is required");
+            bankAccountNumberEdit.requestFocus();
+            return;
+        }
+        if(paymentTitle.isEmpty()){
+            paymentTitleEdit.setError("Payment title is required");
+            paymentTitleEdit.requestFocus();
+            return;
+        }
+        if(amount.isEmpty()){
+            amountEdit.setError("Amount is required");
+            amountEdit.requestFocus();
+            return;
+        }
+
+
         AddBillBackgroundTask addBillBackgroundTask = new AddBillBackgroundTask(this);
         addBillBackgroundTask.execute(listID, billName, ItemTypes.Bill.toString(), receiverName,
                 bankAccountNumber, paymentTitle, amount, desc, paymentDeadline);
