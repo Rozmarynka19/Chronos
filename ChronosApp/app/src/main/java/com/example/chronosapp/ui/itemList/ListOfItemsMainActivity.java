@@ -1,8 +1,12 @@
 package com.example.chronosapp.ui.itemList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -12,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +30,9 @@ import java.util.Collections;
 
 public class ListOfItemsMainActivity extends AppCompatActivity
                                     implements GetItemsBackgroundTaskListener,
-                                                RemoveItemBackgroundTaskListener{
+                                                RemoveItemBackgroundTaskListener,
+                                               PopupMenu.OnMenuItemClickListener
+{
     private RecyclerView mRecyclerView;
     private ArrayList<Item> mItemArrayList;
     private ItemAdapter itemAdapter;
@@ -36,13 +43,15 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     private FloatingActionButton addNewItemFab;
     private Button addNewTaskButton, addNewBillButton;
 
-    private LinearLayout bckArrow;
+    private LinearLayout bckArrow, sortOptions;
     private boolean isAddNewItemButtonClicked = false;
 
     public final static int NEW_TASK = 1, NEW_BILL = 2,
                             EDIT_TASK = 3, EDIT_BILL = 4;
 
     private View itemListRelativeView;
+
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +62,26 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         Intent details = getIntent();
         listID =  details.getStringExtra("listid");
 //        Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
+        context = this;
 
         bckArrow = findViewById(R.id.go_back);
         bckArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        sortOptions = findViewById(R.id.sortOptions);
+        sortOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(context, v);
+                popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) context);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.sort_options_menu, popup.getMenu());
+                popup.show();
+
             }
         });
         rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim);
@@ -299,5 +322,20 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     @Override
     public void restoreListsFromDb() {
         getItemsFromDatabase();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.sortByName:
+                Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by name clicked");
+                return true;
+            case R.id.sortByDeadline:
+                Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by deadline");
+                return true;
+            default:
+                return false;
+        }
     }
 }

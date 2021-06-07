@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:background="@drawable/bar">
+        android:background="@drawable/bar"
+        android:id="@+id/relativeBar">
 
         <LinearLayout
             android:id="@+id/go_back"
@@ -37,6 +38,7 @@
             android:layout_marginLeft="48dp"
             android:layout_marginRight="48dp"
             android:layout_centerVertical="true"
+            android:id="@+id/headerBar"
             >
 
             <TextView
@@ -48,6 +50,20 @@
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:textColor="@color/white"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/sortOptions"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            >
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="9dp"
+                android:src="@drawable/ic_baseline_sort_24"
+                />
         </LinearLayout>
     </RelativeLayout>
 
