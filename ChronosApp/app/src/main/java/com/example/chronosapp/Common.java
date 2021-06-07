@@ -8,6 +8,7 @@ public class Common {
 //            "http://192.168.8.105/Example/"                        //localJkServer
 //           "http://192.168.56.1/1213146_fsa523/"                  //localServerKK
 //                "http://192.168.1.99/"                             //localOmServer
+//                    "http://192.168.1.21/Chronos/"               //localKbServer
     ;
     public static String getDbAddress() {return dbAddress;}
 }
