@@ -1,9 +1,13 @@
 package com.example.chronosapp.ui.itemList;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,19 +21,28 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import com.example.chronosapp.NotificationBuilder;
+import com.example.chronosapp.NotificationPublisher;
 import com.example.chronosapp.R;
 
 import java.sql.Time;
 import java.time.Clock;
 import java.util.Calendar;
+import java.util.Date;
+
+import static com.example.chronosapp.NotificationBuilder.CHANNEL_2_ID;
 
 public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgroundTaskListener {
 
     //TODO: dates with time - deadline, notificationDate
     //TODO: recurring - list of days in which deadline is set anew
 
-    private String listID, taskName, taskDescription, piority="";
+    private NotificationManagerCompat notificationManager;
+
+    private String listID, taskName, taskDescription, piority = "";
     private EditText taskNameEditText, taskDescriptionEditText;
     private RadioButton radioButtonLowPriority;
 
@@ -40,13 +53,15 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
     private EditText dateField;
 
     private LinearLayout linearLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task_layout);
 
+        notificationManager = NotificationManagerCompat.from(this);
         Intent details = getIntent();
-        listID =  details.getStringExtra("listid");
+        listID = details.getStringExtra("listid");
         //Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
         initDatePicker();
         initTimePicker();
@@ -103,7 +118,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 
     }
 
-    private void initDatePicker(){
+    private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -121,27 +136,26 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
     }
 
-    private String createDate(int day, int month, int year)
-    {
+    private String createDate(int day, int month, int year) {
         String picked_day = String.valueOf(day);
-        if(picked_day.length() == 1)
+        if (picked_day.length() == 1)
             picked_day = "0" + picked_day;
 
         String picked_month = String.valueOf(month);
-        if(picked_month.length() == 1)
+        if (picked_month.length() == 1)
             picked_month = "0" + picked_month;
 
         return picked_day + ":" + picked_month + ":" + year;
     }
 
-    private String createTime(int hour, int minute){
+    private String createTime(int hour, int minute) {
 
         String picked_hour = String.valueOf(hour);
-        if(picked_hour.length() == 1)
+        if (picked_hour.length() == 1)
             picked_hour = "0" + picked_hour;
 
         String picked_minute = String.valueOf(minute);
-        if(picked_minute.length() == 1)
+        if (picked_minute.length() == 1)
             picked_minute = "0" + picked_minute;
 
         return picked_hour + ":" + picked_minute;
@@ -149,10 +163,10 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 
     /**
      * Enum piority:
-     *      * 1 - lowPiority
-     *      * 2 - normalPiority
-     *      * 3 - highPiority
-     * */
+     * * 1 - lowPiority
+     * * 2 - normalPiority
+     * * 3 - highPiority
+     */
 
     @SuppressLint("NonConstantResourceId")
     public void onRadioButtonClicked(View view) {
@@ -161,22 +175,19 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         // Check which radio button was clicked.
         switch (view.getId()) {
             case R.id.radioHighPriority:
-                if (checked)
-                {
+                if (checked) {
                     piority = "3";
                     //Toast.makeText(this, "high piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.radioNormalPriority:
-                if (checked)
-                {
+                if (checked) {
                     piority = "2";
                     //Toast.makeText(this, "normal piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.radioLowPriority:
-                if (checked)
-                {
+                if (checked) {
                     piority = "1";
                     //Toast.makeText(this, "low piority", Toast.LENGTH_SHORT).show();
                 }
@@ -191,7 +202,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         taskName = taskNameEditText.getText().toString();
         taskDescription = taskDescriptionEditText.getText().toString();
 
-        if(taskName.isEmpty()){
+        if (taskName.isEmpty()) {
             taskNameEditText.setError("Task name is required");
             taskNameEditText.requestFocus();
             return;
@@ -216,14 +227,46 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 
 //        String deadline = date + " " + time;
 
+
+        Notification not = createNotification(taskName, taskDescription);
+        Calendar myCalendar = Calendar. getInstance () ;
+        Date date = myCalendar.getTime() ;
+        scheduleNotification(not, 0);
+
         AddTaskBackgroundTask addTaskBackgroundTask = new AddTaskBackgroundTask(this);
 //        []= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
         addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), "", taskDescription, "", "", piority);
     }
 
+    private Notification createNotification(String taskName, String taskDescription) {
+        String title = taskName;
+        String message = taskDescription;
+
+        return new NotificationCompat.Builder(this, CHANNEL_2_ID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+
+        //notificationManager.notify(1, notification);
+    }
+
+    private void scheduleNotification(Notification notification, long delay) {
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.CHANNEL_1_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, delay, pendingIntent);
+    }
+
+
     @Override
     public void refreshListOfItems() {
-        setResult(RESULT_OK,new Intent());
+        setResult(RESULT_OK, new Intent());
         this.finish();
     }
 }
