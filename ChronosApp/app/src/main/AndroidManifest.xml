@@ -26,6 +26,9 @@
         <activity android:name=".ui.home.Account"
             android:theme="@style/Theme.ChronosApp.NoActionBar"
             />
+        <activity android:name=".ui.home.Preferences"
+            android:theme="@style/Theme.ChronosApp.NoActionBar"
+            />
         <activity
             android:name=".ui.itemList.EditTaskActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar"
