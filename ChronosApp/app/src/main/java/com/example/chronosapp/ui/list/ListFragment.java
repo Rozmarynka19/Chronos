@@ -6,8 +6,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,7 +26,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ListFragment extends Fragment implements AddNewListDialogListener, GetListsBackgroundTaskListener,
+public class ListFragment extends Fragment implements AddNewListDialogListener, EditListDialogListener,
+                                            GetListsBackgroundTaskListener,
                                             RemoveListBackgroundTaskListener{
 
     private ListViewModel listViewModel;
@@ -58,7 +61,7 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialog();
+                openAddListDialog();
             }
         });
 
@@ -83,11 +86,18 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
         getListsBackgroundTask.execute(sharedUserId);
     }
 
-    public void openDialog()
+    public void openAddListDialog()
     {
         AddNewListDialog addNewListDialog = new AddNewListDialog();
         addNewListDialog.setTargetFragment(ListFragment.this,1);
         addNewListDialog.show(getParentFragmentManager(), "Add new list");
+    }
+
+    public void openEditListDialog(int listId, String currentListName)
+    {
+        EditListDialog editListDialog = new EditListDialog(listId, currentListName);
+        editListDialog.setTargetFragment(ListFragment.this,1);
+        editListDialog.show(getParentFragmentManager(), "Edit list");
     }
 
     /**
@@ -214,6 +224,36 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
 
     @Override
     public void restoreListsFromDb() {
+        getListsFromDatabase();
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case 1:
+                String currentListName = mlistItemAdapter.getTitleByListId(item.getGroupId());
+                if(currentListName == null)
+                    currentListName = "none";
+                Toast.makeText(contextOfFragment,"Edit list clicked: "+currentListName,Toast.LENGTH_LONG).show();
+                openEditListDialog(item.getGroupId(), currentListName);
+                break;
+            default:
+                Toast.makeText(contextOfFragment,"No such case",Toast.LENGTH_LONG).show();
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void editList(int listId, String newListName) {
+        Snackbar.make(root, "newListName: "+newListName, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+
+        EditListBackgroundTask editListBackgroundTask = new EditListBackgroundTask(root.getContext());
+        editListBackgroundTask.execute(String.valueOf(listId), newListName);
+
         getListsFromDatabase();
     }
 }

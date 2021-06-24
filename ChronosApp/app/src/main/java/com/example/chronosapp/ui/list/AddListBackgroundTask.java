@@ -37,7 +37,6 @@ public class AddListBackgroundTask extends AsyncTask<String, String, String> {
             URL url = new URL(plainURL);
             String result = DataBaseHelper.postProcedure(url, params, paramsValues);
             return result;
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

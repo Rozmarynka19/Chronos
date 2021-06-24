@@ -1,68 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
-    android:paddingTop="64dp"
+    android:background="@drawable/light_bar"
+    android:orientation="vertical"
+    android:weightSum="20"
     android:id="@+id/itemListRelativeLayout">
 
-<!--    <TextView-->
-<!--        android:id="@+id/text_list"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:textAlignment="center"-->
-<!--        android:text=""-->
-<!--        android:textSize="20sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/itemListRecycler"
-        android:scrollbars="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@drawable/bar"
+        android:id="@+id/relativeBar">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/itemListFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="12dp"
-        android:src="@drawable/plus" />
+        <LinearLayout
+            android:id="@+id/go_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            >
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="9dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/headerBar"
+            >
 
-    <Button
-        android:id="@+id/addNewTaskButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/itemListFab"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="25dp"
-        android:text="@string/addNewTaskButtonText"
-        android:visibility="invisible"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="24sp"
+                android:text="Tasks list"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/sortOptions"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            >
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="9dp"
+                android:src="@drawable/ic_baseline_sort_24"
+                />
+        </LinearLayout>
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/addNewBillButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/addNewTaskButton"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="17dp"
-        android:text="@string/addNewBillButtonText"
-        android:visibility="invisible"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="#000000"/>
 
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_marginTop="5sp"
+        android:layout_marginBottom="5sp"
+        android:layout_weight="16">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemListRecycler"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_height="match_parent"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="#000000"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:background="@drawable/medium_bar"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="3">
+            <RelativeLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                >
+                <Button
+                    android:id="@+id/addNewTaskButton"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="10sp"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    app:backgroundTint="@null"
+                    android:visibility="invisible"
+                    android:background="@drawable/login_button_effects"
+                    android:text="@string/addNewTaskButtonText"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                >
+                <Button
+                    android:id="@+id/addNewBillButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginBottom="10sp"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    app:backgroundTint="@null"
+                    android:background="@drawable/login_button_effects"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    android:text="@string/addNewBillButtonText"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0sp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                >
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/itemListFab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    app:tint="@color/white"
+                    app:backgroundTint="#1A1A1A"
+                    android:src="@drawable/add_32" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

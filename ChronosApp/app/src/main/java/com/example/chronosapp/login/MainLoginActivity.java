@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -35,7 +36,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
+import java.util.concurrent.ExecutionException;
 import static com.example.chronosapp.NotificationBuilder.CHANNEL_2_ID;
 
 
@@ -54,6 +57,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 //    private GoogleSignInButton signInButton;
     private GoogleSignInClient mGoogleSignInClient;
     private static int RC_SIGN_IN = 100;
+    private String isUserInDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,16 +103,35 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 
         @SuppressLint("WrongConstant")
         SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
-        if (sharedPreferences != null && !(sharedPreferences.getString("login", "").equals(""))) {
-            if (sharedPreferences.getString("is_verified", "").compareTo("0") != 0) {
-                startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class));
-            } else {
-                startActivity(new Intent(this, com.example.chronosapp.login.VerifyActivity.class));
+
+        if(sharedPreferences!=null && !(sharedPreferences.getString("login","").equals("")))
+        {
+            com.example.chronosapp.login.BackgroundCheckUserTask backgroundCheckUserTask = new com.example.chronosapp.login.BackgroundCheckUserTask(this);
+            String result = null;
+            try {
+                result = backgroundCheckUserTask.execute(sharedPreferences.getString("userid","")).get();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            this.finish();
+            String[] resultRemote = result.split("<");
+
+            System.out.println("RESULT12: " + resultRemote[0]);
+
+            if(resultRemote[0].equals("0")) {
+                if (sharedPreferences.getString("is_verified", "").compareTo("0") != 0) {
+                    startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class));
+                } else {
+                    startActivity(new Intent(this, com.example.chronosapp.login.VerifyActivity.class));
+                }
+                this.finish();
+            }
+//=======
+//        if (sharedPreferences != null && !(sharedPreferences.getString("login", "").equals(""))) {
+
+
         }
 
-//        signInButton = findViewById(R.id.sign_in_button);
+
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
         editTextLogin = (EditText) findViewById(R.id.login);
@@ -162,14 +185,12 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             case R.id.forgotPassword:
                 startActivity(new Intent(MainLoginActivity.this, com.example.chronosapp.login.RestartPassword.class));
                 this.finish();
+                break;
             case R.id.sign_in_button:
                 signInGoogle();
                 break;
         }
     }
-
-
-
 
     private String login_error(String userName, String password) {
         if (userName.isEmpty() && password.isEmpty()) {
@@ -195,7 +216,6 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 
         return "";
     }
-
 
     private void signInGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -240,14 +260,20 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
 
-
                 String type = "GsignUp";
                 BackgroundTask backgroundTask = new BackgroundTask(this);
                 backgroundTask.execute(type, acct.getGivenName(), acct.getEmail());
                 //com.example.chronosapp.login.BackgroundTask backgroundTask = new com.example.chronosapp.login.BackgroundTask(this);
                 //backgroundTask.execute(type, acct.getGivenName(), acct.getEmail());
 
-                SharedPreferences sharedPreferences = this.getSharedPreferences("userDataSharedPref", MODE_PRIVATE);
+//                String personName = acct.getDisplayName();
+//                String personGivenName = acct.getGivenName();
+//                String personFamilyName = acct.getFamilyName();
+//                String personEmail = acct.getEmail();
+//                String personId = acct.getId();
+//                Uri personPhoto = acct.getPhotoUrl();
+
+                SharedPreferences sharedPreferences = this.getSharedPreferences("userDataSharedPref",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("login", acct.getGivenName());
                 editor.putString("email", acct.getEmail());

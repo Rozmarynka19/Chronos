@@ -94,6 +94,11 @@ public class VerifyBackgroundTask extends AsyncTask<String, String, String> {
             editor.apply();
             System.out.println("key test:  \n" + separatedOutput[2]);
             VerifyActivity.code = separatedOutput[2].substring(0, 4);
+
+            SharedPreferences sharedPreferencesUser = context.getSharedPreferences("userDataSharedPref", MODE_PRIVATE);
+            SharedPreferences.Editor editorUser = sharedPreferencesUser.edit();
+            editorUser.putString("is_verified", "1");
+            editorUser.apply();
             //context.startActivity(new Intent(context, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
         }

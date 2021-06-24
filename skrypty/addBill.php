@@ -25,7 +25,7 @@ if($_POST){
 	if(isset($_POST['billDeadline'])){ $billDeadline = $_POST['billDeadline']; }
 	
 	
-	$conn->begin_transaction();
+	//$conn->begin_transaction();
 
 	try 
 	{
@@ -48,13 +48,15 @@ if($_POST){
 					VALUES ('$currentItem_ID', '$billRecipient', '$billRecipientBankAccount', '$billTransferTitle', '$billAmount', '$billDesc', '$billDeadline')";
 		if(!mysqli_query($conn, $query)){
 			echo("\nerror in adding new task");
+			$query="DELETE FROM items_list WHERE Item_ID=".$currentItem_ID;
+			$result = $conn->query($query);
 			throw new \mysqli_sql_exception("exception msg");
 		}
-		$conn->commit();
+		//$conn->commit();
 		echo("bill added successfully\n");
 	} catch (mysqli_sql_exception $exception) {
 		echo("error occured!");
-		$conn->rollback();
+		//$conn->rollback();
 	}
 }
 else{

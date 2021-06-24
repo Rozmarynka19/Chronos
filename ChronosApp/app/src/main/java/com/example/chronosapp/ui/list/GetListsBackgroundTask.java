@@ -43,7 +43,6 @@ public class GetListsBackgroundTask extends AsyncTask<String, String, String>{
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -72,7 +71,7 @@ public class GetListsBackgroundTask extends AsyncTask<String, String, String>{
             for(int i=0;i<rows*2;i+=2)
                 arrayOfLists.add(new ListItem(separatedOutput[i+3],
                         separatedOutput[i+2],
-                         context.getResources().getIdentifier("img_basketball",
+                         context.getResources().getIdentifier("task_list2_layout",
                                                                     "drawable",
                                                                     context.getContext().getPackageName())));
         }

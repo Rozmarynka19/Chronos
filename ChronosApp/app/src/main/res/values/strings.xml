@@ -116,4 +116,11 @@
     <string name="dd_mm_yyyy">dd.mm.yyyy</string>
     <string name="hh_mm">hh:mm</string>
     <string name="addItemTaskDesc">Opis zadania</string>
+    <string name="editListNameTitle">Edit list name</string>
+    <string name="edit_list_dialog_edittext_hint">Enter new list name</string>
+
+    <string name="dfsadfa">dfsadfa</string>
+    <string name="sample">Sample</string>
+    <string name="ocr">OCR</string>
+    <string name="capture">Capture</string>
 </resources>

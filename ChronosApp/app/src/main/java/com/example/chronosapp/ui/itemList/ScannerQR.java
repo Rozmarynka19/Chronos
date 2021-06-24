@@ -39,7 +39,7 @@ public class ScannerQR extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qr);
         textView = findViewById(R.id.textView);
-        scannerView = findViewById(R.id.scanner_view);
+        scannerView = findViewById(R.id.surfaceView);
         if(scannerView==null)
             Toast.makeText(this,"null found!",Toast.LENGTH_SHORT).show();
         mCodeScanner = new CodeScanner(this, scannerView);
@@ -68,6 +68,13 @@ public class ScannerQR extends AppCompatActivity {
 //                requestCamera();
 //            }
 //        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCodeScanner.stopPreview();
+        mCodeScanner.releaseResources();
     }
 
     private boolean checkPermissions()

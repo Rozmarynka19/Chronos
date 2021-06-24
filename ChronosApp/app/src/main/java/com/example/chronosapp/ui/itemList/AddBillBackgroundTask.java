@@ -34,7 +34,6 @@ public class AddBillBackgroundTask extends AsyncTask<String, String, String> {
         //[] = {listid, itemname, itemtype, billRecipient, billRecipientBankAccount,
         // billTransferTitle, billAmount, billDesc, billDeadline}
 
-
         String plainURL = Common.getDbAddress()+"addBill.php";
         String [] params = {"listid", "itemname", "itemtype", "billRecipient", "billRecipientBankAccount", "billTransferTitle", "billAmount", "billDesc", "billDeadline"};
         String [] paramsValues = {strings[0], strings[1], strings[2], strings[3], strings[4], strings[5], strings[6], strings[7], strings[8]};
@@ -59,7 +58,7 @@ public class AddBillBackgroundTask extends AsyncTask<String, String, String> {
         listener = (AddBillBackgroundTaskListener) context;
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
         Log.d("AddBillBackgroundTask: ","resultMsg: "+s);
-        if(s.equals("bill added successfully\n"))
+        if(s.contains("bill added successfully\n"))
             listener.refreshListOfItems();
         //TODO:
         //if connections problem, print "No connection. Try again later."

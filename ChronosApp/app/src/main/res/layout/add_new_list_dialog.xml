@@ -15,7 +15,12 @@
         android:inputType="textNoSuggestions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:drawableEnd="@drawable/description_ico_32"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/light_bar"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textAlignment="center"
         android:hint="@string/add_new_list_dialog_edittext_hint"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

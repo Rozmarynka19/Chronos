@@ -16,6 +16,8 @@
 
 package com.example.chronosapp.ui.list;
 
+import android.widget.Toast;
+
 /**
  * Data model for each row of the RecyclerView
  */
@@ -64,5 +66,4 @@ class ListItem {
     public int getImageResource() {
         return imageResource;
     }
-
 }

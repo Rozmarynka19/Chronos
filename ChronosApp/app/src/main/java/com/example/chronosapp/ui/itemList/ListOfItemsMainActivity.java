@@ -1,16 +1,22 @@
 package com.example.chronosapp.ui.itemList;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,10 +27,13 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class ListOfItemsMainActivity extends AppCompatActivity
                                     implements GetItemsBackgroundTaskListener,
-                                                RemoveItemBackgroundTaskListener{
+                                                RemoveItemBackgroundTaskListener,
+                                               PopupMenu.OnMenuItemClickListener
+{
     private RecyclerView mRecyclerView;
     private ArrayList<Item> mItemArrayList;
     private ItemAdapter itemAdapter;
@@ -33,13 +42,17 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
 
     private FloatingActionButton addNewItemFab;
-    private Button addNewTaskButton, addNewBillButton;
+    private Button addNewTaskButton, addNewBillButton, sortByDataButton;
 
+    private LinearLayout bckArrow, sortOptions;
     private boolean isAddNewItemButtonClicked = false;
 
-    private final static int NEW_TASK = 1, NEW_BILL = 2;
+    public final static int NEW_TASK = 1, NEW_BILL = 2,
+                            EDIT_TASK = 3, EDIT_BILL = 4;
 
     private View itemListRelativeView;
+
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +63,28 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         Intent details = getIntent();
         listID =  details.getStringExtra("listid");
 //        Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
+        context = this;
 
+        bckArrow = findViewById(R.id.go_back);
+        bckArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        sortOptions = findViewById(R.id.sortOptions);
+        sortOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(context, v);
+                popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) context);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.sort_options_menu, popup.getMenu());
+                popup.show();
+
+            }
+        });
         rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim);
         rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim);
         fromBottom = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim);
@@ -58,6 +92,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 
         addNewTaskButton = findViewById(R.id.addNewTaskButton);
         addNewBillButton = findViewById(R.id.addNewBillButton);
+
         addNewTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +116,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
             }
         });
 
+
         addNewItemFab = findViewById(R.id.itemListFab);
         addNewItemFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,18 +128,16 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         mRecyclerView = findViewById(R.id.itemListRecycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mItemArrayList = new ArrayList<>();
-        itemAdapter = new ItemAdapter(this, mItemArrayList);
+        itemAdapter = new ItemAdapter(this, mItemArrayList, Integer.parseInt(listID));
         mRecyclerView.setAdapter(itemAdapter);
 
 //        @SuppressLint("WrongConstant")
 //        SharedPreferences sharedPreferences = this.getSharedPreferences("userDataSharedPref", Context.MODE_APPEND);
 //        sharedUserId = sharedPreferences.getString("userid","");
-
         getItemsFromDatabase();
     }
 
-    public void getItemsFromDatabase()
-    {
+    public void getItemsFromDatabase() {
         GetItemsBackgroundTask getItemsBackgroundTask = new GetItemsBackgroundTask(this);
         getItemsBackgroundTask.execute(listID);
     }
@@ -143,8 +177,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         }
     }
 
-    private void setClickable()
-    {
+    private void setClickable() {
         if(!isAddNewItemButtonClicked)
         {
             addNewTaskButton.setClickable(true);
@@ -238,8 +271,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
                  * @param direction The direction it is swiped in.
                  */
                 @Override
-                public void onSwiped(RecyclerView.ViewHolder viewHolder,
-                                     int direction) {
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                     // Remove from database.
                     removeItemFromDatabase(viewHolder, mItemArrayList.get(viewHolder.getAdapterPosition()));
                 }
@@ -256,10 +288,13 @@ public class ListOfItemsMainActivity extends AppCompatActivity
             getItemsFromDatabase();
         else if(requestCode == NEW_BILL && resultCode == RESULT_OK)
             getItemsFromDatabase();
+        else if(requestCode == EDIT_TASK && resultCode == RESULT_OK)
+            getItemsFromDatabase();
+        else if(requestCode == EDIT_BILL && resultCode == RESULT_OK)
+            getItemsFromDatabase();
     }
 
-    public void removeItemFromDatabase(RecyclerView.ViewHolder viewHolder, Item item)
-    {
+    public void removeItemFromDatabase(RecyclerView.ViewHolder viewHolder, Item item) {
         Snackbar.make(itemListRelativeView, "item id: "+item.getItemID()
                                                 +", itemname: "+item.getTitle()
                                                 +", itemtype: "+item.getType(),
@@ -285,5 +320,31 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     @Override
     public void restoreListsFromDb() {
         getItemsFromDatabase();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.sortByName:
+                sortingByName();
+                Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by name clicked");
+                return true;
+            case R.id.sortByDeadline:
+                Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by deadline");
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public void sortingByName(){
+        Toast.makeText(this,"Sorting by name ...", Toast.LENGTH_SHORT).show();
+        Collections.sort(mItemArrayList, new Comparator<Item>() {
+            public int compare(Item o1, Item o2) {
+                return o1.getTitle().compareTo(o2.getTitle());
+            }
+        });
+        itemAdapter.notifyDataSetChanged();
     }
 }
