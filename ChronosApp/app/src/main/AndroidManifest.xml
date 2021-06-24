@@ -47,7 +47,8 @@
         <activity
             android:name=".ui.itemList.ScannerOCR"
             android:theme="@style/Theme.ChronosApp.NoActionBar"/>
-        <activity android:name=".login.VerifyActivity"></activity>
+        <activity android:name=".login.VerifyActivity"
+            android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>
         <activity
             android:name=".login.RegisterUser"
             android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>
