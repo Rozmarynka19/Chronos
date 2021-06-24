@@ -29,7 +29,7 @@ class Item {
         if type=="bill"
             another imageResource to indicate to user that's bill
      */
-    private String type, title, itemID;
+    private String type, title, itemID,priority;
     private final int imageResource;
 
     /**
@@ -70,6 +70,14 @@ class Item {
      * @return Item type.
      */
     String getType() {return type;}
+
+    /***
+     * Gets the background image
+     *
+     * @return Background image
+     */
+
+    String getPriority() {return priority;}
 
     /***
      * Gets the background image

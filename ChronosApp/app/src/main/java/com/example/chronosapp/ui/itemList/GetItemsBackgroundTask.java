@@ -70,9 +70,9 @@ public class GetItemsBackgroundTask extends AsyncTask<String, String, String>{
                 if(separatedOutput[i + 3].equals(ItemTypes.Task.toString()))
                 {
                     //TODO: set appropriate bg for TASK (piority)
-                    arrayOfItems.add(new Item(separatedOutput[i+2],
-                            separatedOutput[i+1],
-                            separatedOutput[i+3],
+                    arrayOfItems.add(new Item(separatedOutput[i+2],//title
+                            separatedOutput[i+1],//itemID
+                            separatedOutput[i+3],//type
                             context.getResources().getIdentifier("task_low_layout",
                                     "drawable",
                                     context.getPackageName())));
@@ -81,9 +81,9 @@ public class GetItemsBackgroundTask extends AsyncTask<String, String, String>{
                 {
                     //TODO: set appropriate bg for BILL
                     arrayOfItems.add(new Item(separatedOutput[i+2],
-                            separatedOutput[i+1],
-                            separatedOutput[i+3],
-                            context.getResources().getIdentifier("bill_layout_final",
+                            separatedOutput[i+1],//itemID
+                            separatedOutput[i+3],//type
+                            context.getResources().getIdentifier("task_low_layout",
                                     "drawable",
                                     context.getPackageName())));
                 }

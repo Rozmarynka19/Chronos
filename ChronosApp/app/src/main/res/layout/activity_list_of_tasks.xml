@@ -59,11 +59,11 @@
             android:layout_alignParentRight="true"
             >
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginTop="9dp"
-                android:src="@drawable/ic_baseline_sort_24"
-                />
+                    android:layout_width="32dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:src="@drawable/ic_baseline_sort_24"
+            />
         </LinearLayout>
     </RelativeLayout>
 

@@ -42,7 +42,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
 
     private FloatingActionButton addNewItemFab;
-    private Button addNewTaskButton, addNewBillButton, sortByDataButton;
+    private Button addNewTaskButton, addNewBillButton;
 
     private LinearLayout bckArrow, sortOptions;
     private boolean isAddNewItemButtonClicked = false;
@@ -327,18 +327,21 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         switch(item.getItemId())
         {
             case R.id.sortByName:
-                sortingByName();
+                sortingByString();
                 Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by name clicked");
                 return true;
             case R.id.sortByDeadline:
                 Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by deadline");
                 return true;
+            case R.id.sortByPriority:
+
+                Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by priority");
             default:
                 return false;
         }
     }
 
-    public void sortingByName(){
+    public void sortingByString(){
         Toast.makeText(this,"Sorting by name ...", Toast.LENGTH_SHORT).show();
         Collections.sort(mItemArrayList, new Comparator<Item>() {
             public int compare(Item o1, Item o2) {
@@ -347,4 +350,13 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         });
         itemAdapter.notifyDataSetChanged();
     }
+//    public void sortingByPriority(){
+//        Toast.makeText(this,"Sorting by name ...", Toast.LENGTH_SHORT).show();
+//        Collections.sort(mItemArrayList, new Comparator<Item>() {
+//            public int compare(Item o1, Item o2) {
+//
+//            }
+//        });
+//        itemAdapter.notifyDataSetChanged();
+//    }
 }
