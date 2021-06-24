@@ -80,13 +80,6 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
-        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("My notification")
-                .setContentText("Much longer text that cannot fit one line...")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Much longer text that cannot fit one line..."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);*/
-
 
 //        SignInButton signInButton = findViewById(R.id.sign_in_button);
 //        signInButton.setSize(SignInButton.SIZE_WIDE);
@@ -151,8 +144,8 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 this.finish();
                 break;
             case R.id.signIn:
-               /* String title = "Jebanie Mantiuka";
-                String message = "To czas jebania śmieci";
+                /*String title = "test notify";
+                String message = "time for task";
 
                 Notification notification = new NotificationCompat.Builder(this, CHANNEL_2_ID)
                         .setSmallIcon(R.drawable.ic_launcher_background)
@@ -175,17 +168,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public static void createNotification(Context context, String title, String Description) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "test notify");
-        builder.setContentTitle(title);
-        builder.setContentText(Description);
-        builder.setSmallIcon(R.drawable.ic_launcher_background);
-        builder.setAutoCancel(true);
 
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
-
-        managerCompat.notify(0, builder.build());
-    }
 
 
     private String login_error(String userName, String password) {
