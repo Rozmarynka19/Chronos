@@ -40,8 +40,8 @@ public class ScannerQR extends AppCompatActivity {
         setContentView(R.layout.activity_scan_qr);
         textView = findViewById(R.id.textView);
         scannerView = findViewById(R.id.surfaceView);
-        if(scannerView==null)
-            Toast.makeText(this,"null found!",Toast.LENGTH_SHORT).show();
+        //if(scannerView==null)
+            //Toast.makeText(this,"null found!",Toast.LENGTH_SHORT).show();
         mCodeScanner = new CodeScanner(this, scannerView);
         context = this;
         mCodeScanner.setDecodeCallback(new DecodeCallback() {

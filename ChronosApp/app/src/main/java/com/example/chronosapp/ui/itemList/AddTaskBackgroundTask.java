@@ -57,7 +57,7 @@ public class AddTaskBackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String s) {
         listener = (AddTaskBackgroundTaskListener) context;
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
         Log.d("AddTaskBackgroundTask: ","resultMsg: "+s);
         if(s.contains("task added successfully"))
             listener.refreshListOfItems();

@@ -50,7 +50,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         Intent details = getIntent();
         itemID = details.getStringExtra("itemid");
         taskName = details.getStringExtra("itemName");
-        Toast.makeText(this, itemID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, itemID, Toast.LENGTH_SHORT).show();
 
         initDatePicker();
         initTimePicker();
@@ -114,21 +114,21 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
                 if (checked)
                 {
                     priority = "3";
-                    Toast.makeText(this, "high piority", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "high piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.radioNormalPriority:
                 if (checked)
                 {
                     priority = "2";
-                    Toast.makeText(this, "normal piority", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "normal piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.radioLowPriority:
                 if (checked)
                 {
                     priority = "1";
-                    Toast.makeText(this, "low piority", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "low piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

@@ -115,7 +115,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             }
             String[] resultRemote = result.split("<");
 
-            System.out.println("RESULT12: " + resultRemote[0]);
+            //System.out.println("RESULT12: " + resultRemote[0]);
 
             if(resultRemote[0].equals("0")) {
                 if (sharedPreferences.getString("is_verified", "").compareTo("0") != 0) {
@@ -282,7 +282,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 
                 this.startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
-                /*System.out.println("dane z google: " + personName + " " + personEmail);
+                /*//System.out.println("dane z google: " + personName + " " + personEmail);
 
                 Toast.makeText(this, "User email :" + personEmail, Toast.LENGTH_SHORT).show();
                 mGoogleSignInClient.signOut();*/

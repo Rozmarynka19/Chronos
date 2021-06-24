@@ -97,7 +97,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 onAddNewItemFabClicked();
-                Toast.makeText(v.getContext(), "addNewTaskButton",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "addNewTaskButton",Toast.LENGTH_SHORT).show();
 
                 Intent details = new Intent(v.getContext(), AddTaskActivity.class);
                 details.putExtra("listid",listID);
@@ -108,7 +108,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 onAddNewItemFabClicked();
-                Toast.makeText(v.getContext(), "addNewBillButton",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "addNewBillButton",Toast.LENGTH_SHORT).show();
 
                 Intent details = new Intent(v.getContext(), AddBillActivity.class);
                 details.putExtra("listid",listID);
@@ -339,7 +339,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     }
 
     public void sortingByName(){
-        Toast.makeText(this,"Sorting by name ...", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"Sorting by name ...", Toast.LENGTH_SHORT).show();
         Collections.sort(mItemArrayList, new Comparator<Item>() {
             public int compare(Item o1, Item o2) {
                 return o1.getTitle().compareTo(o2.getTitle());

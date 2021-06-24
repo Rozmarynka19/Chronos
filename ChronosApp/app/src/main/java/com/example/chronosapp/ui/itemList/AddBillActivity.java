@@ -41,7 +41,7 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
 
         Intent details = getIntent();
         listID =  details.getStringExtra("listid");
-        Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
 
         bckArrow = findViewById(R.id.go_back);
 
@@ -81,7 +81,7 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
 
             String[] splittedCodedData = codedData.split("\\|");
             if (splittedCodedData.length == 1) {
-                Toast.makeText(this, "Unrecognized format", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Unrecognized format", Toast.LENGTH_LONG).show();
                 return;
             }
             if (!splittedCodedData[2].equals(""))
@@ -146,7 +146,7 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
         bankAccountNumber = bankAccountNumberEdit.getText().toString().trim();
         paymentTitle = paymentTitleEdit.getText().toString().trim();
         amount = amountEdit.getText().toString().trim();
-        Toast.makeText(this,amount,Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,amount,Toast.LENGTH_LONG).show();
         desc = descriptionEdit.getText().toString().trim();
         paymentDeadline = paymentDeadlineEdit.getText().toString().trim();
 

@@ -193,7 +193,7 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 
         editor.apply();
 
-        Toast.makeText(this, "[DEBUG] Shared preferences saved!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "[DEBUG] Shared preferences saved!", Toast.LENGTH_SHORT).show();
     }
 
     public void loadData(){

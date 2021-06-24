@@ -47,7 +47,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 
         Intent details = getIntent();
         listID =  details.getStringExtra("listid");
-        Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, listID, Toast.LENGTH_SHORT).show();
         initDatePicker();
         initTimePicker();
         taskNameEditText = findViewById(R.id.nameOfTaskEditText);
@@ -164,21 +164,21 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
                 if (checked)
                 {
                     piority = "3";
-                    Toast.makeText(this, "high piority", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "high piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.radioNormalPriority:
                 if (checked)
                 {
                     piority = "2";
-                    Toast.makeText(this, "normal piority", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "normal piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.radioLowPriority:
                 if (checked)
                 {
                     piority = "1";
-                    Toast.makeText(this, "low piority", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "low piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

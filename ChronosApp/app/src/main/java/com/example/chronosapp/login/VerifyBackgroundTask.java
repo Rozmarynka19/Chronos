@@ -52,7 +52,7 @@ public class VerifyBackgroundTask extends AsyncTask<String, String, String> {
         }
         else if (type.equals("setVerified")) {
             SystemClock.sleep(5000);
-            System.out.println("ver test 1");
+            //System.out.println("ver test 1");
             String[] params = {"login", "is_verified", "code"};
             String[] paramsValues = {strings[1], strings[2], strings[3]};
             try {
@@ -79,20 +79,20 @@ public class VerifyBackgroundTask extends AsyncTask<String, String, String> {
 
         Toast toast = Toast.makeText(context, s, duration);
 
-        toast.show();
+        //toast.show();
 
         //Saving user data to sharedPreferences to be able to recognize who's who
-        System.out.println(s);
+        //System.out.println(s);
         String[] separatedOutput = s.split("\n");
-        for (int i = 0; i < separatedOutput.length; i++)
-            System.out.println("i=" + String.valueOf(i) + separatedOutput[i]);
+        //for (int i = 0; i < separatedOutput.length; i++)
+            //System.out.println("i=" + String.valueOf(i) + separatedOutput[i]);
 
         if (separatedOutput[0].equals("connection sucess") && (separatedOutput[1].equals("code succ"))) {
             SharedPreferences sharedPreferences = context.getSharedPreferences("userDataVerCode", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("key", separatedOutput[2]);
             editor.apply();
-            System.out.println("key test:  \n" + separatedOutput[2]);
+            //System.out.println("key test:  \n" + separatedOutput[2]);
             VerifyActivity.code = separatedOutput[2].substring(0, 4);
 
             SharedPreferences sharedPreferencesUser = context.getSharedPreferences("userDataSharedPref", MODE_PRIVATE);

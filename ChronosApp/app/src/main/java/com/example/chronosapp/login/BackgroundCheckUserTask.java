@@ -50,7 +50,7 @@ public class BackgroundCheckUserTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        System.out.println("RESULT: " + s);
+        ////System.out.println("RESULT: " + s);
     }
 
     String postProcedure(URL url, String[] params, String[] paramValues){
@@ -69,7 +69,7 @@ public class BackgroundCheckUserTask extends AsyncTask<String, String, String> {
                     insert_data.append("&");
                 }
             }
-            System.out.println(insert_data);
+            ////System.out.println(insert_data);
             bufferWriter.write(insert_data.toString());
             bufferWriter.flush();
             bufferWriter.close();

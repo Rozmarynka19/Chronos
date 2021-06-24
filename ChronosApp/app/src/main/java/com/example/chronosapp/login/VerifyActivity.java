@@ -42,10 +42,10 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.VerifyProceed:
                 verify();
-                System.out.println("\n");
-                System.out.println("klucz\n");
-                System.out.println(code);
-                System.out.println("\n");
+                //System.out.println("\n");
+                //System.out.println("klucz\n");
+                //System.out.println(code);
+                //System.out.println("\n");
                 break;
             case R.id.repeatSendEmail:
                 sendEmail();
@@ -88,7 +88,7 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
 
         com.example.chronosapp.login.VerifyBackgroundTask backgroundTask = new com.example.chronosapp.login.VerifyBackgroundTask(this);
         backgroundTask.execute(type, sharedLogin, "1", code);
-        System.out.println("task test: \n" +sharedLogin +"\n"+code+"\n");
+        //System.out.println("task test: \n" +sharedLogin +"\n"+code+"\n");
         this.startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
@@ -106,10 +106,10 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
 
         @SuppressLint("WrongConstant") SharedPreferences sharedPreferences2 = getSharedPreferences("userDataVerCode", MODE_APPEND);
         if (sharedPreferences2 != null && !(sharedPreferences2.getString("key", "").equals(""))) {
-            System.out.println("shared test\n");
+            //System.out.println("shared test\n");
             sharedKey = sharedPreferences.getString("key", "");
-            System.out.println(sharedKey);
-            System.out.println("\n");
+            //System.out.println(sharedKey);
+            //System.out.println("\n");
         }
     }
 }
