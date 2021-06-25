@@ -174,19 +174,6 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 this.finish();
                 break;
             case R.id.signIn:
-               /* String title = "Jebanie Mantiuka";
-                String message = "To czas jebania śmieci";
-
-                Notification notification = new NotificationCompat.Builder(this, CHANNEL_2_ID)
-                        .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setContentTitle(title)
-                        .setContentText(message)
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                        .build();
-
-                notificationManager.notify(1, notification);*/
-
                 login();
                 break;
             case R.id.forgotPassword:

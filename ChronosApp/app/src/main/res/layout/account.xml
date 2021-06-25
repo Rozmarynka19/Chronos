@@ -67,6 +67,7 @@
                     android:layout_height="match_parent"
                     >
                     <LinearLayout
+                        android:id="@+id/acc"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
@@ -158,6 +159,7 @@
                             android:background="@drawable/light_bar"/>
 
                         <LinearLayout
+                            android:id="@+id/acc_additional_options"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:background="@drawable/bar">
@@ -174,10 +176,13 @@
                                 />
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/acc_label1"
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@drawable/light_bar"/>
+                            android:background="@drawable/light_bar"
+                            android:orientation="horizontal" />
                         <LinearLayout
+                            android:id="@+id/acc_change_password"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:orientation="horizontal"
@@ -203,9 +208,11 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/acc_label2"
                                 android:layout_width="2dp"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/light_bar"/>
+                                android:background="@drawable/light_bar"
+                                android:orientation="vertical" />
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -226,9 +233,11 @@
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/acc_label3"
                             android:layout_width="match_parent"
                             android:layout_height="2dp"
-                            android:background="@drawable/light_bar"/>
+                            android:background="@drawable/light_bar"
+                            android:orientation="horizontal" />
                     </LinearLayout>
                 </ScrollView>
             </RelativeLayout>
