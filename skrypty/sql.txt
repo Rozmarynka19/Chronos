@@ -1,0 +1,72 @@
+CREATE TABLE registered_users (
+    User_ID INT NOT NULL AUTO_INCREMENT,
+    User_Name TEXT NOT NULL,
+    User_Password TEXT NOT NULL,
+    User_Email TEXT NOT NULL,
+    User_Phone TEXT NOT NULL,
+    PRIMARY KEY (User_ID)
+); 
+CREATE TABLE user_lists (
+    List_ID INT NOT NULL AUTO_INCREMENT,
+    User_ID INT,
+    List_Name TEXT NOT NULL,
+    PRIMARY KEY (List_ID), 
+    FOREIGN KEY (User_ID) REFERENCES registered_users(User_ID)   
+);
+CREATE TABLE items_list (
+    Item_ID INT NOT NULL AUTO_INCREMENT,
+    List_ID INT NOT NULL,
+	Item_Name TEXT NOT NULL,
+    PRIMARY KEY (Item_ID), 
+    FOREIGN KEY (List_ID) REFERENCES user_lists(List_ID)   
+);
+CREATE TABLE tasks_list (
+    Task_ID INT NOT NULL AUTO_INCREMENT,
+	Item_ID INT NOT NULL,
+    Task_Deadline DATETIME,
+    Task_Desc TEXT,
+    Task_Recurring TEXT,
+    Task_Notification DATETIME,
+    Task_Priority ENUM('1', '2', '3') NOT NULL,
+    Task_ID_main_task INT,
+    PRIMARY KEY (Task_ID),
+	FOREIGN KEY (Item_ID) REFERENCES items_list(Item_ID)
+);
+CREATE TABLE bills_list (
+    Bill_ID INT NOT NULL AUTO_INCREMENT,
+	Item_ID INT NOT NULL,
+    Bill_Reciptient TEXT NOT NULL,
+    Bill_RecipientsBankAccount TEXT NOT NULL,
+    Bill_TransferTitle TEXT NOT NULL,
+	Bill_Amount DECIMAL NOT NULL,
+	Bill_Desc TEXT,
+	Task_Deadline DATETIME,
+	PRIMARY KEY (Bill_ID),
+	FOREIGN KEY (Item_ID) REFERENCES items_list(Item_ID)
+);
+CREATE TABLE attachments_list (
+    Attachment_ID INT NOT NULL AUTO_INCREMENT,
+    Task_ID INT,
+    Attachment_Name TEXT NOT NULL,
+    Attachment_Mime TEXT NOT NULL,
+    Attachment_Data BLOB NOT NULL,
+    PRIMARY KEY (Attachment_ID),
+    FOREIGN KEY (Task_ID) REFERENCES tasks_list(Task_ID)
+);
+CREATE TABLE users_preference (
+    User_preference_ID INT NOT NULL AUTO_INCREMENT,
+    User_ID INT,
+    User_Notification_Sound_Path TEXT,
+    PRIMARY KEY (User_preference_ID), 
+    FOREIGN KEY (User_ID) REFERENCES registered_users(User_ID)
+);
+CREATE TABLE transfers_data (
+    Transfer_ID INT NOT NULL AUTO_INCREMENT,
+    User_ID INT,
+    Transfer_Bank_account_number TEXT NOT NULL,
+    Transfer_Name_of_recipient TEXT NOT NULL,
+    Transfer_Title TEXT NOT NULL,
+    Tranfer_Amount TEXT NOT NULL,
+    PRIMARY KEY (Transfer_ID),
+    FOREIGN KEY (User_ID) REFERENCES registered_users(User_ID)
+);

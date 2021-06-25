@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.list.ListFragment"
+    android:background="@drawable/light_bar"
+    android:weightSum="20">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="2"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="16"
+        android:layout_marginTop="5sp"
+        android:layout_marginBottom="5sp"
+        android:gravity="center">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ToDoListsRecyclerView"
+            android:scrollbars="vertical"
+            android:layout_marginLeft="15sp"
+            android:layout_marginRight="15sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+<!--    <TextView-->
+<!--        android:id="@+id/text_list"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:textAlignment="center"-->
+<!--        android:text=""-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="#000000"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:background="@drawable/medium_bar"
+        >
+        <LinearLayout
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            />
+        <RelativeLayout
+            android:layout_width="0sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/itemListFab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                app:tint="@color/white"
+                app:backgroundTint="#1A1A1A"
+                android:src="@drawable/add_32" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
