@@ -155,7 +155,7 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
         }
 
         if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[_])(?=\\S+$).{8,}$")) {
-            editTextPassword.setError("Password must contain at least 8 characters, one upper and one lower letter and special character '_'");
+            editTextPassword.setError("Password must contain at least 8 characters, one upper and one lower letter, one number and special character '_'");
             editTextPassword.requestFocus();
             return;
         }
