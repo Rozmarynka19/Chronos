@@ -97,7 +97,6 @@ public class VerifyBackgroundTask extends AsyncTask<String, String, String> {
         }
 
         else if(separatedOutput[0].equals("connection sucess") && separatedOutput[1].equals("ver succ")) {
-            System.out.println("RESULT KURWA!");
             SharedPreferences sharedPreferencesUser = context.getSharedPreferences("userDataSharedPref", MODE_PRIVATE);
             SharedPreferences.Editor editorUser = sharedPreferencesUser.edit();
             editorUser.putString("is_verified", "1");
