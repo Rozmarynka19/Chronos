@@ -70,6 +70,10 @@
         <activity
             android:name=".ui.itemList.ListOfItemsMainActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar" />
+        <activity
+            android:name=".ui.home.MyData"
+            android:theme="@style/Theme.ChronosApp.NoActionBar" />
+        <activity android:name=".ui.home.generatedQRActivity" />
     </application>
 
 </manifest>

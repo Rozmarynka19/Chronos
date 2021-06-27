@@ -166,6 +166,7 @@ public class AddBillActivity extends AppCompatActivity implements AddBillBackgro
                 return;
 
             String[] splittedCodedData = codedData.split("\\|");
+
             if (splittedCodedData.length == 1) {
                 Toast.makeText(this, "Unrecognized format", Toast.LENGTH_LONG).show();
                 return;

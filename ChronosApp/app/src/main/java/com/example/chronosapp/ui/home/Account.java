@@ -40,8 +40,8 @@ public class Account extends AppCompatActivity implements View.OnClickListener {
             sharedPhone = sharedPreferences.getString("phone","");
         }
 
-        TextView login_text = (TextView)findViewById(R.id.account_login);
-        TextView email_text = (TextView)findViewById(R.id.account_email);
+        TextView login_text = (TextView)findViewById(R.id.account_name);
+        TextView email_text = (TextView)findViewById(R.id.account_number);
         TextView phone_text = (TextView)findViewById(R.id.account_phone);
 
         login_text.setText(getData(sharedLogin, "Login"));

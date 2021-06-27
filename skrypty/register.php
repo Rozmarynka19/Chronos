@@ -24,6 +24,9 @@ if($_POST){
 		$userID = $user['User_ID'];
 		$sql_new_lists="INSERT INTO user_lists(User_ID, List_Name) VALUES ($userID, 'Dom'),($userID, 'Praca'),($userID, 'Rachunki')";
 		$result_new_lists = $conn->query($sql_new_lists);
+		
+		$sql_new_account_desc="INSERT INTO User_Bill_Account_Information(User_ID) VALUES ($userID)";
+		$result_new_account_desc = $conn->query($sql_new_account_desc);
 		echo($userData);
 	}
 	else{

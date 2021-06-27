@@ -100,7 +100,7 @@
                             android:layout_marginRight="16dp"
                             android:gravity="center_vertical">
                             <TextView
-                                android:id="@+id/account_login"
+                                android:id="@+id/account_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
@@ -122,7 +122,7 @@
                             android:gravity="center_vertical">
 
                             <TextView
-                                android:id="@+id/account_email"
+                                android:id="@+id/account_number"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
@@ -211,18 +211,17 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:layout_margin="4dp">
+
                                 <Button
-                                    android:id="@+id/change_password"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:text="Change password"
-                                    app:backgroundTint="@null"
                                     android:background="@drawable/login_button_effects"
                                     android:fontFamily="@font/roboto_regular"
+                                    android:text="Change password"
                                     android:textAllCaps="false"
                                     android:textSize="14sp"
-                                    />
+                                    app:backgroundTint="@null" />
                             </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
