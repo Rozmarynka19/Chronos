@@ -331,15 +331,18 @@ public class ListOfItemsMainActivity extends AppCompatActivity
                 Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by name clicked");
                 return true;
             case R.id.sortByDeadline:
-                Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by deadline");
+                Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by deadline clicked");
+                return true;
+            case R.id.sortByPriority:
+                Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by priority clicked");
                 return true;
             default:
                 return false;
         }
     }
 
-    public void sortingByName(){
-        Toast.makeText(this,"Sorting by name ...", Toast.LENGTH_SHORT).show();
+    public void sortingByName() {
+        Toast.makeText(this, "Sorting by name ...", Toast.LENGTH_SHORT).show();
         Collections.sort(mItemArrayList, new Comparator<Item>() {
             public int compare(Item o1, Item o2) {
                 return o1.getTitle().compareTo(o2.getTitle());

@@ -29,15 +29,12 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
     //TODO: dates with time - deadline, notificationDate
     //TODO: recurring - list of days in which deadline is set anew
 
-    private String listID, taskName, taskDescription, piority="";
-    private EditText taskNameEditText, taskDescriptionEditText;
+    private String listID, taskName, taskDescription, taskDate, taskTime, piority="";
+    private EditText taskNameEditText, taskDescriptionEditText, taskDateEditField, taskTimeEditField;
     private RadioButton radioButtonLowPriority;
 
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
-
-    private EditText timeField;
-    private EditText dateField;
 
     private LinearLayout linearLayout;
     @Override
@@ -63,8 +60,8 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
             }
         });
 
-        timeField = findViewById(R.id.taskTimeEditText);
-        timeField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        taskTimeEditField = findViewById(R.id.taskTimeEditText);
+        taskTimeEditField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
@@ -74,8 +71,8 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
             }
         });
 
-        dateField = findViewById(R.id.taskDateEditText);
-        dateField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        taskDateEditField = findViewById(R.id.taskDateEditText);
+        taskDateEditField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
@@ -91,7 +88,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 String time = createTime(hourOfDay, minute);
-                timeField.setText(time);
+                taskTimeEditField.setText(time);
             }
         };
         Calendar cal = Calendar.getInstance();
@@ -109,7 +106,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month = month + 1;
                 String date = createDate(day, month, year);
-                dateField.setText(date);
+                taskDateEditField.setText(date);
             }
         };
         Calendar cal = Calendar.getInstance();
@@ -131,7 +128,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         if(picked_month.length() == 1)
             picked_month = "0" + picked_month;
 
-        return picked_day + ":" + picked_month + ":" + year;
+        return picked_day + "-" + picked_month + "-" + year;
     }
 
     private String createTime(int hour, int minute){
@@ -187,9 +184,37 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         }
     }
 
+    private int check_errors() {
+        int errors = 0;
+        if(taskName.isEmpty() || taskDate.isEmpty() || taskTime.isEmpty()) {
+            if(taskName.isEmpty()) {
+                taskNameEditText.setError("Task name is required");
+                errors += 1;
+            }
+            if(taskDate.isEmpty()) {
+                taskDateEditField.setError("Task date is required");
+                errors += 1;
+            }
+            if(taskTime.isEmpty()) {
+                taskTimeEditField.setError("Task time is required");
+                errors += 1;
+            }
+        }
+        return errors;
+    }
+
     public void sendNewTaskToDb(View view) {
         taskName = taskNameEditText.getText().toString();
         taskDescription = taskDescriptionEditText.getText().toString();
+        taskDate = taskDateEditField.getText().toString();
+        taskTime = taskTimeEditField.getText().toString();
+
+        if(check_errors() > 0) {
+            return;
+        }
+        String fullDeadlineDate = "";
+        fullDeadlineDate = fullDeadlineDate.concat(taskDate).concat(" ").concat(taskTime);
+        System.out.println("DATE: " + fullDeadlineDate);
 
         if(taskName.isEmpty()){
             taskNameEditText.setError("Task name is required");
@@ -217,8 +242,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 //        String deadline = date + " " + time;
 
         AddTaskBackgroundTask addTaskBackgroundTask = new AddTaskBackgroundTask(this);
-//        []= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
-        addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), "", taskDescription, "", "", piority);
+        addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, "", "", piority);
     }
 
     @Override
