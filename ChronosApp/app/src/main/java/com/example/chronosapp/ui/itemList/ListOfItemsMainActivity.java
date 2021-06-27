@@ -1,9 +1,18 @@
 package com.example.chronosapp.ui.itemList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.TextAppearanceSpan;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.InflateException;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,10 +21,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chronosapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -76,14 +89,15 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 
         sortOptions = findViewById(R.id.sortOptions);
         sortOptions.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(context, v);
+                Context wrapper = new ContextThemeWrapper(context, R.style.PopupMenu);
+                PopupMenu popup = new PopupMenu(wrapper, v);
                 popup.setOnMenuItemClickListener((PopupMenu.OnMenuItemClickListener) context);
                 MenuInflater inflater = popup.getMenuInflater();
                 inflater.inflate(R.menu.sort_options_menu, popup.getMenu());
                 popup.show();
-
             }
         });
         rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim);

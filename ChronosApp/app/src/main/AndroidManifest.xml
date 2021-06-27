@@ -23,6 +23,9 @@
         <activity android:name=".ui.home.AboutUs"
             android:theme="@style/Theme.ChronosApp.NoActionBar"
             />
+        <activity android:name=".ui.home.ChangePassword"
+            android:theme="@style/Theme.ChronosApp.NoActionBar"
+            />
         <activity android:name=".ui.home.Account"
             android:theme="@style/Theme.ChronosApp.NoActionBar"
             />
@@ -47,7 +50,9 @@
         <activity
             android:name=".ui.itemList.ScannerOCR"
             android:theme="@style/Theme.ChronosApp.NoActionBar"/>
-        <activity android:name=".login.VerifyActivity"
+
+        <activity
+            android:name=".login.VerifyActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>
         <activity
             android:name=".login.RegisterUser"

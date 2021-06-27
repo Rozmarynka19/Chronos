@@ -6,11 +6,13 @@
         android:id="@+id/sortByName"
         android:orderInCategory="100"
         android:title="Sort By Name"
-        app:showAsAction="withText" />
+        app:showAsAction="withText"/>
+
     <item
         android:id="@+id/sortByDeadline"
         android:orderInCategory="110"
         android:title="Sort By Deadline"
+        android:actionLayout="@layout/about_us"
         app:showAsAction="withText" />
     <item
         android:id="@+id/sortByPriority"
