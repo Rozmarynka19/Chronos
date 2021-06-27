@@ -154,6 +154,12 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
+        if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[_])(?=\\S+$).{8,}$")) {
+            editTextPassword.setError("Password must contain at least 8 characters, one upper and one lower letter, one number and special character '_'");
+            editTextPassword.requestFocus();
+            return;
+        }
+
         if (!password.equals(password2)) {
             editTextPassword.setError("Passwords do not match!");
             editTextPassword.requestFocus();
@@ -163,11 +169,11 @@ public class RegisterUser extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if (password.length() < 6) {
+        /*if (password.length() < 6) {
             editTextPassword.setError("Min password length is 6");
             editTextPassword.requestFocus();
             return;
-        }
+        }*/
 
         progressBar.setVisibility(View.VISIBLE);
         String type = "reg";

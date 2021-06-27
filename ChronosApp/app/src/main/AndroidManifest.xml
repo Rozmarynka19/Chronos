@@ -26,6 +26,9 @@
         <activity android:name=".ui.home.Account"
             android:theme="@style/Theme.ChronosApp.NoActionBar"
             />
+        <activity android:name=".ui.home.Preferences"
+            android:theme="@style/Theme.ChronosApp.NoActionBar"
+            />
         <activity
             android:name=".ui.itemList.EditTaskActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar"
@@ -44,7 +47,8 @@
         <activity
             android:name=".ui.itemList.ScannerOCR"
             android:theme="@style/Theme.ChronosApp.NoActionBar"/>
-        <activity android:name=".login.VerifyActivity"></activity>
+        <activity android:name=".login.VerifyActivity"
+            android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>
         <activity
             android:name=".login.RegisterUser"
             android:theme="@style/Theme.ChronosApp.NoActionBar"></activity>
@@ -70,6 +74,8 @@
         <activity
             android:name=".ui.itemList.ListOfItemsMainActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar" />
+
+        <receiver android:name=".NotificationPublisher"></receiver>
     </application>
 
 </manifest>

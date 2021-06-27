@@ -44,7 +44,7 @@ public class GetBillBackgroundTask extends AsyncTask<String, String, String> {
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
                 BufferedWriter bufferWriter = new BufferedWriter(outputStreamWriter);
                 String insert_data = URLEncoder.encode("itemid", "UTF-8") +"="+URLEncoder.encode(strings[0], "UTF-8");
-                System.out.println(insert_data);
+                //System.out.println(insert_data);
                 bufferWriter.write(insert_data);
                 bufferWriter.flush();
                 bufferWriter.close();
@@ -87,11 +87,11 @@ public class GetBillBackgroundTask extends AsyncTask<String, String, String> {
                 "Bill_Amount",
                 "Bill_Desc",
                 "Bill_Deadline"));
-        System.out.println(s);
+        ////System.out.println(s);
 
         String[] separatedOutput = s.split("\n");
-        for(int i=0;i<separatedOutput.length;i++)
-            System.out.println("i="+String.valueOf(i)+" "+separatedOutput[i]);
+        //for(int i=0;i<separatedOutput.length;i++)
+            //System.out.println("i="+String.valueOf(i)+" "+separatedOutput[i]);
 
         if(!separatedOutput[0].equals("connection failed") && !separatedOutput[0].equals("error in request"))
             for(int i=0;i<listOfKeys.size();i++)

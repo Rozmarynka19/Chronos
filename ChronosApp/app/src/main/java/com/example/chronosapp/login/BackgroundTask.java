@@ -85,16 +85,15 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
         CharSequence text = "Hello toast!";
         int duration = Toast.LENGTH_SHORT;
-        System.out.println(s);
+        //System.out.println(s);
         Toast toast = Toast.makeText(context, s, duration);
-        toast.show();
+        //toast.show();
 
-        //Saving user data to sharedPreferences to be able to recognize who's who
-        System.out.println(s);
+        //System.out.println(s);
         String[] separatedOutput = s.split("\n");
 
-        for (int i = 0; i < separatedOutput.length; i++)
-            System.out.println("i=" + String.valueOf(i) + separatedOutput[i]);
+        //for (int i = 0; i < separatedOutput.length; i++)
+            //System.out.println("i=" + String.valueOf(i) + separatedOutput[i]);
 
         if (separatedOutput[0].equals("connection sucess") &&
                 (separatedOutput[1].equals("registered succesfully") || separatedOutput[1].equals("login sucesfull"))) {
@@ -106,10 +105,10 @@ public class BackgroundTask extends AsyncTask<String, String, String> {
             editor.putString("phone", separatedOutput[5]);
             editor.putString("is_verified", separatedOutput[6].substring(0,1));
             editor.apply();
-            System.out.println("smieci \n" + separatedOutput[2]);
+            //System.out.println("smieci \n" + separatedOutput[2]);
             String str = "0";
             if (str.compareTo(separatedOutput[6].substring(0,1)) != 0) {
-                System.out.println("\nscam moment\n");
+                //System.out.println("\nscam moment\n");
                 context.startActivity(new Intent(context, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             } else {
                 context.startActivity(new Intent(context, com.example.chronosapp.login.VerifyActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));

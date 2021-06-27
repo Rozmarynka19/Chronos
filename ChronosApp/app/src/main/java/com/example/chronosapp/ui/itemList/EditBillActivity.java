@@ -87,7 +87,7 @@ public class EditBillActivity extends AppCompatActivity implements EditBillBackg
             String[] splittedCodedData = codedData.split("\\|");
             if(splittedCodedData.length == 1)
             {
-                Toast.makeText(this,"Unrecognized format",Toast.LENGTH_LONG).show();
+                //Toast.makeText(this,"Unrecognized format",Toast.LENGTH_LONG).show();
                 return;
             }
             if(!splittedCodedData[2].equals("")) bankAccountNumberEdit.setText(splittedCodedData[2]);

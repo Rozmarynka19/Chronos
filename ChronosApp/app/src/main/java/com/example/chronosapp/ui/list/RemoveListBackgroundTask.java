@@ -58,7 +58,7 @@ public class RemoveListBackgroundTask extends AsyncTask<String, String, String>{
     @SuppressLint("ResourceType")
     @Override
     protected void onPostExecute(String s) {
-        Toast.makeText(context.getContext(), s, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context.getContext(), s, Toast.LENGTH_SHORT).show();
         listener = (RemoveListBackgroundTaskListener) context;
         
         if(s.equals("list removed succesfully\n"))

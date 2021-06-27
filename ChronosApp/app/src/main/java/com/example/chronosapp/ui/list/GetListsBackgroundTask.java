@@ -54,15 +54,15 @@ public class GetListsBackgroundTask extends AsyncTask<String, String, String>{
     @SuppressLint("ResourceType")
     @Override
     protected void onPostExecute(String s) {
-        Toast.makeText(context.getContext(), s, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context.getContext(), s, Toast.LENGTH_SHORT).show();
         listener = (GetListsBackgroundTaskListener) context;
         ArrayList<ListItem> arrayOfLists = new ArrayList<>();
 
-        System.out.println(s);
+        //System.out.println(s);
 
         String[] separatedOutput = s.split("\n");
-        for(int i=0;i<separatedOutput.length;i++)
-            System.out.println("i="+String.valueOf(i)+" "+separatedOutput[i]);
+        //for(int i=0;i<separatedOutput.length;i++)
+            //System.out.println("i="+String.valueOf(i)+" "+separatedOutput[i]);
 
         if(separatedOutput[0].equals("connection sucess"))
         {

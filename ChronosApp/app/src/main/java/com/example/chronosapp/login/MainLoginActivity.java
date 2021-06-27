@@ -84,13 +84,6 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
-        /*NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("My notification")
-                .setContentText("Much longer text that cannot fit one line...")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Much longer text that cannot fit one line..."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);*/
-
 
 //        SignInButton signInButton = findViewById(R.id.sign_in_button);
 //        signInButton.setSize(SignInButton.SIZE_WIDE);
@@ -110,7 +103,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 
         @SuppressLint("WrongConstant")
         SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
-//<<<<<<< HEAD
+
         if(sharedPreferences!=null && !(sharedPreferences.getString("login","").equals("")))
         {
             com.example.chronosapp.login.BackgroundCheckUserTask backgroundCheckUserTask = new com.example.chronosapp.login.BackgroundCheckUserTask(this);
@@ -135,10 +128,10 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 //=======
 //        if (sharedPreferences != null && !(sharedPreferences.getString("login", "").equals(""))) {
 
-//>>>>>>> jk
+
         }
 
-//        signInButton = findViewById(R.id.sign_in_button);
+
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
         editTextLogin = (EditText) findViewById(R.id.login);
@@ -174,8 +167,8 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
                 this.finish();
                 break;
             case R.id.signIn:
-               /* String title = "Jebanie Mantiuka";
-                String message = "To czas jebania śmieci";
+                /*String title = "test notify";
+                String message = "time for task";
 
                 Notification notification = new NotificationCompat.Builder(this, CHANNEL_2_ID)
                         .setSmallIcon(R.drawable.ic_launcher_background)
@@ -289,7 +282,7 @@ public class MainLoginActivity extends AppCompatActivity implements View.OnClick
 
                 this.startActivity(new Intent(this, com.example.chronosapp.MainMainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 
-                /*System.out.println("dane z google: " + personName + " " + personEmail);
+                /*//System.out.println("dane z google: " + personName + " " + personEmail);
 
                 Toast.makeText(this, "User email :" + personEmail, Toast.LENGTH_SHORT).show();
                 mGoogleSignInClient.signOut();*/

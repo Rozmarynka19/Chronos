@@ -42,7 +42,7 @@ public class EditListBackgroundTask extends AsyncTask<String, String, String> {
                 BufferedWriter bufferWriter = new BufferedWriter(outputStreamWriter);
                 String insert_data = URLEncoder.encode("listid", "UTF-8") +"="+URLEncoder.encode(listid, "UTF-8")+
                         "&"+URLEncoder.encode("newlistname", "UTF-8")+"="+URLEncoder.encode(newlistname, "UTF-8");
-                System.out.println(insert_data);
+                //System.out.println(insert_data);
                 bufferWriter.write(insert_data);
                 bufferWriter.flush();
                 bufferWriter.close();
@@ -76,6 +76,6 @@ public class EditListBackgroundTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
     }
 }

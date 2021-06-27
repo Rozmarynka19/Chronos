@@ -58,7 +58,7 @@ public class RemoveItemBackgroundTask extends AsyncTask<String, String, String>{
     @SuppressLint("ResourceType")
     @Override
     protected void onPostExecute(String s) {
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
         listener = (RemoveItemBackgroundTaskListener) context;
 
         if(s.equals("item removed successfully"))

@@ -56,7 +56,7 @@ public class AddBillBackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String s) {
         listener = (AddBillBackgroundTaskListener) context;
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
         Log.d("AddBillBackgroundTask: ","resultMsg: "+s);
         if(s.contains("bill added successfully\n"))
             listener.refreshListOfItems();

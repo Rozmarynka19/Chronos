@@ -28,7 +28,7 @@ public class DataBaseHelper {
                     insert_data += "&";
                 }
             }
-            System.out.println(insert_data);
+            //System.out.println(insert_data);
             bufferWriter.write(insert_data);
             bufferWriter.flush();
             bufferWriter.close();

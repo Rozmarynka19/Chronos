@@ -236,11 +236,11 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
                 String currentListName = mlistItemAdapter.getTitleByListId(item.getGroupId());
                 if(currentListName == null)
                     currentListName = "none";
-                Toast.makeText(contextOfFragment,"Edit list clicked: "+currentListName,Toast.LENGTH_LONG).show();
+                //Toast.makeText(contextOfFragment,"Edit list clicked: "+currentListName,Toast.LENGTH_LONG).show();
                 openEditListDialog(item.getGroupId(), currentListName);
                 break;
             default:
-                Toast.makeText(contextOfFragment,"No such case",Toast.LENGTH_LONG).show();
+                //Toast.makeText(contextOfFragment,"No such case",Toast.LENGTH_LONG).show();
         }
 
         return super.onContextItemSelected(item);

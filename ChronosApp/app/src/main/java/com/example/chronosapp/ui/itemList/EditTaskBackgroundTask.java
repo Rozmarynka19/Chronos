@@ -53,7 +53,7 @@ public class EditTaskBackgroundTask extends AsyncTask<String, String, String> {
                         "&"+URLEncoder.encode("recurring", "UTF-8")+"="+URLEncoder.encode(strings[5], "UTF-8")+
                         "&"+URLEncoder.encode("notificationDate", "UTF-8")+"="+URLEncoder.encode(strings[6], "UTF-8")+
                         "&"+URLEncoder.encode("piority", "UTF-8")+"="+URLEncoder.encode(strings[7], "UTF-8");
-                System.out.println(insert_data);
+                //System.out.println(insert_data);
                 bufferWriter.write(insert_data);
                 bufferWriter.flush();
                 bufferWriter.close();
@@ -88,7 +88,7 @@ public class EditTaskBackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String s) {
         listener = (EditTaskBackgroundTaskListener) context;
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
         Log.d("EditTaskBackgroundTask: ","resultMsg: "+s);
         if(s.contains("task updated successfully\n"))
             listener.refreshListOfItems();

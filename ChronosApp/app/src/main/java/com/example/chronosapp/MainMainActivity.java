@@ -193,7 +193,7 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 
         editor.apply();
 
-        Toast.makeText(this, "[DEBUG] Shared preferences saved!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "[DEBUG] Shared preferences saved!", Toast.LENGTH_SHORT).show();
     }
 
     public void loadData(){
@@ -240,7 +240,12 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(this, com.example.chronosapp.ui.home.Account.class);
             finish();
             startActivity(intent);
+        }else if(item.getItemId() == R.id.preferences){
+            Intent intent = new Intent(this, com.example.chronosapp.ui.home.Preferences.class);
+            finish();
+            startActivity(intent);
         }
+
         //the next issue to discuss is how to add new ToDoLists dynamically to the drawer menu
         //and handle it here (maybe some kind of iterator? and give following lists names like
         // todolistx where x is current iterator value)
