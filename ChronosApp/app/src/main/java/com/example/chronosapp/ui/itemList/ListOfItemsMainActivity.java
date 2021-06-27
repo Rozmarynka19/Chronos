@@ -31,11 +31,12 @@ import java.util.Comparator;
 
 public class ListOfItemsMainActivity extends AppCompatActivity
                                     implements GetItemsBackgroundTaskListener,
+                                                GetItemsDetailsBackgroundTaskListener,
                                                 RemoveItemBackgroundTaskListener,
                                                PopupMenu.OnMenuItemClickListener
 {
     private RecyclerView mRecyclerView;
-    private ArrayList<Item> mItemArrayList;
+    public ArrayList<Item> mItemArrayList;
     private ItemAdapter itemAdapter;
     private String sharedUserId, listID;
 
@@ -137,6 +138,21 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         getItemsFromDatabase();
     }
 
+    private void getItemsDetails() {
+        StringBuilder ids = new StringBuilder();
+        for(int i=0;i<mItemArrayList.size();i++)
+        {
+            ids.append(mItemArrayList.get(i).getItemID());
+            if(i!=mItemArrayList.size()-1)
+                ids.append(",");
+        }
+
+        Log.d("ListOfItemsMainActivity - getItemsDetails",ids.toString());
+
+        GetItemsDetailsBackgroundTask getItemsDetailsBackgroundTask = new GetItemsDetailsBackgroundTask(this);
+        getItemsDetailsBackgroundTask.execute(ids.toString());
+    }
+
     public void getItemsFromDatabase() {
         GetItemsBackgroundTask getItemsBackgroundTask = new GetItemsBackgroundTask(this);
         getItemsBackgroundTask.execute(listID);
@@ -200,6 +216,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
                             +", itemName= "+mItemArrayList.get(i).getTitle()
                             +", itemType= "+mItemArrayList.get(i).getType());
         applyItems();
+        getItemsDetails();
     }
 
     /**
@@ -349,5 +366,11 @@ public class ListOfItemsMainActivity extends AppCompatActivity
             }
         });
         itemAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void refreshItemsDetails(ArrayList<Item> mItemArrayList) {
+        this.mItemArrayList = mItemArrayList;
+        applyItems();
     }
 }

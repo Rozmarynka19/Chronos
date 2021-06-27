@@ -29,8 +29,8 @@ class Item {
         if type=="bill"
             another imageResource to indicate to user that's bill
      */
-    private String type, title, itemID;
-    private final int imageResource;
+    private String type, title, itemID, deadline, priority;
+    private int imageResource;
 
     /**
      * Constructor for the ListItem data model.
@@ -44,6 +44,8 @@ class Item {
         this.itemID = itemID;
         this.type = type;
         this.imageResource = imageResource;
+        this.deadline = null;
+        this.priority = null;
     }
 
     /**
@@ -79,5 +81,44 @@ class Item {
     public int getImageResource() {
         return imageResource;
     }
+
+    /***
+     * Gets the deadline
+     *
+     * @return deadline
+     */
+    public String getDeadline() {
+        return deadline;
+    }
+
+    /***
+     * Gets the priority
+     *
+     * @return priority
+     */
+    public String getPriority() {
+        return priority;
+    }
+
+    /**
+     * Sets proper image resource.
+     *
+     * @param imageResource Background image
+     */
+    public void setImageResource(int imageResource) { this.imageResource = imageResource; }
+
+    /**
+     * Sets proper deadline.
+     *
+     * @param deadline Deadline
+     */
+    public void setDeadline(String deadline) { this.deadline = deadline; }
+
+    /**
+     * Sets proper priority.
+     *
+     * @param priority Priority
+     */
+    public void setPriority(String priority) { this.priority = priority; }
 
 }
