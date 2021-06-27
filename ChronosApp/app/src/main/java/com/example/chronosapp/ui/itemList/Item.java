@@ -29,6 +29,7 @@ class Item {
         if type=="bill"
             another imageResource to indicate to user that's bill
      */
+
     private String type, title, itemID, deadline, priority;
     private int imageResource;
 

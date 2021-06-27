@@ -43,12 +43,12 @@ public class GetItemsDetailsBackgroundTask extends AsyncTask<String, String, Str
 
     @Override
     protected void onPostExecute(String s) {
-        ArrayList<Item> mItemArrayList = ((ListOfItemsMainActivity)context).mItemArrayList;
+        ArrayList<Item> mItemArrayList = ((ListOfItemsMainActivity) context).mItemArrayList;
 
 //        Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
         listener = (GetItemsDetailsBackgroundTaskListener) context;
 
-        Log.d("GetItemsDetailsBackgroundTask - onPostExecute",s);
+        Log.d("GetItemsDetailsBackgroundTask - onPostExecute", s);
 
         /**
          * schema:
@@ -57,10 +57,10 @@ public class GetItemsDetailsBackgroundTask extends AsyncTask<String, String, Str
          */
 
         String[] separatedOutput = s.split("\n");
-        for(int i=0;i<separatedOutput.length;i++)
-            Log.d("i="+String.valueOf(i),separatedOutput[i]);
+        for (int i = 0; i < separatedOutput.length; i++)
+            Log.d("i=" + String.valueOf(i), separatedOutput[i]);
 
-        if(separatedOutput.length<=2 || separatedOutput[0].equals(""))
+        if (separatedOutput.length <= 2 || separatedOutput[0].equals(""))
             return;
 
         if(!separatedOutput[0].equals("connection failed") && !separatedOutput[0].equals("error in request"))

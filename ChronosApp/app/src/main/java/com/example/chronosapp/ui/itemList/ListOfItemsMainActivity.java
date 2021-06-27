@@ -56,7 +56,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
 
     private FloatingActionButton addNewItemFab;
-    private Button addNewTaskButton, addNewBillButton, sortByDataButton;
+    private Button addNewTaskButton, addNewBillButton;
 
     private LinearLayout bckArrow, sortOptions;
     private boolean isAddNewItemButtonClicked = false;
@@ -363,18 +363,42 @@ public class ListOfItemsMainActivity extends AppCompatActivity
                 return true;
             case R.id.sortByDeadline:
                 Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by deadline clicked");
+                sortingByDeadline();
                 return true;
             case R.id.sortByPriority:
                 Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by priority clicked");
+                sortingByPriority();
                 return true;
             default:
                 return false;
         }
     }
-    public void sortingByName(){
+
+    public void sortingByName() {
         Collections.sort(mItemArrayList, new Comparator<Item>() {
             public int compare(Item o1, Item o2) {
                 return o1.getTitle().compareTo(o2.getTitle());
+            }
+        });
+        itemAdapter.notifyDataSetChanged();
+    }
+    public void sortingByDeadline() {
+        Collections.sort(mItemArrayList, new Comparator<Item>() {
+            public int compare(Item o1, Item o2) {
+                return o1.getDeadline().compareTo(o2.getDeadline());
+            }
+        });
+        itemAdapter.notifyDataSetChanged();
+    }
+    public void sortingByPriority(){
+        Collections.sort(mItemArrayList, new Comparator<Item>() {
+            public int compare(Item o1, Item o2) {
+                if(o1.getPriority().compareTo(o2.getPriority()) < 0)
+                    return 1;
+                if(o1.getPriority().compareTo(o2.getPriority()) > 0)
+                    return -1;
+                else
+                    return 0;
             }
         });
         itemAdapter.notifyDataSetChanged();
@@ -385,4 +409,5 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         this.mItemArrayList = mItemArrayList;
         applyItems();
     }
+
 }
