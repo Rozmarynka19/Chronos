@@ -349,9 +349,11 @@ public class ListOfItemsMainActivity extends AppCompatActivity
                 return true;
             case R.id.sortByDeadline:
                 Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by deadline clicked");
+                sortingByDeadline();
                 return true;
             case R.id.sortByPriority:
                 Log.d("ListOfItemsMainActivity - onMenuItemClick","sort by priority clicked");
+                sortingByPriority();
                 return true;
             default:
                 return false;
@@ -360,7 +362,6 @@ public class ListOfItemsMainActivity extends AppCompatActivity
 
 
     public void sortingByName() {
-        Toast.makeText(this, "Sorting by name ...", Toast.LENGTH_SHORT).show();
         Collections.sort(mItemArrayList, new Comparator<Item>() {
             public int compare(Item o1, Item o2) {
                 return o1.getTitle().compareTo(o2.getTitle());
@@ -368,17 +369,27 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         });
         itemAdapter.notifyDataSetChanged();
     }
-
-//    public void sortingByPriority(){
-//        Toast.makeText(this,"Sorting by name ...", Toast.LENGTH_SHORT).show();
-//        Collections.sort(mItemArrayList, new Comparator<Item>() {
-//            public int compare(Item o1, Item o2) {
-//
-//            }
-//        });
-//        itemAdapter.notifyDataSetChanged();
-//    }
-
+    public void sortingByDeadline() {
+        Collections.sort(mItemArrayList, new Comparator<Item>() {
+            public int compare(Item o1, Item o2) {
+                return o1.getDeadline().compareTo(o2.getDeadline());
+            }
+        });
+        itemAdapter.notifyDataSetChanged();
+    }
+    public void sortingByPriority(){
+        Collections.sort(mItemArrayList, new Comparator<Item>() {
+            public int compare(Item o1, Item o2) {
+                if(o1.getPriority().compareTo(o2.getPriority()) < 0)
+                    return 1;
+                if(o1.getPriority().compareTo(o2.getPriority()) > 0)
+                    return -1;
+                else
+                    return 0;
+            }
+        });
+        itemAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void refreshItemsDetails(ArrayList<Item> mItemArrayList) {
