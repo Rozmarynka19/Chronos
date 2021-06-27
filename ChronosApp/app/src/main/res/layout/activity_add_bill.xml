@@ -246,7 +246,7 @@
 
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/paymentDeadlineEdit"
+                android:id="@+id/paymentDateEdit"
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
                 android:layout_marginStart="32dp"
@@ -255,7 +255,19 @@
                 android:drawableEnd="@drawable/calendar_ico_32"
                 android:backgroundTint="@color/dark_blue"
                 android:layout_marginEnd="32dp"
-                android:hint="Enter here your payment's deadline."/>
+                android:hint="@string/dd_mm_yyyy"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/paymentTimeEdit"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="@color/dark_blue"
+                android:drawableEnd="@drawable/calendar_ico_32"
+                android:hint="@string/hh_mm"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
 
         </LinearLayout>
 
