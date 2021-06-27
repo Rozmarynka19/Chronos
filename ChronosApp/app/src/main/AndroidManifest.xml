@@ -74,6 +74,8 @@
         <activity
             android:name=".ui.itemList.ListOfItemsMainActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar" />
+
+        <receiver android:name=".NotificationPublisher"></receiver>
     </application>
 
 </manifest>

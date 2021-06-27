@@ -229,9 +229,9 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 
 
         Notification not = createNotification(taskName, taskDescription);
-        Calendar myCalendar = Calendar. getInstance () ;
+        Calendar myCalendar = Calendar.getInstance();
         Date date = myCalendar.getTime() ;
-        scheduleNotification(not, 0);
+        scheduleNotification(not, 60 * 1000 );
 
         AddTaskBackgroundTask addTaskBackgroundTask = new AddTaskBackgroundTask(this);
 //        []= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
