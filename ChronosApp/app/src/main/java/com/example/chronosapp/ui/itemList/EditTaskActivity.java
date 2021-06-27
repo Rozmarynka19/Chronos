@@ -29,16 +29,13 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
     //TODO: dates with time - deadline, notificationDate
     //TODO: recurring - list of days in which deadline is set anew
 
-    private String itemID, taskName, taskDescription, priority ="";
-    private EditText taskNameEditText, taskDescriptionEditText;
+    private String itemID, taskName, taskDescription, taskDate, taskTime, priority="";
+    private EditText taskNameEditText, taskDescriptionEditText, taskDateEditField, taskTimeEditField;
     private RadioButton radioHighPriority, radioNormalPriority, radioLowPriority;
     private Button editTaskButton;
 
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
-
-    private EditText timeField;
-    private EditText dateField;
 
     private LinearLayout linearLayout;
 
@@ -72,8 +69,8 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
             }
         });
 
-        timeField = findViewById(R.id.taskTimeEditText);
-        timeField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        taskTimeEditField = findViewById(R.id.taskTimeEditText);
+        taskTimeEditField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
@@ -83,8 +80,8 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
             }
         });
 
-        dateField = findViewById(R.id.taskDateEditText);
-        dateField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        taskDateEditField = findViewById(R.id.taskDateEditText);
+        taskDateEditField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
@@ -156,16 +153,38 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         }
     }
 
+    private int check_errors() {
+        int errors = 0;
+        if(taskName.isEmpty() || taskDate.isEmpty() || taskTime.isEmpty()) {
+            if(taskName.isEmpty()) {
+                taskNameEditText.setError("Task name is required");
+                errors += 1;
+            }
+            if(taskDate.isEmpty()) {
+                taskDateEditField.setError("Task date is required");
+                errors += 1;
+            }
+            if(taskTime.isEmpty()) {
+                taskTimeEditField.setError("Task time is required");
+                errors += 1;
+            }
+        }
+        return errors;
+    }
+
     public void sendNewTaskToDb(View view) {
         taskName = taskNameEditText.getText().toString();
         taskDescription = taskDescriptionEditText.getText().toString();
+        taskDate = taskDateEditField.getText().toString();
+        taskTime = taskTimeEditField.getText().toString();
 
-        if(taskName.isEmpty()){
-            taskNameEditText.setError("Task name is required");
-            taskNameEditText.requestFocus();
+        if(check_errors() > 0) {
             return;
         }
 
+        String fullDeadlineDate = "";
+        fullDeadlineDate = fullDeadlineDate.concat(taskDate).concat(" ").concat(taskTime);
+        System.out.println("DATE: " + fullDeadlineDate);
 //        String date = dateField.getText().toString().trim();
 //        if(date.isEmpty()){
 //            dateField.setError("Task date is required");
@@ -187,7 +206,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
 
         EditTaskBackgroundTask editTaskBackgroundTask = new EditTaskBackgroundTask(this);
 //        []= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
-        editTaskBackgroundTask.execute(itemID, taskName, ItemTypes.Task.toString(), "", taskDescription, "", "", priority);
+        editTaskBackgroundTask.execute(itemID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, "", "", priority);
     }
 
     @Override
@@ -208,6 +227,12 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         Log.d("getTaskDetails - priority", tableOfTaskDetails.get("Task_Priority"));
         taskNameEditText.setText(taskName);
         taskDescriptionEditText.setText(tableOfTaskDetails.get("Task_Desc"));
+
+        String[] separateDateTime = tableOfTaskDetails.get("Task_Deadline").split(" ");
+
+        taskDateEditField.setText(separateDateTime[0]);
+        taskTimeEditField.setText(separateDateTime[1]);
+
         priority = tableOfTaskDetails.get("Task_Priority");
         setRadioButton();
     }
@@ -217,7 +242,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 String time = createTime(hourOfDay, minute);
-                timeField.setText(time);
+                taskTimeEditField.setText(time);
             }
         };
         Calendar cal = Calendar.getInstance();
@@ -235,7 +260,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month = month + 1;
                 String date = createDate(day, month, year);
-                dateField.setText(date);
+                taskDateEditField.setText(date);
             }
         };
         Calendar cal = Calendar.getInstance();
@@ -257,7 +282,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         if(picked_month.length() == 1)
             picked_month = "0" + picked_month;
 
-        return picked_day + ":" + picked_month + ":" + year;
+        return picked_day + "-" + picked_month + "-" + year;
     }
 
     private String createTime(int hour, int minute){

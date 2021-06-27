@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/sortByPriority"
-            android:orderInCategory="110"
-            android:title="Sort By Priority"
-            app:showAsAction="withText"/>
-    <item
         android:id="@+id/sortByName"
         android:orderInCategory="100"
         android:title="Sort By Name"
         app:showAsAction="withText" />
     <item
-            android:id="@+id/sortByDeadline"
-            android:orderInCategory="110"
-            android:title="Sort By Deadline"
-            app:showAsAction="withText"/>
+        android:id="@+id/sortByDeadline"
+        android:orderInCategory="110"
+        android:title="Sort By Deadline"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/sortByPriority"
+        android:orderInCategory="120"
+        android:title="Sort By Priority"
+        app:showAsAction="withText" />
 </menu>
