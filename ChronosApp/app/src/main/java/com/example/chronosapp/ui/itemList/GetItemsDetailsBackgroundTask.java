@@ -60,6 +60,9 @@ public class GetItemsDetailsBackgroundTask extends AsyncTask<String, String, Str
         for(int i=0;i<separatedOutput.length;i++)
             Log.d("i="+String.valueOf(i),separatedOutput[i]);
 
+        if(separatedOutput.length<=2 || separatedOutput[0].equals(""))
+            return;
+
         if(!separatedOutput[0].equals("connection failed") && !separatedOutput[0].equals("error in request"))
         {
             int rows = Integer.parseInt(separatedOutput[0]),
