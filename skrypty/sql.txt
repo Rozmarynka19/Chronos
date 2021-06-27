@@ -70,3 +70,11 @@ CREATE TABLE transfers_data (
     PRIMARY KEY (Transfer_ID),
     FOREIGN KEY (User_ID) REFERENCES registered_users(User_ID)
 );
+CREATE TABLE `User_Bill_Account_Information`(
+User_Bill_Account_ID INT NOT NULL AUTO_INCREMENT,
+User_ID INT,
+Bill_Account_Namet TEXT,
+Bill_Account_Number TEXT,
+PRIMARY KEY (User_Bill_Account_ID),
+FOREIGN KEY (User_ID) REFERENCES registered_users(User_ID)
+);

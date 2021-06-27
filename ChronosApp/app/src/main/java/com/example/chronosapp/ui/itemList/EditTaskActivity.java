@@ -22,6 +22,7 @@ import com.example.chronosapp.R;
 
 import java.util.Calendar;
 import java.util.Hashtable;
+import java.util.Objects;
 
 public class EditTaskActivity extends AppCompatActivity implements EditTaskBackgroundTaskListener,
                                                                     GetTaskBackgroundTaskListener{
@@ -228,11 +229,11 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         taskNameEditText.setText(taskName);
         taskDescriptionEditText.setText(tableOfTaskDetails.get("Task_Desc"));
 
-        String[] separateDateTime = tableOfTaskDetails.get("Task_Deadline").split(" ");
-
-        taskDateEditField.setText(separateDateTime[0]);
-        taskTimeEditField.setText(separateDateTime[1]);
-
+        String[] separateDateTime = Objects.requireNonNull(tableOfTaskDetails.get("Task_Deadline")).split(" ");
+        if(separateDateTime.length != 0) {
+            taskDateEditField.setText(separateDateTime[0]);
+            taskTimeEditField.setText(separateDateTime[1]);
+        }
         priority = tableOfTaskDetails.get("Task_Priority");
         setRadioButton();
     }

@@ -245,7 +245,11 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
             finish();
             startActivity(intent);
         }
-
+        else if(item.getItemId() == R.id.mydata){
+            Intent intent = new Intent(this, com.example.chronosapp.ui.home.MyData.class);
+            finish();
+            startActivity(intent);
+        }
         //the next issue to discuss is how to add new ToDoLists dynamically to the drawer menu
         //and handle it here (maybe some kind of iterator? and give following lists names like
         // todolistx where x is current iterator value)

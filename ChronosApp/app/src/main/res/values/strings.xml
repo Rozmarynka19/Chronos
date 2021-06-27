@@ -123,4 +123,10 @@
     <string name="sample">Sample</string>
     <string name="ocr">OCR</string>
     <string name="capture">Capture</string>
+    <string name="my_data">My Data</string>
+    <string name="user_data">User Data</string>
+    <string name="name">Name</string>
+    <string name="account_number">Account Number</string>
+    <string name="save">Save</string>
+    <string name="generate_qr">Generate QR</string>
 </resources>
