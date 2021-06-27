@@ -1,21 +1,21 @@
 package com.example.chronosapp.ui.home;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Patterns;
 import android.view.View;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.RelativeLayout;;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.chronosapp.MainMainActivity;
 import com.example.chronosapp.R;
+import com.example.chronosapp.login.MainLoginActivity;
 
 public class ChangePassword extends AppCompatActivity implements View.OnClickListener {
 
@@ -121,13 +121,6 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
         String new_password_1 = change_password_new_password_1.getText().toString().trim();
         String new_password_2 = change_password_new_password_2.getText().toString().trim();
 
-
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            change_password_login.setError("Please enter valid email adress!");
-            change_password_login.requestFocus();
-            return;
-        }
-
         if(matchPassword(old_password)){
             change_password_password.setError("Please enter valid password!");
             change_password_password.requestFocus();
@@ -151,13 +144,28 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
             change_password_new_password_2.requestFocus();
             return;
         }
+
+        String type = "change";
+        com.example.chronosapp.login.ChangePasswordBGT changePasswordBGT = new com.example.chronosapp.login.ChangePasswordBGT(this);
+        changePasswordBGT.execute(type, email, old_password, new_password_1);
+
+        @SuppressLint("WrongConstant")
+        SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        if(sharedPreferences!=null)
+        {
+            editor.clear();
+            editor.apply();
+            startActivity(new Intent(this, MainLoginActivity.class));
+            this.finish();
+        }
     }
 
     public boolean matchPassword(String password){
-        if(password.matches("\"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[_])(?=\\\\S+$).{8,}$\""))
-            return true;
+        if(password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[_])(?=\\S+$).{8,}$"))
+            return false;
 
-        return false;
+        return true;
     }
 
 
@@ -165,6 +173,7 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
 
     }
+
     @Override
     public void onBackPressed(){
         startActivity( new Intent(this, Account.class) );
