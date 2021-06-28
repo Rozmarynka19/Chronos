@@ -14,12 +14,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chronosapp.R;
+import com.example.chronosapp.ui.home.ItemsDetailsForHomeFragmentSetListener;
+import com.example.chronosapp.ui.itemList.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -28,7 +31,8 @@ import java.util.Collections;
 
 public class ListFragment extends Fragment implements AddNewListDialogListener, EditListDialogListener,
                                             GetListsBackgroundTaskListener,
-                                            RemoveListBackgroundTaskListener{
+                                            RemoveListBackgroundTaskListener,
+                                            GetItemsForHomeFragmentBackgroundTaskListener{
 
     private ListViewModel listViewModel;
 
@@ -40,6 +44,14 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
     private String sharedUserId;
 
     private Context contextOfFragment;
+
+    private Fragment fragment;
+
+    public ListFragment(Fragment fragment)
+    {
+        this.fragment = fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -77,6 +89,22 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
 
         getListsFromDatabase();
         return root;
+    }
+
+    public void getItemsForHomeFragment()
+    {
+        StringBuilder listIDs = new StringBuilder();
+        for(int i=0;i<mListItems.size();i++)
+        {
+            listIDs.append(mListItems.get(i).getListID());
+            if(i!=mListItems.size()-1)
+                listIDs.append(",");
+        }
+
+        Log.d("ListFragment - getItemsForHomeFragment",listIDs.toString());
+
+        GetItemsForHomeFragmentBackgroundTask getItemsForHomeFragmentBackgroundTask = new GetItemsForHomeFragmentBackgroundTask(this);
+        getItemsForHomeFragmentBackgroundTask.execute(listIDs.toString());
     }
 
     public void getListsFromDatabase()
@@ -211,6 +239,7 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
                     "id= "+ mListItems.get(i).getListID()
                     +", listname= "+mListItems.get(i).getTitle());
         applyLists();
+        getItemsForHomeFragment();
     }
 
     @Override
@@ -255,5 +284,12 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
         editListBackgroundTask.execute(String.valueOf(listId), newListName);
 
         getListsFromDatabase();
+    }
+
+    @Override
+    public void sendItemsToHomeFragment(ArrayList<Item> mItemArrayList) {
+
+        ItemsDetailsForHomeFragmentSetListener listener = (ItemsDetailsForHomeFragmentSetListener) fragment;
+        listener.getItemsForHomeFragment(mItemArrayList);
     }
 }

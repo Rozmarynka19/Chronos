@@ -83,7 +83,7 @@ public class GetItemsBackgroundTask extends AsyncTask<String, String, String>{
                     arrayOfItems.add(new Item(separatedOutput[i+2],
                             separatedOutput[i+1],//itemID
                             separatedOutput[i+3],//type
-                            context.getResources().getIdentifier("task_low_layout",
+                            context.getResources().getIdentifier("bill_layout_final",
                                     "drawable",
                                     context.getPackageName())));
                 }

@@ -43,7 +43,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_task_layout);
+        setContentView(R.layout.activity_edit_task_layout);
 
         Intent details = getIntent();
         itemID = details.getStringExtra("itemid");
@@ -53,16 +53,16 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         initDatePicker();
         initTimePicker();
 
-        taskNameEditText = findViewById(R.id.nameOfTaskEditText);
-        taskDescriptionEditText = findViewById(R.id.taskDescriptionEditText);
-        editTaskButton = findViewById(R.id.sendNewTaskToDbButton);
+        taskNameEditText = findViewById(R.id.editTaskLayoutNameOfTaskEditText);
+        taskDescriptionEditText = findViewById(R.id.editTaskLayoutTaskDescriptionEditText);
+        editTaskButton = findViewById(R.id.sendEditedTaskToDbButton);
         editTaskButton.setText("Edit Task");
 
-        radioHighPriority = findViewById(R.id.radioHighPriority);
-        radioNormalPriority = findViewById(R.id.radioNormalPriority);
-        radioLowPriority = findViewById(R.id.radioLowPriority);
+        radioHighPriority = findViewById(R.id.editTaskLayoutRadioHighPriority);
+        radioNormalPriority = findViewById(R.id.editTaskLayoutRadioNormalPriority);
+        radioLowPriority = findViewById(R.id.editTaskLayoutRadioLowPriority);
 
-        linearLayout = findViewById(R.id.go_back);
+        linearLayout = findViewById(R.id.go_backEditTaskLayout);
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +70,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
             }
         });
 
-        taskTimeEditField = findViewById(R.id.taskTimeEditText);
+        taskTimeEditField = findViewById(R.id.editTaskLayoutTaskTimeEditText);
         taskTimeEditField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -81,7 +81,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
             }
         });
 
-        taskDateEditField = findViewById(R.id.taskDateEditText);
+        taskDateEditField = findViewById(R.id.editTaskLayoutTaskDateEditText);
         taskDateEditField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -108,21 +108,21 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         boolean checked = ((RadioButton) view).isChecked();
         // Check which radio button was clicked.
         switch (view.getId()) {
-            case R.id.radioHighPriority:
+            case R.id.editTaskLayoutRadioHighPriority:
                 if (checked)
                 {
                     priority = "3";
                     //Toast.makeText(this, "high piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.radioNormalPriority:
+            case R.id.editTaskLayoutRadioNormalPriority:
                 if (checked)
                 {
                     priority = "2";
                     //Toast.makeText(this, "normal piority", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.radioLowPriority:
+            case R.id.editTaskLayoutRadioLowPriority:
                 if (checked)
                 {
                     priority = "1";
@@ -173,7 +173,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         return errors;
     }
 
-    public void sendNewTaskToDb(View view) {
+    public void sendEditedTaskToDb(View view) {
         taskName = taskNameEditText.getText().toString();
         taskDescription = taskDescriptionEditText.getText().toString();
         taskDate = taskDateEditField.getText().toString();

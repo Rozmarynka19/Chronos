@@ -174,7 +174,7 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
         //SlidePager section -----------------------------------------
         List<Fragment> list = new ArrayList<>();
         list.add(new HomeFragment());
-        list.add(new ListFragment());
+        list.add(new ListFragment(list.get(0)));
 //        list.add(new PageFragment1());
 //        list.add(new PageFragment2());
 //        list.add(new PageFragment3());
