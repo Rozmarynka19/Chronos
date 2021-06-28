@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="32dp"
+    android:id="@+id/subtask">
+
+    <TextView
+        android:id="@+id/subtaskName"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_marginStart="2dp"
+        android:background="@drawable/medium_bar"
+        android:padding="8dp"
+        android:text="@string/subtitle_placeholder"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+</LinearLayout>
+

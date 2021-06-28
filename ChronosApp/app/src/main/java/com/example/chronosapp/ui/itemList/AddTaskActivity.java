@@ -8,21 +8,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chronosapp.R;
 
-import java.sql.Time;
-import java.time.Clock;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgroundTaskListener {
 
@@ -37,6 +40,20 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
     private TimePickerDialog timePickerDialog;
 
     private LinearLayout linearLayout;
+
+    private RecyclerView mSubtasksRecyclerView;
+    private ArrayList<String> mSubtasks;
+    private SubtasksAdapter mSubtasksAdapter;
+    private Button addSubtask;
+    private EditText newSubtaskEditText;
+
+    private RecyclerView mAttachmentsRecyclerView;
+    private ArrayList<String> mAttachments;
+    private AttachmentsAdapter mAttachmentsAdapter;
+    private Button addAttachment;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +98,227 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
                     datePickerDialog.hide();
             }
         });
+
+        mSubtasksRecyclerView = findViewById(R.id.subtasksRecyclerView);
+        mSubtasksRecyclerView.setLayoutManager(new LinearLayoutManager(mSubtasksRecyclerView.getContext()));
+//        mSubtasksRecyclerView.setHasFixedSize(true);
+        mSubtasks = new ArrayList<>();
+        mSubtasksAdapter = new SubtasksAdapter(this,mSubtasks);
+        mSubtasksRecyclerView.setAdapter(mSubtasksAdapter);
+
+        newSubtaskEditText = findViewById(R.id.addTaskLayoutAddSubtaskEditText);
+        addSubtask = findViewById(R.id.addTaskLayoutAddSubtaskButton);
+        addSubtask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(newSubtaskEditText == null)
+                {
+                    Log.d("newSubtaskEditText","null");
+                    return;
+                }
+                else
+                    Log.d("newSubtaskEditText","not null");
+
+                String newSubtask = newSubtaskEditText.getText().toString();
+                Log.d("subtask",newSubtask);
+                mSubtasks.add(newSubtask);
+                applySubtasks();
+            }
+        });
+        applySubtasks();
+
+        mAttachmentsRecyclerView = findViewById(R.id.attachmentsRecyclerView);
+        mAttachmentsRecyclerView.setLayoutManager(new LinearLayoutManager(mAttachmentsRecyclerView.getContext()));
+//        mAttachmentsRecyclerView.setHasFixedSize(true);
+        mAttachments = new ArrayList<>();
+        mAttachmentsAdapter = new AttachmentsAdapter(this,mAttachments);
+        mAttachmentsRecyclerView.setAdapter(mAttachmentsAdapter);
+
+        addAttachment = findViewById(R.id.addTaskLayoutAddAttachmentButton);
+        addAttachment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: browse for device files
+
+                mAttachments.add("Test");
+                applyAttachments();
+            }
+        });
+        applyAttachments();
+
+
+    }
+
+    /**
+     * Apply fetched subtasks from database to the view
+     */
+    private void applySubtasks() {
+//        // Get the resources from the XML file.
+//        String[] listItemTitles = getResources()
+//                .getStringArray(R.array.listItemTitles);
+//        String[] listItemDescriptions = getResources()
+//                .getStringArray(R.array.listItemDescription);
+//        TypedArray listItemsBackgrounds = getResources()
+//                .obtainTypedArray(R.array.listItemBackgrounds);
+//
+//        // Clear the existing data (to avoid duplication).
+//        mListItems.clear();
+
+//        // Create the ArrayList of List Item objects with the titles and
+//        // information about each list
+//        for (int i = 0; i < listItemTitles.length; i++) {
+//            mListItems.add(new ListItem(listItemTitles[i], listItemDescriptions[i],
+//                    listItemsBackgrounds.getResourceId(i, 0)));
+//        }
+//
+//        // Recycle the typed array.
+//        listItemsBackgrounds.recycle();
+        mSubtasksAdapter.setSubtasks(mSubtasks);
+        Log.d("size of array of list item: ",String.valueOf(mSubtasks.size()));
+        Log.d("size of list item adapter: ",String.valueOf(mSubtasksAdapter.getItemCount()));
+
+
+        // Notify the adapter of the change.
+//        mlistItemAdapter.notifyDataSetChanged();
+
+        // Helper class for creating swipe to dismiss and drag and drop
+        // functionality.
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
+                .SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
+                        ItemTouchHelper.DOWN | ItemTouchHelper.UP,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            /**
+             * Defines the drag and drop functionality.
+             *
+             * @param recyclerView The RecyclerView that contains the list items
+             * @param viewHolder The ListViewViewHolder that is being moved
+             * @param target The ListViewViewHolder that you are switching the
+             *               original one with.
+             * @return true if the item was moved, false otherwise
+             */
+            @Override
+            public boolean onMove(RecyclerView recyclerView,
+                                  RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                // Get the from and to positions.
+                int from = viewHolder.getAdapterPosition();
+                int to = target.getAdapterPosition();
+
+                // Swap the items and notify the adapter.
+                Collections.swap(mSubtasks, from, to);
+                mSubtasksAdapter.notifyItemMoved(from, to);
+                return true;
+            }
+
+            /**
+             * Defines the swipe to dismiss functionality.
+             *
+             * @param viewHolder The viewholder being swiped.
+             * @param direction The direction it is swiped in.
+             */
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
+                // Remove from database.
+//                removeListFromDatabase(viewHolder, mListItems.get(viewHolder.getAdapterPosition()));
+
+                // Remove the item from the dataset.
+                mSubtasks.remove(viewHolder.getAdapterPosition());
+
+                // Notify the adapter.
+                mSubtasksAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+            }
+        });
+
+        // Attach the helper to the RecyclerView.
+        helper.attachToRecyclerView(mSubtasksRecyclerView);
+    }
+
+    /**
+     * Apply fetched attachments from database to the view
+     */
+    private void applyAttachments() {
+//        // Get the resources from the XML file.
+//        String[] listItemTitles = getResources()
+//                .getStringArray(R.array.listItemTitles);
+//        String[] listItemDescriptions = getResources()
+//                .getStringArray(R.array.listItemDescription);
+//        TypedArray listItemsBackgrounds = getResources()
+//                .obtainTypedArray(R.array.listItemBackgrounds);
+//
+//        // Clear the existing data (to avoid duplication).
+//        mListItems.clear();
+
+//        // Create the ArrayList of List Item objects with the titles and
+//        // information about each list
+//        for (int i = 0; i < listItemTitles.length; i++) {
+//            mListItems.add(new ListItem(listItemTitles[i], listItemDescriptions[i],
+//                    listItemsBackgrounds.getResourceId(i, 0)));
+//        }
+//
+//        // Recycle the typed array.
+//        listItemsBackgrounds.recycle();
+        mAttachmentsAdapter.setAttachments(mAttachments);
+        Log.d("size of array of list item: ",String.valueOf(mAttachments.size()));
+        Log.d("size of list item adapter: ",String.valueOf(mAttachmentsAdapter.getItemCount()));
+
+
+        // Notify the adapter of the change.
+//        mlistItemAdapter.notifyDataSetChanged();
+
+        // Helper class for creating swipe to dismiss and drag and drop
+        // functionality.
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
+                .SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
+                        ItemTouchHelper.DOWN | ItemTouchHelper.UP,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            /**
+             * Defines the drag and drop functionality.
+             *
+             * @param recyclerView The RecyclerView that contains the list items
+             * @param viewHolder The ListViewViewHolder that is being moved
+             * @param target The ListViewViewHolder that you are switching the
+             *               original one with.
+             * @return true if the item was moved, false otherwise
+             */
+            @Override
+            public boolean onMove(RecyclerView recyclerView,
+                                  RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                // Get the from and to positions.
+                int from = viewHolder.getAdapterPosition();
+                int to = target.getAdapterPosition();
+
+                // Swap the items and notify the adapter.
+                Collections.swap(mAttachments, from, to);
+                mAttachmentsAdapter.notifyItemMoved(from, to);
+                return true;
+            }
+
+            /**
+             * Defines the swipe to dismiss functionality.
+             *
+             * @param viewHolder The viewholder being swiped.
+             * @param direction The direction it is swiped in.
+             */
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
+                // Remove from database.
+//                removeListFromDatabase(viewHolder, mListItems.get(viewHolder.getAdapterPosition()));
+
+                // Remove the item from the dataset.
+                mAttachments.remove(viewHolder.getAdapterPosition());
+
+                // Notify the adapter.
+                mAttachmentsAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+            }
+        });
+
+        // Attach the helper to the RecyclerView.
+        helper.attachToRecyclerView(mAttachmentsRecyclerView);
     }
 
     private void initTimePicker() {
@@ -250,4 +488,6 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         setResult(RESULT_OK,new Intent());
         this.finish();
     }
+
+
 }

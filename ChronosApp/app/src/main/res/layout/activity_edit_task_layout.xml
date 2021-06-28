@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/Taski"
+    android:id="@+id/EditTaski"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/light_bar"
@@ -10,7 +10,7 @@
     android:weightSum="20">
 
     <RelativeLayout
-        android:id="@+id/addTaskLayoutHeader"
+        android:id="@+id/editTaskLayoutHeader"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/go_back"
+            android:id="@+id/go_backEditTaskLayout"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="10dp">
@@ -55,8 +55,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/addTaskFooter"
-        app:layout_constraintTop_toBottomOf="@id/addTaskLayoutHeader">
+        app:layout_constraintBottom_toTopOf="@id/editTaskFooter"
+        app:layout_constraintTop_toBottomOf="@id/editTaskLayoutHeader"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -65,7 +66,7 @@
             android:layout_weight="16">
 
             <LinearLayout
-                android:id="@+id/addTaskLayoutDetails"
+                android:id="@+id/editTaskLayoutDetails"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
@@ -102,7 +103,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/nameOfTaskEditText"
+                    android:id="@+id/editTaskLayoutNameOfTaskEditText"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginLeft="5dp"
@@ -146,7 +147,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/taskDescriptionEditText"
+                    android:id="@+id/editTaskLayoutTaskDescriptionEditText"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginLeft="5dp"
@@ -190,7 +191,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/taskDateEditText"
+                    android:id="@+id/editTaskLayoutTaskDateEditText"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginLeft="5dp"
@@ -234,7 +235,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/taskTimeEditText"
+                    android:id="@+id/editTaskLayoutTaskTimeEditText"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginLeft="5dp"
@@ -285,7 +286,7 @@
                     android:layout_weight="2">
 
                     <RadioGroup
-                        android:id="@+id/radioGroupPriority"
+                        android:id="@+id/editTaskLayoutRadioGroupPriority"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -293,7 +294,7 @@
                         android:weightSum="3">
 
                         <RadioButton
-                            android:id="@+id/radioLowPriority"
+                            android:id="@+id/editTaskLayoutRadioLowPriority"
                             android:layout_width="0sp"
                             android:layout_height="match_parent"
                             android:layout_margin="2dp"
@@ -310,7 +311,7 @@
                             android:textSize="18sp" />
 
                         <RadioButton
-                            android:id="@+id/radioNormalPriority"
+                            android:id="@+id/editTaskLayoutRadioNormalPriority"
                             android:layout_width="0sp"
                             android:layout_height="match_parent"
                             android:layout_margin="2dp"
@@ -327,7 +328,7 @@
 
 
                         <RadioButton
-                            android:id="@+id/radioHighPriority"
+                            android:id="@+id/editTaskLayoutRadioHighPriority"
                             android:layout_width="0sp"
                             android:layout_height="match_parent"
                             android:layout_margin="2dp"
@@ -346,11 +347,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/addTaskLayoutSubtasks"
+                android:id="@+id/editTaskLayoutSubtasks"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/addTaskLayoutDetails">
+                app:layout_constraintTop_toBottomOf="@id/editTaskLayoutDetails">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -381,7 +382,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/addTaskLayoutAddSubtaskEditText"
+                    android:id="@+id/editTaskLayoutAddSubtaskEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -398,7 +399,7 @@
              </LinearLayout>
 
             <Button
-                android:id="@+id/addTaskLayoutAddSubtaskButton"
+                android:id="@+id/editTaskLayoutAddSubtaskButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -409,83 +410,19 @@
                 android:textAllCaps="false"
                 android:textSize="20sp"
                 app:backgroundTint="@null"
-                app:layout_constraintTop_toBottomOf="@+id/addTaskLayoutSubtasks"/>
+                app:layout_constraintTop_toBottomOf="@+id/editTaskLayoutSubtasks"/>
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/subtasksRecyclerView"
+                android:id="@+id/editTaskLayoutSubtasksRecyclerView"
                 android:scrollbars="vertical"
                 android:layout_marginLeft="15sp"
                 android:layout_marginRight="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/addTaskLayoutAddSubtaskButton"
-                app:layout_constraintBottom_toTopOf="@id/addTaskLayoutAttachments"
-                android:layout_marginTop="20dp"/>
-
-            <LinearLayout
-                android:id="@+id/addTaskLayoutAttachments"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@id/subtasksRecyclerView">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/medium_bar"
-                    android:orientation="vertical"
-                    android:weightSum="10">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="8"
-                        android:background="@drawable/bar"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="center"
-                        android:text="Attachments"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/addTaskLayoutAddAttachmentButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/login_button_effects"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Add attachment"
-                android:textAllCaps="false"
-                android:textSize="20sp"
-                app:backgroundTint="@null"
-                app:layout_constraintTop_toBottomOf="@+id/addTaskLayoutAttachments"/>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/attachmentsRecyclerView"
-                android:scrollbars="vertical"
-                android:layout_marginLeft="15sp"
-                android:layout_marginRight="15sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/addTaskLayoutAddAttachmentButton"
+                app:layout_constraintTop_toBottomOf="@id/editTaskLayoutAddSubtaskButton"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginTop="20dp"
-                app:layout_goneMarginTop="20dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginTop="20dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -497,7 +434,7 @@
     <!--        android:background="#000000"/>-->
 
     <RelativeLayout
-        android:id="@+id/addTaskFooter"
+        android:id="@+id/editTaskFooter"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
@@ -513,14 +450,14 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/sendNewTaskToDbButton"
+                android:id="@+id/sendEditedTaskToDbButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:background="@drawable/login_button_effects"
                 android:fontFamily="@font/roboto_regular"
-                android:onClick="sendNewTaskToDb"
+                android:onClick="sendEditedTaskToDb"
                 android:text="Create"
                 android:textAllCaps="false"
                 android:textSize="20sp"
