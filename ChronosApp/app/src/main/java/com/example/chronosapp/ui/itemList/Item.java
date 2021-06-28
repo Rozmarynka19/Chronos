@@ -45,8 +45,8 @@ class Item {
         this.itemID = itemID;
         this.type = type;
         this.imageResource = imageResource;
-        this.deadline = null;
-        this.priority = null;
+        this.deadline = "9999-99-99 99:99:99";
+        this.priority = "0";
     }
 
     /**
