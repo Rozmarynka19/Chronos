@@ -19,7 +19,7 @@ package com.example.chronosapp.ui.itemList;
 /**
  * Data model for each row of the RecyclerView
  */
-class Item {
+public class Item {
     // Member variables representing the list title and its description.
     /*
     type = "task" | "bill"
@@ -44,8 +44,27 @@ class Item {
         this.itemID = itemID;
         this.type = type;
         this.imageResource = imageResource;
-        this.deadline = null;
-        this.priority = null;
+        this.deadline = "0000-00-00 00:00:00";
+        this.priority = "0";
+    }
+
+    /**
+     * Additional constructor for the ListItem data model.
+     *
+     * @param title The list name.
+     * @param itemID item ID.
+     * @param imageResource Background image
+     * @param deadline deadline
+     * @param priority priority
+     */
+    public Item(String title, String itemID, String type, int imageResource,
+                String deadline, String priority) {
+        this.title = title;
+        this.itemID = itemID;
+        this.type = type;
+        this.imageResource = imageResource;
+        this.deadline = deadline;
+        this.priority = priority;
     }
 
     /**
@@ -53,7 +72,7 @@ class Item {
      *
      * @return List title
      */
-    String getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -62,7 +81,7 @@ class Item {
      *
      * @return List id.
      */
-    String getItemID() {
+    public String getItemID() {
         return itemID;
     }
 
@@ -71,7 +90,7 @@ class Item {
      *
      * @return Item type.
      */
-    String getType() {return type;}
+    public String getType() {return type;}
 
     /***
      * Gets the background image

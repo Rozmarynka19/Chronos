@@ -215,7 +215,7 @@ public class ListOfItemsMainActivity extends AppCompatActivity
                     "itemID= "+ mItemArrayList.get(i).getItemID()
                             +", itemName= "+mItemArrayList.get(i).getTitle()
                             +", itemType= "+mItemArrayList.get(i).getType());
-        applyItems();
+//        applyItems();
         getItemsDetails();
     }
 
