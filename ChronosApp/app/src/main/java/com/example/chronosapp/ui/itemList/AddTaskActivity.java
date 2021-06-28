@@ -531,4 +531,6 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
     }
 
 
+    public void onCheckboxClicked(View view) {
+    }
 }

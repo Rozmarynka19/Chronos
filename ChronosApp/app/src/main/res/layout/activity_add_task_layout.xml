@@ -346,11 +346,122 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/addTaskLayoutSubtasks"
+                android:id="@+id/addTaskLayoutRecurrence"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/addTaskLayoutDetails">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@drawable/medium_bar"
+                    android:orientation="vertical"
+                    android:weightSum="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="8"
+                        android:background="@drawable/bar"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="Recurrence"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
+                    <CheckBox
+                        android:id="@+id/addTaskLayoutMondayCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Monday"
+                        android:onClick="onCheckboxClicked"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/roboto_regular"/>
+                    <CheckBox
+                        android:id="@+id/addTaskLayoutTuesdayCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tuesday"
+                        android:onClick="onCheckboxClicked"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/roboto_regular"/>
+                    <CheckBox
+                        android:id="@+id/addTaskLayoutWednesdayCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Wednesday"
+                        android:onClick="onCheckboxClicked"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/roboto_regular"/>
+                    <CheckBox
+                        android:id="@+id/addTaskLayoutThursdayCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thursday"
+                        android:onClick="onCheckboxClicked"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/roboto_regular"/>
+                    <CheckBox
+                        android:id="@+id/addTaskLayoutFridayCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Friday"
+                        android:onClick="onCheckboxClicked"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/roboto_regular"/>
+                    <CheckBox
+                        android:id="@+id/addTaskLayoutSaturdayCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Saturday"
+                        android:onClick="onCheckboxClicked"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/roboto_regular"/>
+                    <CheckBox
+                        android:id="@+id/addTaskLayoutSundayCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sunday"
+                        android:onClick="onCheckboxClicked"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/roboto_regular"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/addTaskLayoutSubtasks"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/addTaskLayoutRecurrence">
 
                 <LinearLayout
                     android:layout_width="match_parent"
