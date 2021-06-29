@@ -10,9 +10,11 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,6 +22,8 @@ import android.widget.RadioButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -33,10 +37,15 @@ import com.example.chronosapp.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import static com.example.chronosapp.NotificationBuilder.CHANNEL_2_ID;
 import java.util.Collections;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgroundTaskListener {
 
@@ -66,10 +75,19 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
     private AttachmentsAdapter mAttachmentsAdapter;
     private Button addAttachment;
 
+    private ArrayList<Recurrence> mRecurrence = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task_layout);
+
+        List<String> mDaysOfTheWeek = List.of("Monday", "Tuesday", "Wednesday", "Thursday",
+                "Friday", "Saturday", "Sunday");
+
+        for (String str: mDaysOfTheWeek) {
+            mRecurrence.add(new Recurrence(str, false));
+        }
 
         notificationManager = NotificationManagerCompat.from(this);
         Intent details = getIntent();
@@ -469,6 +487,17 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
             return;
         }
 
+        StringBuilder recurrence = new StringBuilder();
+        for (int i=0;i<mRecurrence.size();i++) {
+            if(mRecurrence.get(i).isSet())
+                recurrence.append(mRecurrence.get(i).getDayOfTheWeek()).append(",");
+        }
+        Log.d("recurrence length",String.valueOf(recurrence.length()));
+        if(recurrence.length() > 0)
+            recurrence.deleteCharAt(recurrence.length()-1);
+
+        Log.d("recurrence",recurrence.toString());
+
 //        String date = dateField.getText().toString().trim();
 //        if(date.isEmpty()){
 //            dateField.setError("Task date is required");
@@ -495,7 +524,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         scheduleNotification(not, 60 * 1000 );
 
         AddTaskBackgroundTask addTaskBackgroundTask = new AddTaskBackgroundTask(this);
-        addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, "", "", piority);
+        addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", piority);
     }
 
     private Notification createNotification(String taskName, String taskDescription) {
@@ -532,5 +561,36 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 
 
     public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+        int index = -1;
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.addTaskLayoutMondayCheckbox:
+                index = 0;
+                break;
+            case R.id.addTaskLayoutTuesdayCheckbox:
+                index = 1;
+                break;
+            case R.id.addTaskLayoutWednesdayCheckbox:
+                index = 2;
+                break;
+            case R.id.addTaskLayoutThursdayCheckbox:
+                index = 3;
+                break;
+            case R.id.addTaskLayoutFridayCheckbox:
+                index = 4;
+                break;
+            case R.id.addTaskLayoutSaturdayCheckbox:
+                index = 5;
+                break;
+            case R.id.addTaskLayoutSundayCheckbox:
+                index = 6;
+                break;
+        }
+
+        if(index != -1)
+            mRecurrence.get(index).set(checked);
     }
 }

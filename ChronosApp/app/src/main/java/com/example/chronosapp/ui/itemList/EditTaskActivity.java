@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,18 +18,23 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chronosapp.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Objects;
 
 public class EditTaskActivity extends AppCompatActivity implements EditTaskBackgroundTaskListener,
                                                                     GetTaskBackgroundTaskListener{
 
     //TODO: dates with time - deadline, notificationDate
-    //TODO: recurring - list of days in which deadline is set anew
 
     private String itemID, taskName, taskDescription, taskDate, taskTime, priority="";
     private EditText taskNameEditText, taskDescriptionEditText, taskDateEditField, taskTimeEditField;
@@ -40,10 +46,44 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
 
     private LinearLayout linearLayout;
 
+    private RecyclerView mSubtasksRecyclerView;
+    private ArrayList<String> mSubtasks;
+    private SubtasksAdapter mSubtasksAdapter;
+    private Button addSubtask;
+    private EditText newSubtaskEditText;
+
+    private RecyclerView mAttachmentsRecyclerView;
+    private ArrayList<String> mAttachments;
+    private AttachmentsAdapter mAttachmentsAdapter;
+    private Button addAttachment;
+
+    private ArrayList<Recurrence> mRecurrence = new ArrayList<>();
+
+    private ArrayList<CheckBox> mRecurrenceCheckBoxes = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task_layout);
+
+        List<String> mDaysOfTheWeek = List.of("Monday", "Tuesday", "Wednesday", "Thursday",
+                "Friday", "Saturday", "Sunday");
+
+        for (String str: mDaysOfTheWeek) {
+            mRecurrence.add(new Recurrence(str, false));
+        }
+
+        List<Integer> checkBoxesIDs = List.of(R.id.editTaskLayoutMondayCheckbox,
+                                            R.id.editTaskLayoutTuesdayCheckbox,
+                                            R.id.editTaskLayoutWednesdayCheckbox,
+                                            R.id.editTaskLayoutThursdayCheckbox,
+                                            R.id.editTaskLayoutFridayCheckbox,
+                                            R.id.editTaskLayoutSaturdayCheckbox,
+                                            R.id.editTaskLayoutSundayCheckbox);
+
+        for (Integer id:checkBoxesIDs) {
+            mRecurrenceCheckBoxes.add(findViewById(id));
+        }
 
         Intent details = getIntent();
         itemID = details.getStringExtra("itemid");
@@ -91,6 +131,53 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
                     datePickerDialog.hide();
             }
         });
+
+        mSubtasksRecyclerView = findViewById(R.id.editTaskLayoutSubtasksRecyclerView);
+        mSubtasksRecyclerView.setLayoutManager(new LinearLayoutManager(mSubtasksRecyclerView.getContext()));
+//        mSubtasksRecyclerView.setHasFixedSize(true);
+        mSubtasks = new ArrayList<>();
+        mSubtasksAdapter = new SubtasksAdapter(this,mSubtasks);
+        mSubtasksRecyclerView.setAdapter(mSubtasksAdapter);
+
+        newSubtaskEditText = findViewById(R.id.editTaskLayoutAddSubtaskEditText);
+        addSubtask = findViewById(R.id.editTaskLayoutAddSubtaskButton);
+        addSubtask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(newSubtaskEditText == null)
+                {
+                    Log.d("newSubtaskEditText","null");
+                    return;
+                }
+                else
+                    Log.d("newSubtaskEditText","not null");
+
+                String newSubtask = newSubtaskEditText.getText().toString();
+                Log.d("subtask",newSubtask);
+                mSubtasks.add(newSubtask);
+                applySubtasks();
+            }
+        });
+        applySubtasks();
+
+        mAttachmentsRecyclerView = findViewById(R.id.editTaskLayoutAttachmentsRecyclerView);
+        mAttachmentsRecyclerView.setLayoutManager(new LinearLayoutManager(mAttachmentsRecyclerView.getContext()));
+//        mAttachmentsRecyclerView.setHasFixedSize(true);
+        mAttachments = new ArrayList<>();
+        mAttachmentsAdapter = new AttachmentsAdapter(this,mAttachments);
+        mAttachmentsRecyclerView.setAdapter(mAttachmentsAdapter);
+
+        addAttachment = findViewById(R.id.editTaskLayoutAddAttachmentButton);
+        addAttachment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: browse for device files
+
+                mAttachments.add("Test");
+                applyAttachments();
+            }
+        });
+        applyAttachments();
 
         getTask(itemID);
     }
@@ -205,9 +292,20 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
 
 //        String deadline = date + " " + time;+
 
+        StringBuilder recurrence = new StringBuilder();
+        for (int i=0;i<mRecurrence.size();i++) {
+            if(mRecurrence.get(i).isSet())
+                recurrence.append(mRecurrence.get(i).getDayOfTheWeek()).append(",");
+        }
+        Log.d("recurrence length",String.valueOf(recurrence.length()));
+        if(recurrence.length() > 0)
+            recurrence.deleteCharAt(recurrence.length()-1);
+
+        Log.d("recurrence",recurrence.toString());
+
         EditTaskBackgroundTask editTaskBackgroundTask = new EditTaskBackgroundTask(this);
 //        []= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
-        editTaskBackgroundTask.execute(itemID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, "", "", priority);
+        editTaskBackgroundTask.execute(itemID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", priority);
     }
 
     @Override
@@ -236,6 +334,16 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         }
         priority = tableOfTaskDetails.get("Task_Priority");
         setRadioButton();
+
+        String[] separatedRecurrency = tableOfTaskDetails.get("Task_Recurring").split(",");
+        for(int i=0;i<separatedRecurrency.length; i++)
+        {
+            for (int j=0; j<mRecurrence.size(); j++) {
+                if(separatedRecurrency[i].equals(mRecurrence.get(j).getDayOfTheWeek()))
+                    mRecurrence.get(j).set(true);
+            }
+        }
+        setRecurrenceCheckBoxes();
     }
 
     private void initTimePicker() {
@@ -297,5 +405,224 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
             picked_minute = "0" + picked_minute;
 
         return picked_hour + ":" + picked_minute;
+    }
+
+    /**
+     * Apply fetched subtasks from database to the view
+     */
+    private void applySubtasks() {
+//        // Get the resources from the XML file.
+//        String[] listItemTitles = getResources()
+//                .getStringArray(R.array.listItemTitles);
+//        String[] listItemDescriptions = getResources()
+//                .getStringArray(R.array.listItemDescription);
+//        TypedArray listItemsBackgrounds = getResources()
+//                .obtainTypedArray(R.array.listItemBackgrounds);
+//
+//        // Clear the existing data (to avoid duplication).
+//        mListItems.clear();
+
+//        // Create the ArrayList of List Item objects with the titles and
+//        // information about each list
+//        for (int i = 0; i < listItemTitles.length; i++) {
+//            mListItems.add(new ListItem(listItemTitles[i], listItemDescriptions[i],
+//                    listItemsBackgrounds.getResourceId(i, 0)));
+//        }
+//
+//        // Recycle the typed array.
+//        listItemsBackgrounds.recycle();
+        mSubtasksAdapter.setSubtasks(mSubtasks);
+        Log.d("size of array of list item: ",String.valueOf(mSubtasks.size()));
+        Log.d("size of list item adapter: ",String.valueOf(mSubtasksAdapter.getItemCount()));
+
+
+        // Notify the adapter of the change.
+//        mlistItemAdapter.notifyDataSetChanged();
+
+        // Helper class for creating swipe to dismiss and drag and drop
+        // functionality.
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
+                .SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
+                        ItemTouchHelper.DOWN | ItemTouchHelper.UP,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            /**
+             * Defines the drag and drop functionality.
+             *
+             * @param recyclerView The RecyclerView that contains the list items
+             * @param viewHolder The ListViewViewHolder that is being moved
+             * @param target The ListViewViewHolder that you are switching the
+             *               original one with.
+             * @return true if the item was moved, false otherwise
+             */
+            @Override
+            public boolean onMove(RecyclerView recyclerView,
+                                  RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                // Get the from and to positions.
+                int from = viewHolder.getAdapterPosition();
+                int to = target.getAdapterPosition();
+
+                // Swap the items and notify the adapter.
+                Collections.swap(mSubtasks, from, to);
+                mSubtasksAdapter.notifyItemMoved(from, to);
+                return true;
+            }
+
+            /**
+             * Defines the swipe to dismiss functionality.
+             *
+             * @param viewHolder The viewholder being swiped.
+             * @param direction The direction it is swiped in.
+             */
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
+                // Remove from database.
+//                removeListFromDatabase(viewHolder, mListItems.get(viewHolder.getAdapterPosition()));
+
+                // Remove the item from the dataset.
+                mSubtasks.remove(viewHolder.getAdapterPosition());
+
+                // Notify the adapter.
+                mSubtasksAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+            }
+        });
+
+        // Attach the helper to the RecyclerView.
+        helper.attachToRecyclerView(mSubtasksRecyclerView);
+    }
+
+    /**
+     * Apply fetched attachments from database to the view
+     */
+    private void applyAttachments() {
+//        // Get the resources from the XML file.
+//        String[] listItemTitles = getResources()
+//                .getStringArray(R.array.listItemTitles);
+//        String[] listItemDescriptions = getResources()
+//                .getStringArray(R.array.listItemDescription);
+//        TypedArray listItemsBackgrounds = getResources()
+//                .obtainTypedArray(R.array.listItemBackgrounds);
+//
+//        // Clear the existing data (to avoid duplication).
+//        mListItems.clear();
+
+//        // Create the ArrayList of List Item objects with the titles and
+//        // information about each list
+//        for (int i = 0; i < listItemTitles.length; i++) {
+//            mListItems.add(new ListItem(listItemTitles[i], listItemDescriptions[i],
+//                    listItemsBackgrounds.getResourceId(i, 0)));
+//        }
+//
+//        // Recycle the typed array.
+//        listItemsBackgrounds.recycle();
+        mAttachmentsAdapter.setAttachments(mAttachments);
+        Log.d("size of array of list item: ",String.valueOf(mAttachments.size()));
+        Log.d("size of list item adapter: ",String.valueOf(mAttachmentsAdapter.getItemCount()));
+
+
+        // Notify the adapter of the change.
+//        mlistItemAdapter.notifyDataSetChanged();
+
+        // Helper class for creating swipe to dismiss and drag and drop
+        // functionality.
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper
+                .SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
+                        ItemTouchHelper.DOWN | ItemTouchHelper.UP,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            /**
+             * Defines the drag and drop functionality.
+             *
+             * @param recyclerView The RecyclerView that contains the list items
+             * @param viewHolder The ListViewViewHolder that is being moved
+             * @param target The ListViewViewHolder that you are switching the
+             *               original one with.
+             * @return true if the item was moved, false otherwise
+             */
+            @Override
+            public boolean onMove(RecyclerView recyclerView,
+                                  RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                // Get the from and to positions.
+                int from = viewHolder.getAdapterPosition();
+                int to = target.getAdapterPosition();
+
+                // Swap the items and notify the adapter.
+                Collections.swap(mAttachments, from, to);
+                mAttachmentsAdapter.notifyItemMoved(from, to);
+                return true;
+            }
+
+            /**
+             * Defines the swipe to dismiss functionality.
+             *
+             * @param viewHolder The viewholder being swiped.
+             * @param direction The direction it is swiped in.
+             */
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder,
+                                 int direction) {
+                // Remove from database.
+//                removeListFromDatabase(viewHolder, mListItems.get(viewHolder.getAdapterPosition()));
+
+                // Remove the item from the dataset.
+                mAttachments.remove(viewHolder.getAdapterPosition());
+
+                // Notify the adapter.
+                mAttachmentsAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+            }
+        });
+
+        // Attach the helper to the RecyclerView.
+        helper.attachToRecyclerView(mAttachmentsRecyclerView);
+    }
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+        int index = -1;
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.editTaskLayoutMondayCheckbox:
+                index = 0;
+                break;
+            case R.id.editTaskLayoutTuesdayCheckbox:
+                index = 1;
+                break;
+            case R.id.editTaskLayoutWednesdayCheckbox:
+                index = 2;
+                break;
+            case R.id.editTaskLayoutThursdayCheckbox:
+                index = 3;
+                break;
+            case R.id.editTaskLayoutFridayCheckbox:
+                index = 4;
+                break;
+            case R.id.editTaskLayoutSaturdayCheckbox:
+                index = 5;
+                break;
+            case R.id.editTaskLayoutSundayCheckbox:
+                index = 6;
+                break;
+        }
+
+        if(index != -1)
+                mRecurrence.get(index).set(checked);
+
+
+//        for (Recurrence re:mRecurrence) {
+//            Log.d("onCheckboxClicked - dayOfTheWeek",re.getDayOfTheWeek());
+//            Log.d("onCheckboxClicked - isSet",String.valueOf(re.isSet()));
+//        }
+    }
+
+    private void setRecurrenceCheckBoxes()
+    {
+        for(int i=0; i<mRecurrence.size(); i++)
+           if(mRecurrence.get(i).isSet())
+               mRecurrenceCheckBoxes.get(i).setChecked(true);
     }
 }
