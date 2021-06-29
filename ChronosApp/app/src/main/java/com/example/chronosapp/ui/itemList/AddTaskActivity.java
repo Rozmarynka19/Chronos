@@ -492,11 +492,20 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
             if(mRecurrence.get(i).isSet())
                 recurrence.append(mRecurrence.get(i).getDayOfTheWeek()).append(",");
         }
-        Log.d("recurrence length",String.valueOf(recurrence.length()));
+
         if(recurrence.length() > 0)
             recurrence.deleteCharAt(recurrence.length()-1);
 
-        Log.d("recurrence",recurrence.toString());
+
+        StringBuilder subtasks = new StringBuilder();
+        for (int i=0;i<mSubtasks.size();i++) {
+            subtasks.append(mSubtasks.get(i)).append(",");
+        }
+
+        if(subtasks.length() > 0)
+            subtasks.deleteCharAt(subtasks.length()-1);
+
+        Log.d("subtasks",subtasks.toString());
 
 //        String date = dateField.getText().toString().trim();
 //        if(date.isEmpty()){
@@ -524,7 +533,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         scheduleNotification(not, 60 * 1000 );
 
         AddTaskBackgroundTask addTaskBackgroundTask = new AddTaskBackgroundTask(this);
-        addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", piority);
+        addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", piority, subtasks.toString());
     }
 
     private Notification createNotification(String taskName, String taskDescription) {

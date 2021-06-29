@@ -12,7 +12,7 @@ if(!$conn){
 	exit(1);
 }
 if($_POST){
-	//[]= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
+	//[]= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks}
 	if(isset($_POST['listid'])){ $listid = $_POST['listid']; }
 	if(isset($_POST['itemname'])){ $itemname = $_POST['itemname']; }
 	if(isset($_POST['itemtype'])){ $itemtype = $_POST['itemtype']; }
@@ -21,6 +21,7 @@ if($_POST){
 	if(isset($_POST['recurring'])){ $recurring = $_POST['recurring']; }
 	if(isset($_POST['notificationDate'])){ $notificationDate = $_POST['notificationDate']; }
 	if(isset($_POST['piority'])){ $piority = $_POST['piority']; }
+	if(isset($_POST['subtasks'])){ $subtasks = $_POST['subtasks']; }
 	
 	
 	//$conn->begin_transaction();
@@ -50,6 +51,24 @@ if($_POST){
 			$result = $conn->query($query);
 			throw new \mysqli_sql_exception("exception msg");
 		}
+
+		$subtasksArray = explode(",", $subtasks);
+		$subtasksArrayLength = count($subtasksArray);
+
+		for ($i = 0; $i < $subtasksArrayLength; $i++) {
+			$query="INSERT INTO subtasks (Item_ID, Subtask_Name) 
+						VALUES ('$currentItem_ID', '".$subtasksArray[$i]."');";
+
+			if(!mysqli_query($conn, $query)){
+				echo("\nerror in adding new task");
+				$query="DELETE FROM subtasks WHERE Item_ID=".$currentItem_ID;
+				$result = $conn->query($query);
+				$query="DELETE FROM items_list WHERE Item_ID=".$currentItem_ID;
+				$result = $conn->query($query);
+				throw new \mysqli_sql_exception("exception msg");
+			}
+		} 
+
 		
 		//$conn->commit();
 		echo("task added successfully\n");
