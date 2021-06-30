@@ -38,6 +38,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -385,11 +386,26 @@ public class ListOfItemsMainActivity extends AppCompatActivity
     public void sortingByDeadline() {
         Collections.sort(mItemArrayList, new Comparator<Item>() {
             public int compare(Item o1, Item o2) {
-                return o1.getDeadline().compareTo(o2.getDeadline());
+                return o1.getTitle().compareTo(o2.getTitle());
             }
+
         });
+//        Collections.sort(mItemArrayList, new Comparator<Item>(){
+//            public int compare(Item o1, Item o2)
+//                    {
+//                LocalDate o1Date = LocalDate.parse(o1.getDeadline());
+//                LocalDate o2Date = LocalDate.parse(o2.getDeadline());
+//                if (o1Date.isBefore(o2Date))
+//                    return -1;
+//                if (o1Date.isAfter(o2Date))
+//                    return 1;
+//                else
+//                    return 0;
+//            }
+//        });
         itemAdapter.notifyDataSetChanged();
     }
+
     public void sortingByPriority(){
         Collections.sort(mItemArrayList, new Comparator<Item>() {
             public int compare(Item o1, Item o2) {

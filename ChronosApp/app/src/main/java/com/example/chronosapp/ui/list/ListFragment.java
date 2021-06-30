@@ -90,7 +90,6 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
         getListsFromDatabase();
         return root;
     }
-
     public void getItemsForHomeFragment()
     {
         StringBuilder listIDs = new StringBuilder();
