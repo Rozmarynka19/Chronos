@@ -3,7 +3,6 @@ package com.example.chronosapp.ui.itemList;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.chronosapp.Common;
 
@@ -19,22 +18,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
-public class GetTaskBackgroundTask extends AsyncTask<String, String, String>{
+public class GetSubtasksBackgroundTask extends AsyncTask<String, String, String>{
     Context context;
-    GetTaskBackgroundTaskListener listener;
+    GetSubtasksBackgroundTaskListener listener;
 
-    GetTaskBackgroundTask(Context context){
+    GetSubtasksBackgroundTask(Context context){
         this.context = context;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String plainURL = Common.getDbAddress()+"getTask.php";
+        Log.d("GetSubtasksBackgroundTask - onPostExecute - s:","hello1");
+        String plainURL = Common.getDbAddress()+"fetchSubtasks.php";
 
         try{
             URL url = new URL(plainURL);
@@ -81,14 +79,15 @@ public class GetTaskBackgroundTask extends AsyncTask<String, String, String>{
 
     @Override
     protected void onPostExecute(String s) {
-        Log.d("GetTaskBackgroundTask - onPostExecute - s:",s);
-        listener = (GetTaskBackgroundTaskListener) context;
-        Hashtable<String,String> tableOfTaskDetails = new Hashtable<>();
-        ArrayList<String> listOfKeys = new ArrayList<>(List.of("Task_Deadline",
-                                                                "Task_Desc",
-                                                                "Task_Recurring",
-                                                                "Task_Notification",
-                                                                "Task_Priority"));
+        Log.d("GetSubtasksBackgroundTask - onPostExecute - s:","hello2");
+        if(s == null || s.equals("")) {
+            Log.d("GetSubtasksBackgroundTask - onPostExecute - s:","null or empty");
+            return;
+        }
+        else
+            Log.d("GetSubtasksBackgroundTask - onPostExecute - s:",s);
+        listener = (GetSubtasksBackgroundTaskListener) context;
+        ArrayList<String> subtasks = new ArrayList<>();
         //System.out.println(s);
 
         String[] separatedOutput = s.split("\n");
@@ -96,14 +95,16 @@ public class GetTaskBackgroundTask extends AsyncTask<String, String, String>{
         //    System.out.println("i="+String.valueOf(i)+" "+separatedOutput[i]);
 
         if(!separatedOutput[0].equals("connection failed") && !separatedOutput[0].equals("error in request")) {
-            for (int i = 0; i < listOfKeys.size(); i++) {
-                Log.d("GetTaskBackgroundTask - onPostExecute - i:", String.valueOf(i));
-                Log.d("GetTaskBackgroundTask - onPostExecute - listOfKeys:", listOfKeys.get(i));
-                Log.d("GetTaskBackgroundTask - onPostExecute - separatedOutput:", separatedOutput[i + 1]);
-                tableOfTaskDetails.put(listOfKeys.get(i), separatedOutput[i + 1]);
+            for(int i=1; i<separatedOutput.length-1; i++)
+            {
+                Log.d("GetSubtasksBackgroundTask - onPostExecute - i:", String.valueOf(i));
+                Log.d("GetSubtasksBackgroundTask - onPostExecute - subtask:", separatedOutput[i]);
+                subtasks.add(separatedOutput[i]);
             }
+
+//            subtasks = new ArrayList<>(Arrays.asList(separatedOutput).subList(listOfKeys.size(), separatedOutput.length));
         }
 
-        listener.getTaskDetails(tableOfTaskDetails);
+        listener.getSubtasks(subtasks);
     }
 }

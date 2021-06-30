@@ -28,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class ListFragment extends Fragment implements AddNewListDialogListener, EditListDialogListener,
                                             GetListsBackgroundTaskListener,
@@ -46,6 +47,8 @@ public class ListFragment extends Fragment implements AddNewListDialogListener, 
     private Context contextOfFragment;
 
     private Fragment fragment;
+
+//    public ListFragment(){}
 
     public ListFragment(Fragment fragment)
     {

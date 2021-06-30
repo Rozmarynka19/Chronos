@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -32,7 +31,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class EditTaskActivity extends AppCompatActivity implements EditTaskBackgroundTaskListener,
-                                                                    GetTaskBackgroundTaskListener{
+                                                                    GetTaskBackgroundTaskListener,
+                                                                 GetSubtasksBackgroundTaskListener{
 
     //TODO: dates with time - deadline, notificationDate
 
@@ -344,6 +344,23 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
             }
         }
         setRecurrenceCheckBoxes();
+
+        getSubtasksFromDb(itemID);
+    }
+
+    void getSubtasksFromDb(String itemID)
+    {
+        GetSubtasksBackgroundTask getSubtasksBackgroundTask = new GetSubtasksBackgroundTask(this);
+        getSubtasksBackgroundTask.execute(itemID);
+    }
+
+    @Override
+    public void getSubtasks(ArrayList<String> subtasks) {
+        if(subtasks != null)
+        {
+            mSubtasks = subtasks;
+            applySubtasks();
+        }
     }
 
     private void initTimePicker() {
