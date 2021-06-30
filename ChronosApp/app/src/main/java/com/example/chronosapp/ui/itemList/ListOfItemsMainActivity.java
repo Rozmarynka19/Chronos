@@ -39,6 +39,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -384,28 +385,22 @@ public class ListOfItemsMainActivity extends AppCompatActivity
         itemAdapter.notifyDataSetChanged();
     }
     public void sortingByDeadline() {
-        Collections.sort(mItemArrayList, new Comparator<Item>() {
-            public int compare(Item o1, Item o2) {
-                return o1.getTitle().compareTo(o2.getTitle());
-            }
-
-        });
-//        Collections.sort(mItemArrayList, new Comparator<Item>(){
-//            public int compare(Item o1, Item o2)
-//                    {
-//                LocalDate o1Date = LocalDate.parse(o1.getDeadline());
-//                LocalDate o2Date = LocalDate.parse(o2.getDeadline());
-//                if (o1Date.isBefore(o2Date))
-//                    return -1;
-//                if (o1Date.isAfter(o2Date))
-//                    return 1;
-//                else
-//                    return 0;
-//            }
-//        });
+            Collections.sort(mItemArrayList, new Comparator<Item>(){
+                public int compare(Item o1, Item o2)
+                {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                    LocalDate o1Date = LocalDate.parse(o1.getDeadline(), formatter);
+                    LocalDate o2Date = LocalDate.parse(o2.getDeadline(), formatter);
+                    if (o1Date.isBefore(o2Date))
+                        return -1;
+                    if (o1Date.isAfter(o2Date))
+                        return 1;
+                    else
+                        return 0;
+                }
+            });
         itemAdapter.notifyDataSetChanged();
     }
-
     public void sortingByPriority(){
         Collections.sort(mItemArrayList, new Comparator<Item>() {
             public int compare(Item o1, Item o2) {

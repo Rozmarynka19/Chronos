@@ -27,6 +27,8 @@ import com.example.chronosapp.ui.list.ListItemAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -105,36 +107,29 @@ public class HomeFragment extends Fragment implements ItemsDetailsForHomeFragmen
                 mListItems.add(item);
             }
         }
-        sortingByDeadline(mItemArrayList);
+
         mItemAdapter = new ItemAdapter(root.getContext(), mListItems, 0);
+        sortingByDeadline();
         mRecyclerView.setAdapter(mItemAdapter);
     }
-    public void sortingByDeadline( ArrayList <Item> mItemArrayList) {
-            Collections.sort(mItemArrayList, new Comparator<Item>() {
-                public int compare(Item o1, Item o2) {
-                    return o1.getTitle().compareTo(o2.getTitle());
-                }
-            });
-//        Collections.sort(mItemArrayList, new Comparator<Item>(){
-//            public int compare(Item o1, Item o2) {
-//                String mscItem1Str = o1.getDeadline().substring(5,7);//day
-//                String dayItem1Str = o1.getDeadline().substring(8,9);//mth
-//                String mscItem2Str = o2.getDeadline().substring(5,7);//day
-//                String dayItem2Str = o2.getDeadline().substring(8,9);//mth
-//                if(mscItem1Str.compareTo(mscItem2Str) > 0) {
-//                    return 1;
-//                }
-//                else if (mscItem1Str.compareTo(mscItem2Str) < 0) {
-//                    return -1;
-//                }
-//                else {
-//                    if (dayItem1Str.compareTo(dayItem2Str) > 0)
-//                        return 1;
-//                    else if (dayItem1Str.compareTo(dayItem2Str) < 0)
-//                        return -1;
-//                    else return 0;
-//                }
-//            }
-//        });
+    public void sortingByDeadline() {
+        System.out.println("HELLO");
+        Collections.sort(mItemArrayList, new Comparator<Item>(){
+            public int compare(Item o1, Item o2)
+            {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                LocalDate o1Date = LocalDate.parse(o1.getDeadline(), formatter);
+                LocalDate o2Date = LocalDate.parse(o2.getDeadline(), formatter);
+                if (o1Date.isBefore(o2Date))
+                    return -1;
+                if (o1Date.isAfter(o2Date))
+                    return 1;
+                else
+                    return 0;
+            }
+        });
+        //System.out.println("       " + mItemArrayList.get(0).getDeadline());
+        mItemAdapter.notifyDataSetChanged();
+
     }
 }
