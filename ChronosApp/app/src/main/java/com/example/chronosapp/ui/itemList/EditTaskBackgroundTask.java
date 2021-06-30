@@ -31,8 +31,7 @@ public class EditTaskBackgroundTask extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
         //TODO: dates with time - deadline, notificationDate
-        //TODO: recurring - list of days in which deadline is set anew
-        //[]= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
+        //[]= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks}
         String plainURL = Common.getDbAddress()+"editTask.php";
         Log.d("EditTaskBackgroundTask: ","piority: "+strings[7]);
         try{
@@ -52,7 +51,8 @@ public class EditTaskBackgroundTask extends AsyncTask<String, String, String> {
                         "&"+URLEncoder.encode("desc", "UTF-8")+"="+URLEncoder.encode(strings[4], "UTF-8")+
                         "&"+URLEncoder.encode("recurring", "UTF-8")+"="+URLEncoder.encode(strings[5], "UTF-8")+
                         "&"+URLEncoder.encode("notificationDate", "UTF-8")+"="+URLEncoder.encode(strings[6], "UTF-8")+
-                        "&"+URLEncoder.encode("piority", "UTF-8")+"="+URLEncoder.encode(strings[7], "UTF-8");
+                        "&"+URLEncoder.encode("piority", "UTF-8")+"="+URLEncoder.encode(strings[7], "UTF-8")+
+                        "&"+URLEncoder.encode("subtasks", "UTF-8")+"="+URLEncoder.encode(strings[8], "UTF-8");
                 //System.out.println(insert_data);
                 bufferWriter.write(insert_data);
                 bufferWriter.flush();

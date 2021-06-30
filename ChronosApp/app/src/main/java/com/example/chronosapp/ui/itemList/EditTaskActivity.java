@@ -303,9 +303,19 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
 
         Log.d("recurrence",recurrence.toString());
 
+        StringBuilder subtasks = new StringBuilder();
+        for (int i=0;i<mSubtasks.size();i++) {
+            subtasks.append(mSubtasks.get(i)).append(",");
+        }
+
+        if(subtasks.length() > 0)
+            subtasks.deleteCharAt(subtasks.length()-1);
+
+        Log.d("subtasks",subtasks.toString());
+
         EditTaskBackgroundTask editTaskBackgroundTask = new EditTaskBackgroundTask(this);
-//        []= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
-        editTaskBackgroundTask.execute(itemID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", priority);
+//        []= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks}
+        editTaskBackgroundTask.execute(itemID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", priority, subtasks.toString());
     }
 
     @Override

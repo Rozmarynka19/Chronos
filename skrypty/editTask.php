@@ -6,7 +6,7 @@ if(!$conn){
 	exit(1);
 }
 if($_POST){
-	//[]= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority}
+	//[]= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks}
 	if(isset($_POST['itemid'])){ $itemid = $_POST['itemid']; }
 	if(isset($_POST['itemname'])){ $itemname = $_POST['itemname']; }
 	if(isset($_POST['itemtype'])){ $itemtype = $_POST['itemtype']; }
@@ -15,6 +15,7 @@ if($_POST){
 	if(isset($_POST['recurring'])){ $recurring = $_POST['recurring']; }
 	if(isset($_POST['notificationDate'])){ $notificationDate = $_POST['notificationDate']; }
 	if(isset($_POST['piority'])){ $piority = $_POST['piority']; }
+	if(isset($_POST['subtasks'])){ $subtasks = $_POST['subtasks']; }
 	
 	
 	$conn->begin_transaction();
@@ -36,6 +37,27 @@ if($_POST){
 			//echo("\nerror in updating tasks details");
 			throw new \mysqli_sql_exception("exception msg");
 		}
+
+		$query="DELETE FROM subtasks WHERE Item_ID='".$itemid."'";
+		if(!mysqli_query($conn, $query)){
+			//echo("\nerror in deleting subtasks");
+			throw new \mysqli_sql_exception("exception msg");
+		}
+
+		$subtasksArray = explode(",", $subtasks);
+		$subtasksArrayLength = count($subtasksArray);
+
+		for ($i = 0; $i < $subtasksArrayLength; $i++) {
+			$query="INSERT INTO subtasks (Item_ID, Subtask_Name) 
+						VALUES ('$itemid', '".$subtasksArray[$i]."');";
+
+			if(!mysqli_query($conn, $query)){
+				echo("\nerror in adding subtask");
+				$query="DELETE FROM subtasks WHERE Item_ID=".$itemid;
+				$result = $conn->query($query);
+				throw new \mysqli_sql_exception("exception msg");
+			}
+		} 
 
 		$conn->commit();
 		echo("task updated successfully\n");
