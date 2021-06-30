@@ -107,10 +107,11 @@ public class HomeFragment extends Fragment implements ItemsDetailsForHomeFragmen
                 mListItems.add(item);
             }
         }
-
         mItemAdapter = new ItemAdapter(root.getContext(), mListItems, 0);
-        sortingByDeadline();
         mRecyclerView.setAdapter(mItemAdapter);
+
+
+        sortingByDeadline();
     }
     public void sortingByDeadline() {
         System.out.println("HELLO");
@@ -129,7 +130,40 @@ public class HomeFragment extends Fragment implements ItemsDetailsForHomeFragmen
             }
         });
         //System.out.println("       " + mItemArrayList.get(0).getDeadline());
-        mItemAdapter.notifyDataSetChanged();
+        //mItemAdapter.notifyDataSetChanged();
+        mListItems.clear();
+        Date todayDate = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(todayDate);
+
+        String todayDateStr = "";
+        todayDateStr += strDate.substring(8, 10);//day
+        todayDateStr += "-";
+        todayDateStr += strDate.substring(5, 7);//mth
+        todayDateStr += "-";
+        todayDateStr += strDate.substring(0, 4);//yr
+
+        Date tomorrowDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(tomorrowDate);
+        c.add(Calendar.DATE, 1);
+        tomorrowDate = c.getTime();
+
+        strDate = dateFormat.format(tomorrowDate);
+        String tomorrowDateStr="";
+        tomorrowDateStr += strDate.substring(8, 10);
+        tomorrowDateStr += "-";
+        tomorrowDateStr += strDate.substring(5, 7);
+        tomorrowDateStr += "-";
+        tomorrowDateStr += strDate.substring(0, 4);
+
+        for(Item item : mItemArrayList){
+            String dataOfItem = item.getDeadline().substring(0, 10);
+            if(dataOfItem.equals(todayDateStr) || dataOfItem.equals(tomorrowDateStr) ){
+                mListItems.add(item);
+            }
+        }
+
 
     }
 }
