@@ -1,5 +1,6 @@
 package com.example.chronosapp.ui.home;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,12 @@ public class HomeFragment extends Fragment implements ItemsDetailsForHomeFragmen
 
     private HomeViewModel homeViewModel;
     private ArrayList<Item> mItemArrayList;
+    private Activity mainMainActivity;
+
+    public HomeFragment(Activity activity)
+    {
+        this.mainMainActivity = activity;
+    }
 
     @Nullable
     @Override
@@ -47,13 +54,16 @@ public class HomeFragment extends Fragment implements ItemsDetailsForHomeFragmen
     public void getItemsForHomeFragment(ArrayList<Item> mItemArrayList) {
         this.mItemArrayList = mItemArrayList;
 
-        Log.d("getItemsForHomeFragment","----------");
-        for (Item item: mItemArrayList) {
-            Log.d("getItemsForHomeFragment - id",item.getItemID());
-            Log.d("getItemsForHomeFragment - title",item.getTitle());
-            Log.d("getItemsForHomeFragment - type",item.getType());
-            Log.d("getItemsForHomeFragment - deadline",item.getDeadline());
-            Log.d("getItemsForHomeFragment - priority",item.getPriority());
-        }
+//        Log.d("getItemsForHomeFragment","----------");
+//        for (Item item: mItemArrayList) {
+//            Log.d("getItemsForHomeFragment - id",item.getItemID());
+//            Log.d("getItemsForHomeFragment - title",item.getTitle());
+//            Log.d("getItemsForHomeFragment - type",item.getType());
+//            Log.d("getItemsForHomeFragment - deadline",item.getDeadline());
+//            Log.d("getItemsForHomeFragment - priority",item.getPriority());
+//        }
+
+        ItemsDetailsForHomeFragmentSetListener listener = (ItemsDetailsForHomeFragmentSetListener) mainMainActivity;
+        listener.getItemsForHomeFragment(mItemArrayList);
     }
 }

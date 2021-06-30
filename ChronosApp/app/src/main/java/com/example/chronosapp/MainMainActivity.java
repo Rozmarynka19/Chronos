@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chronosapp.ui.home.HomeFragment;
+import com.example.chronosapp.ui.home.ItemsDetailsForHomeFragmentSetListener;
+import com.example.chronosapp.ui.itemList.Item;
 import com.example.chronosapp.ui.list.ListFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -39,13 +42,15 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+                                                                    ItemsDetailsForHomeFragmentSetListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ViewPager pager;
     private PagerAdapter pagerAdapter;
     private String sharedLogin, sharedEmail, sharedPhone, sharedUserId;
     private Switch menu_notifications_switch;
+    private ArrayList<Item> mItemArrayList;
 
     private GoogleSignInClient mGoogleSignInClient;
     private Boolean menu_notifications_switch_status;
@@ -66,12 +71,11 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 
         @SuppressLint("WrongConstant")
         SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
-        if(sharedPreferences!=null && !(sharedPreferences.getString("login","").equals("")))
-        {
-            sharedUserId = sharedPreferences.getString("userid","");
-            sharedLogin = sharedPreferences.getString("login","");
-            sharedEmail = sharedPreferences.getString("email","");
-            sharedPhone = sharedPreferences.getString("phone","");
+        if (sharedPreferences != null && !(sharedPreferences.getString("login", "").equals(""))) {
+            sharedUserId = sharedPreferences.getString("userid", "");
+            sharedLogin = sharedPreferences.getString("login", "");
+            sharedEmail = sharedPreferences.getString("email", "");
+            sharedPhone = sharedPreferences.getString("phone", "");
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -100,11 +104,10 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 
         TextView drawerHeaderUsername = (TextView) drawerHeaderView.findViewById(R.id.drawerHeaderUsername);
         TextView drawerHeaderEmail = (TextView) drawerHeaderView.findViewById(R.id.drawerHeaderEmail);
-        if(drawerHeaderUsername!=null)
+        if (drawerHeaderUsername != null)
             drawerHeaderUsername.setText(sharedLogin);
-        if(drawerHeaderEmail!=null)
+        if (drawerHeaderEmail != null)
             drawerHeaderEmail.setText(sharedEmail);
-
 
 
         Menu menu = navigationView.getMenu();
@@ -135,18 +138,18 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 //        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
 //        NavigationUI.setupWithNavController(navigationView, navController);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar,  R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
             }
         };
-
 
 
         drawer.addDrawerListener(actionBarDrawerToggle);
@@ -173,7 +176,7 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 
         //SlidePager section -----------------------------------------
         List<Fragment> list = new ArrayList<>();
-        list.add(new HomeFragment());
+        list.add(new HomeFragment(this));
         list.add(new ListFragment(list.get(0)));
 //        list.add(new PageFragment1());
 //        list.add(new PageFragment2());
@@ -185,7 +188,7 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
         pager.setAdapter(pagerAdapter);
     }
 
-    public void saveData(){
+    public void saveData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -196,56 +199,51 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
         //Toast.makeText(this, "[DEBUG] Shared preferences saved!", Toast.LENGTH_SHORT).show();
     }
 
-    public void loadData(){
+    public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         menu_notifications_switch_status = sharedPreferences.getBoolean(MENU_NOTIFICATIONS_SWITCH, false);
     }
 
-    public void updateSwitch(){
+    public void updateSwitch() {
         menu_notifications_switch.setChecked(menu_notifications_switch_status);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.home)
-        {
+        if (item.getItemId() == R.id.home) {
             //when home is selected from the drawer, current activity is finished
             //and we open new home activity
             //in the future we need to mind about saving user data before activity closing
             Intent intent = new Intent(this, MainMainActivity.class);
             finish();
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.logout)
-        {
+        } else if (item.getItemId() == R.id.logout) {
             @SuppressLint("WrongConstant")
             SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            if(sharedPreferences!=null)
-            {
+            if (sharedPreferences != null) {
                 editor.clear();
                 editor.apply();
                 GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-                if(account!=null){
+                if (account != null) {
                     mGoogleSignInClient.signOut();
                 }
                 startActivity(new Intent(this, com.example.chronosapp.login.MainLoginActivity.class));
                 this.finish();
             }
-        }else if(item.getItemId() == R.id.about_us){
+        } else if (item.getItemId() == R.id.about_us) {
             Intent intent = new Intent(this, com.example.chronosapp.ui.home.AboutUs.class);
             finish();
             startActivity(intent);
-        }else if(item.getItemId() == R.id.account){
+        } else if (item.getItemId() == R.id.account) {
             Intent intent = new Intent(this, com.example.chronosapp.ui.home.Account.class);
             finish();
             startActivity(intent);
-        }else if(item.getItemId() == R.id.preferences){
+        } else if (item.getItemId() == R.id.preferences) {
             Intent intent = new Intent(this, com.example.chronosapp.ui.home.Preferences.class);
             finish();
             startActivity(intent);
-        }
-        else if(item.getItemId() == R.id.mydata){
+        } else if (item.getItemId() == R.id.mydata) {
             Intent intent = new Intent(this, com.example.chronosapp.ui.home.MyData.class);
             finish();
             startActivity(intent);
@@ -255,6 +253,23 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
         // todolistx where x is current iterator value)
         return false;
     }
+
+    @Override
+    public void getItemsForHomeFragment(ArrayList<Item> mItemArrayList) {
+        this.mItemArrayList = mItemArrayList;
+
+        Log.d("getItemsForHomeFragment in MainMainActivity", "----------");
+        for (Item item : mItemArrayList) {
+            Log.d("getItemsForHomeFragment in MainMainActivity - id", item.getItemID());
+            Log.d("getItemsForHomeFragment in MainMainActivity - title", item.getTitle());
+            Log.d("getItemsForHomeFragment in MainMainActivity - type", item.getType());
+            Log.d("getItemsForHomeFragment in MainMainActivity - deadline", item.getDeadline());
+            Log.d("getItemsForHomeFragment in MainMainActivity - priority", item.getPriority());
+//        }
+        }
+
+    }
+}
 
     //get rid of main in the upper right corner
 //    @Override
@@ -271,5 +286,3 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 //        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
 //                || super.onSupportNavigateUp();
 //    }
-
-}
