@@ -13,6 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chronosapp.ui.home.Calendar;
 import com.example.chronosapp.ui.home.HomeFragment;
 import com.example.chronosapp.ui.list.ListFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -213,6 +214,11 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
             //and we open new home activity
             //in the future we need to mind about saving user data before activity closing
             Intent intent = new Intent(this, MainMainActivity.class);
+            finish();
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.calendar){
+            Intent intent = new Intent(this, Calendar.class);
             finish();
             startActivity(intent);
         }

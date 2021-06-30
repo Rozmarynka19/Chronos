@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,14 @@ public class MyData extends AppCompatActivity {
 
         nameEdit = findViewById(R.id.NameEdit);
         accountEdit = findViewById(R.id.accountEdit);
+
+        LinearLayout back_arrow = (LinearLayout)findViewById(R.id.mydata_back_arrow);
+        back_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         @SuppressLint("WrongConstant")
         SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
@@ -48,6 +57,18 @@ public class MyData extends AppCompatActivity {
     }
 
     public void generateQR(View view) {
+        if(nameEdit.getText().toString().trim().isEmpty()){
+            nameEdit.setError("Bill name can not be empty!");
+            nameEdit.requestFocus();
+            return;
+        }
+
+        if(!isValidAccountNumber(accountEdit.getText().toString().trim())){
+            accountEdit.setError("An invalid account number was entered");
+            accountEdit.requestFocus();
+            return;
+        }
+
         Intent intent = new Intent(this, generatedQRActivity.class);
         intent.putExtra("Account_Name", nameEdit.getText().toString());
         intent.putExtra("Account_Number", accountEdit.getText().toString());
@@ -55,16 +76,30 @@ public class MyData extends AppCompatActivity {
     }
 
     public void saveData(View view) {
-
         bill_Account_Name = nameEdit.getText().toString();
         bill_Account_Number = accountEdit.getText().toString();
 
-        if(bill_Account_Number.length() < 26) {
-            accountEdit.setError("MUST BE 26 NUMBERS");
+        if(bill_Account_Name.isEmpty()){
+            nameEdit.setError("Bill name can not be empty!");
+            nameEdit.requestFocus();
+            return;
+        }
+
+        if(!isValidAccountNumber(bill_Account_Number)) {
+            accountEdit.setError("An invalid account number was entered");
             accountEdit.requestFocus();
+            return;
         }
 
         MyDataBackgroundTask addDataBackgroundTask = new MyDataBackgroundTask(this);
         addDataBackgroundTask.execute("SAVE",user_ID, bill_Account_Name, bill_Account_Number);
     }
+
+    public boolean isValidAccountNumber(String accountNumber){
+        if(accountNumber.matches("\\d{26}"))
+            return true;
+
+        return false;
+    }
+
 }

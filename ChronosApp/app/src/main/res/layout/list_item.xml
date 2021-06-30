@@ -32,29 +32,6 @@
             android:textColorHint="@color/white"
             android:layout_centerHorizontal="true"
             android:text="@string/title_placeholder"/>
-
-        <TextView
-            android:id="@+id/subTitle"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/backgroundImage"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:padding="8dp"
-            android:text="@string/subtitle_placeholder" />
-
-        <TextView
-            android:id="@+id/listDescription"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:layout_below="@id/subTitle"
-            android:padding="8dp"
-            android:text="@string/description_placeholder" />
-
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
