@@ -48,6 +48,9 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
     private String sharedLogin, sharedEmail, sharedPhone, sharedUserId;
     private Switch menu_notifications_switch;
 
+    private HomeFragment homefragment;
+    private List<Fragment> list;
+
     private GoogleSignInClient mGoogleSignInClient;
     private Boolean menu_notifications_switch_status;
 
@@ -173,8 +176,9 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
 //        });
 
         //SlidePager section -----------------------------------------
-        List<Fragment> list = new ArrayList<>();
-        list.add(new HomeFragment());
+        list = new ArrayList<>();
+        homefragment = new HomeFragment();
+        list.add(homefragment);
         list.add(new ListFragment(list.get(0)));
 //        list.add(new PageFragment1());
 //        list.add(new PageFragment2());
