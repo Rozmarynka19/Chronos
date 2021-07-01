@@ -80,7 +80,7 @@
             android:name=".ui.itemList.ListOfItemsMainActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar" />
         <activity
-            android:name=".ui.home.Calendar"
+            android:name=".ui.home.CalendarView"
             android:theme="@style/Theme.ChronosApp.NoActionBar" />
         <receiver android:name=".NotificationPublisher"></receiver>
         <activity

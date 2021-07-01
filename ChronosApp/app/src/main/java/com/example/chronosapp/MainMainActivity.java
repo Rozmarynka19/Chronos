@@ -12,9 +12,8 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.chronosapp.ui.home.Calendar;
+import com.example.chronosapp.ui.home.CalendarView;
 import com.example.chronosapp.ui.home.HomeFragment;
 import com.example.chronosapp.ui.home.ItemsDetailsForHomeFragmentSetListener;
 import com.example.chronosapp.ui.itemList.Item;
@@ -23,7 +22,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.material.navigation.NavigationView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -36,15 +34,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.chronosapp.ui.home.HomeFragment;
-import com.example.chronosapp.ui.list.ListFragment;
-import com.google.android.material.navigation.NavigationView;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-                                                                    ItemsDetailsForHomeFragmentSetListener {
+                                                                    ItemsDetailsForHomeFragmentSetListener, Serializable {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ViewPager pager;
@@ -223,8 +218,11 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.calendar){
-            Intent intent = new Intent(this, Calendar.class);
-            finish();
+            Intent intent = new Intent(this, CalendarView.class);
+            if(mItemArrayList != null) {
+                //intent.putExtra("HomeListener", (Serializable) mItemArrayList);
+            }
+            //finish();
             startActivity(intent);
         }
         else if(item.getItemId() == R.id.logout)
