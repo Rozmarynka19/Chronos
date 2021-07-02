@@ -40,7 +40,7 @@ import java.util.ArrayList;
 /***
  * The adapter class for the RecyclerView, contains the data about specific list.
  */
-class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
+public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
 
     // Member variables.
     private ArrayList<ListItem> mListItemData;
@@ -52,7 +52,7 @@ class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHolder> {
      * @param listItemData ArrayList containing the list item data.
      * @param context Context of the application.
      */
-    ListItemAdapter(Context context, ArrayList<ListItem> listItemData) {
+    public ListItemAdapter(Context context, ArrayList<ListItem> listItemData) {
         this.mListItemData = listItemData;
         this.mContext = context;
     }

@@ -21,7 +21,7 @@ import android.widget.Toast;
 /**
  * Data model for each row of the RecyclerView
  */
-class ListItem {
+public class ListItem {
 
     // Member variables representing the list title and its description.
     private String title, listID;

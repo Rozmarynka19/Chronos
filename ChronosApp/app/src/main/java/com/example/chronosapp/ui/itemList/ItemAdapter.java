@@ -35,7 +35,7 @@ import java.util.ArrayList;
 /***
  * The adapter class for the RecyclerView, contains the data about specific list.
  */
-class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     // Member variables.
     private ArrayList<Item> itemArrayList;
@@ -48,12 +48,11 @@ class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
      * @param itemArrayList ArrayList containing the list item data.
      * @param context Context of the application.
      */
-    ItemAdapter(Context context, ArrayList<Item> itemArrayList, int listId) {
+    public ItemAdapter(Context context, ArrayList<Item> itemArrayList, int listId) {
         this.itemArrayList = itemArrayList;
         this.mContext = context;
         this.listId = listId;
     }
-
 
     /**
      * Required method for creating the viewholder objects.
