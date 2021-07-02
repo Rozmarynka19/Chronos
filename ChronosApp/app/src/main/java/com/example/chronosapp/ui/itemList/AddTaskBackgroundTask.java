@@ -30,11 +30,11 @@ public class AddTaskBackgroundTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        //[]= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks}
+        //[]= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks, attachments}
         String plainURL = Common.getDbAddress()+"addTask.php";
 
-        String [] params = {"listid", "itemname", "itemtype", "deadline", "desc", "recurring", "notificationDate", "piority", "subtasks"};
-        String [] paramsValues = {strings[0], strings[1], strings[2], strings[3], strings[4], strings[5], strings[6], strings[7], strings[8]};
+        String [] params = {"listid", "itemname", "itemtype", "deadline", "desc", "recurring", "notificationDate", "piority", "subtasks", "attachments"};
+        String [] paramsValues = {strings[0], strings[1], strings[2], strings[3], strings[4], strings[5], strings[6], strings[7], strings[8], strings[9]};
         try{
             URL url = new URL(plainURL);
             String result = DataBaseHelper.postProcedure(url, params, paramsValues);

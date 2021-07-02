@@ -12,7 +12,7 @@ if(!$conn){
 	exit(1);
 }
 if($_POST){
-	//[]= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks}
+	//[]= {listid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks, attachments}
 	if(isset($_POST['listid'])){ $listid = $_POST['listid']; }
 	if(isset($_POST['itemname'])){ $itemname = $_POST['itemname']; }
 	if(isset($_POST['itemtype'])){ $itemtype = $_POST['itemtype']; }
@@ -22,6 +22,7 @@ if($_POST){
 	if(isset($_POST['notificationDate'])){ $notificationDate = $_POST['notificationDate']; }
 	if(isset($_POST['piority'])){ $piority = $_POST['piority']; }
 	if(isset($_POST['subtasks'])){ $subtasks = $_POST['subtasks']; }
+	if(isset($_POST['attachments'])){ $attachments = $_POST['attachments']; }
 	
 	
 	//$conn->begin_transaction();
@@ -61,6 +62,25 @@ if($_POST){
 
 			if(!mysqli_query($conn, $query)){
 				echo("\nerror in adding new task");
+				$query="DELETE FROM subtasks WHERE Item_ID=".$currentItem_ID;
+				$result = $conn->query($query);
+				$query="DELETE FROM items_list WHERE Item_ID=".$currentItem_ID;
+				$result = $conn->query($query);
+				throw new \mysqli_sql_exception("exception msg");
+			}
+		} 
+
+		$attArray = explode(",", $attachments);
+		$attArrayLength = count($attArray);
+
+		for ($i = 0; $i < $attArrayLength; $i++) {
+			$query="INSERT INTO attachments_list (Item_ID, Attachment_Name) 
+						VALUES ('$currentItem_ID', '".$attArray[$i]."');";
+
+			if(!mysqli_query($conn, $query)){
+				echo("\nerror in adding new task");
+				$query="DELETE FROM attachments_list WHERE Item_ID=".$currentItem_ID;
+				$result = $conn->query($query);
 				$query="DELETE FROM subtasks WHERE Item_ID=".$currentItem_ID;
 				$result = $conn->query($query);
 				$query="DELETE FROM items_list WHERE Item_ID=".$currentItem_ID;

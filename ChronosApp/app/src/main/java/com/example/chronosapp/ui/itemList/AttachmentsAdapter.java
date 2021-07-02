@@ -96,7 +96,7 @@ class AttachmentsAdapter extends RecyclerView.Adapter<AttachmentsAdapter.ViewHol
      * @param mAttachments  Array of subtasks.
      */
     public void setAttachments(ArrayList<String> mAttachments){
-        mAttachments = mAttachments;
+        this.mAttachments = mAttachments;
         this.notifyDataSetChanged();
     }
 

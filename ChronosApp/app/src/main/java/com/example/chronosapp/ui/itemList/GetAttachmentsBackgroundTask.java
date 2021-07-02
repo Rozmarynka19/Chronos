@@ -18,21 +18,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
 
-public class GetSubtasksBackgroundTask extends AsyncTask<String, String, String>{
+public class GetAttachmentsBackgroundTask extends AsyncTask<String, String, String>{
     Context context;
-    GetSubtasksBackgroundTaskListener listener;
+    GetAttachmentsBackgroundTaskListener listener;
 
-    GetSubtasksBackgroundTask(Context context){
+    GetAttachmentsBackgroundTask(Context context){
         this.context = context;
     }
 
     @Override
     protected String doInBackground(String... strings) {
         Log.d("GetSubtasksBackgroundTask - onPostExecute - s:","hello1");
-        String plainURL = Common.getDbAddress()+"fetchSubtasks.php";
+        String plainURL = Common.getDbAddress()+"fetchAttachments.php";
 
         try{
             URL url = new URL(plainURL);
@@ -79,15 +77,15 @@ public class GetSubtasksBackgroundTask extends AsyncTask<String, String, String>
 
     @Override
     protected void onPostExecute(String s) {
-        Log.d("GetSubtasksBackgroundTask - onPostExecute - s:","hello2");
+        Log.d("GetAttachmentsBackgroundTask - onPostExecute - s:","hello2");
         if(s == null || s.equals("")) {
-            Log.d("GetSubtasksBackgroundTask - onPostExecute - s:","null or empty");
+            Log.d("GetAttachmentsBackgroundTask - onPostExecute - s:","null or empty");
             return;
         }
         else
-            Log.d("GetSubtasksBackgroundTask - onPostExecute - s:",s);
-        listener = (GetSubtasksBackgroundTaskListener) context;
-        ArrayList<String> subtasks = new ArrayList<>();
+            Log.d("GetAttachmentsBackgroundTask - onPostExecute - s:",s);
+        listener = (GetAttachmentsBackgroundTaskListener) context;
+        ArrayList<String> attachments = new ArrayList<>();
         //System.out.println(s);
 
         String[] separatedOutput = s.split("\n");
@@ -99,14 +97,14 @@ public class GetSubtasksBackgroundTask extends AsyncTask<String, String, String>
             {
                 if(separatedOutput[i].equals(""))
                     continue;
-                Log.d("GetSubtasksBackgroundTask - onPostExecute - i:", String.valueOf(i));
-                Log.d("GetSubtasksBackgroundTask - onPostExecute - subtask:", separatedOutput[i]);
-                subtasks.add(separatedOutput[i]);
+                Log.d("GetAttachmentsBackgroundTask - onPostExecute - i:", String.valueOf(i));
+                Log.d("GetAttachmentsBackgroundTask - onPostExecute - att:", separatedOutput[i]);
+                attachments.add(separatedOutput[i]);
             }
 
-//            subtasks = new ArrayList<>(Arrays.asList(separatedOutput).subList(listOfKeys.size(), separatedOutput.length));
+//            attachments = new ArrayList<>(Arrays.asList(separatedOutput).subList(listOfKeys.size(), separatedOutput.length));
         }
 
-        listener.getSubtasks(subtasks);
+        listener.getAttachments(attachments);
     }
 }

@@ -1,11 +1,17 @@
 package com.example.chronosapp.ui.itemList;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +21,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +43,8 @@ import java.util.Objects;
 
 public class EditTaskActivity extends AppCompatActivity implements EditTaskBackgroundTaskListener,
                                                                     GetTaskBackgroundTaskListener,
-                                                                 GetSubtasksBackgroundTaskListener{
+                                                                 GetSubtasksBackgroundTaskListener,
+                                                                GetAttachmentsBackgroundTaskListener{
 
     //TODO: dates with time - deadline, notificationDate
 
@@ -60,6 +72,9 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
     private ArrayList<Recurrence> mRecurrence = new ArrayList<>();
 
     private ArrayList<CheckBox> mRecurrenceCheckBoxes = new ArrayList<>();
+
+    private static final int LOAD_FILE_RESULTS = 100,
+            PERMISSION_REQUEST_CODE = 33;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +173,7 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
                 applySubtasks();
             }
         });
-        applySubtasks();
+//        applySubtasks();
 
         mAttachmentsRecyclerView = findViewById(R.id.editTaskLayoutAttachmentsRecyclerView);
         mAttachmentsRecyclerView.setLayoutManager(new LinearLayoutManager(mAttachmentsRecyclerView.getContext()));
@@ -171,15 +186,100 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         addAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: browse for device files
+                if(!checkPermissions())
+                    requestPermissions();
+                filePicker();
 
-                mAttachments.add("Test");
-                applyAttachments();
+//                mAttachments.add("Test");
+//                applyAttachments();
             }
         });
-        applyAttachments();
+//        applyAttachments();
 
         getTask(itemID);
+    }
+
+    private void filePicker()
+    {
+        Toast.makeText(EditTaskActivity.this,"File Picker Call", Toast.LENGTH_SHORT).show();
+        Intent picker = new Intent(Intent.ACTION_GET_CONTENT);
+        picker.setType("*/*");
+        startActivityForResult(Intent.createChooser(picker,"Choose a file"),LOAD_FILE_RESULTS);
+
+    }
+
+    private void requestPermissions()
+    {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(EditTaskActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE))
+            Toast.makeText(EditTaskActivity.this, "Please give permissions to browse files",Toast.LENGTH_SHORT).show();
+        else
+            ActivityCompat.requestPermissions(EditTaskActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+    }
+
+    private boolean checkPermissions()
+    {
+        int result = ContextCompat.checkSelfPermission(EditTaskActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch(requestCode)
+        {
+            case PERMISSION_REQUEST_CODE:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    Toast.makeText(EditTaskActivity.this, "Permission granted", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(EditTaskActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("AddTaskActivity - check", String.valueOf( resultCode == RESULT_OK &&  requestCode == LOAD_FILE_RESULTS ));
+        if( resultCode == RESULT_OK &&  requestCode == LOAD_FILE_RESULTS ) {
+            String filename = getRealNameFromUri(data.getData(), EditTaskActivity.this);
+            String filepath = getRealPathFromURI(data.getData());//getRealPathFromURI_API19(filename, this, data.getData());//getRealPathFromURI(data.getData());
+            Log.d("File Name: ", filename);
+            Log.d("FilePath: ", filepath);
+
+            mAttachments.add(filename);
+            applyAttachments();
+        }
+    }
+
+
+    public String getRealNameFromUri(Uri uri, Activity activity)
+    {
+//        String[] projection = {MediaStore.Files.FileColumns.DATA};
+        Cursor cursor = activity.getContentResolver().query(uri,null,null,null,null);
+        if(cursor == null)
+            return  uri.getPath();
+        else
+        {
+            cursor.moveToFirst();
+            int id = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME); //DISPLAY_NAME
+//            int id = cursor.getColumnIndex( projection[0] ); //DISPLAY_NAME
+            return cursor.getString(id);
+        }
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = 0;
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
     }
 
     /**
@@ -313,9 +413,19 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
 
         Log.d("subtasks",subtasks.toString());
 
+        StringBuilder attachments = new StringBuilder();
+        for (int i=0;i<mAttachments.size();i++) {
+            attachments.append(mAttachments.get(i)).append(",");
+        }
+
+        if(attachments.length() > 0)
+            attachments.deleteCharAt(attachments.length()-1);
+
+        Log.d("attachments",attachments.toString());
+
         EditTaskBackgroundTask editTaskBackgroundTask = new EditTaskBackgroundTask(this);
-//        []= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks}
-        editTaskBackgroundTask.execute(itemID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", priority, subtasks.toString());
+//        []= {itemid, itemname, itemtype, deadline, desc, recurring, notificationDate, piority, subtasks, attachments}
+        editTaskBackgroundTask.execute(itemID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", priority, subtasks.toString(), attachments.toString());
     }
 
     @Override
@@ -370,6 +480,22 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
         {
             mSubtasks = subtasks;
             applySubtasks();
+        }
+
+        getAttachmentsFromDb(itemID);
+    }
+
+    private void getAttachmentsFromDb(String itemID) {
+        GetAttachmentsBackgroundTask getAttachmentsBackgroundTask = new GetAttachmentsBackgroundTask(this);
+        getAttachmentsBackgroundTask.execute(itemID);
+    }
+
+    @Override
+    public void getAttachments(ArrayList<String> attachments) {
+        if(attachments != null)
+        {
+            mAttachments = attachments;
+            applyAttachments();
         }
     }
 
@@ -544,6 +670,12 @@ public class EditTaskActivity extends AppCompatActivity implements EditTaskBackg
 //
 //        // Recycle the typed array.
 //        listItemsBackgrounds.recycle();
+
+
+        for (String str:mAttachments) {
+            Log.d("mAttachments",str);
+        }
+
         mAttachmentsAdapter.setAttachments(mAttachments);
         Log.d("size of array of list item: ",String.valueOf(mAttachments.size()));
         Log.d("size of list item adapter: ",String.valueOf(mAttachmentsAdapter.getItemCount()));

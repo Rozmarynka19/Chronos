@@ -1,15 +1,24 @@
 package com.example.chronosapp.ui.itemList;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +34,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.PathUtils;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +47,10 @@ import com.example.chronosapp.NotificationBuilder;
 import com.example.chronosapp.NotificationPublisher;
 import com.example.chronosapp.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -48,10 +64,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgroundTaskListener {
-
-    //TODO: dates with time - deadline, notificationDate
-    //TODO: recurring - list of days in which deadline is set anew
-
 
     private String listID, taskName, taskDescription, taskDate, taskTime, piority="";
     private EditText taskNameEditText, taskDescriptionEditText, taskDateEditField, taskTimeEditField;
@@ -76,6 +88,9 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
     private Button addAttachment;
 
     private ArrayList<Recurrence> mRecurrence = new ArrayList<>();
+
+    private static final int LOAD_FILE_RESULTS = 100,
+                                PERMISSION_REQUEST_CODE = 33;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +171,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
                 applySubtasks();
             }
         });
-        applySubtasks();
+//        applySubtasks();
 
         mAttachmentsRecyclerView = findViewById(R.id.attachmentsRecyclerView);
         mAttachmentsRecyclerView.setLayoutManager(new LinearLayoutManager(mAttachmentsRecyclerView.getContext()));
@@ -169,15 +184,170 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         addAttachment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: browse for device files
+//                Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+////                chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+//                chooseFile.setType("*/*");
+////                startActivityForResult(
+////                        Intent.createChooser(chooseFile, "Choose a file"),
+////                        LOAD_FILE_RESULTS
+////                );
+//
+//                startActivityForResult(chooseFile, LOAD_FILE_RESULTS);
 
-                mAttachments.add("Test");
-                applyAttachments();
+//                mAttachments.add("Test");
+//                applyAttachments();
+
+                if(!checkPermissions())
+                    requestPermissions();
+                filePicker();
+
             }
         });
-        applyAttachments();
+//        applyAttachments();
 
 
+    }
+
+    private void filePicker()
+    {
+        Toast.makeText(AddTaskActivity.this,"File Picker Call", Toast.LENGTH_SHORT).show();
+        Intent picker = new Intent(Intent.ACTION_GET_CONTENT);
+        picker.setType("*/*");
+        startActivityForResult(Intent.createChooser(picker,"Choose a file"),LOAD_FILE_RESULTS);
+
+    }
+
+    private void requestPermissions()
+    {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(AddTaskActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE))
+            Toast.makeText(AddTaskActivity.this, "Please give permissions to browse files",Toast.LENGTH_SHORT).show();
+        else
+            ActivityCompat.requestPermissions(AddTaskActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+    }
+
+    private boolean checkPermissions()
+    {
+        int result = ContextCompat.checkSelfPermission(AddTaskActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch(requestCode)
+        {
+            case PERMISSION_REQUEST_CODE:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    Toast.makeText(AddTaskActivity.this, "Permission granted", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(AddTaskActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public String getRealNameFromUri(Uri uri, Activity activity)
+    {
+//        String[] projection = {MediaStore.Files.FileColumns.DATA};
+        Cursor cursor = activity.getContentResolver().query(uri,null,null,null,null);
+        if(cursor == null)
+            return  uri.getPath();
+        else
+        {
+            cursor.moveToFirst();
+            int id = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME); //DISPLAY_NAME
+//            int id = cursor.getColumnIndex( projection[0] ); //DISPLAY_NAME
+            return cursor.getString(id);
+        }
+    }
+
+    private String getRealPathFromURI(Uri contentURI) {
+        String result;
+        Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) { // Source is Dropbox or other similar local file path
+            result = contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = 0;
+            result = cursor.getString(idx);
+            cursor.close();
+        }
+        return result;
+    }
+
+    @SuppressLint("NewApi")
+    public static String getRealPathFromURI_API19(String filename, Context context, Uri uri){
+        String filePath = "";
+        String wholeID = DocumentsContract.getDocumentId(uri);
+
+        // Split at colon, use second item in the array
+        String id = wholeID.split(":")[1];
+
+        String[] column = { MediaStore.Files.FileColumns.DATA };
+
+        // where id is equal to
+        String sel = MediaStore.Files.FileColumns._ID + "=?";
+        Uri filepathFromUri = MediaStore.Files.getContentUri(filename, Integer.parseInt(id));
+        Log.d("filepathFromUri", filepathFromUri.toString());
+        Cursor cursor = context.getContentResolver().query(MediaStore.Files.getContentUri(filename, Integer.parseInt(id)),
+                column, sel, new String[]{ id }, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+        return filePath;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("AddTaskActivity - check", String.valueOf( resultCode == RESULT_OK &&  requestCode == LOAD_FILE_RESULTS ));
+        if( resultCode == RESULT_OK &&  requestCode == LOAD_FILE_RESULTS )
+        {
+            String filename = getRealNameFromUri(data.getData(),AddTaskActivity.this);
+            String filepath = getRealPathFromURI(data.getData());//getRealPathFromURI_API19(filename, this, data.getData());//getRealPathFromURI(data.getData());
+            Log.d("File Name: ", filename);
+            Log.d("FilePath: ", filepath);
+
+            mAttachments.add(filename);
+            applyAttachments();
+
+//            try {
+//                InputStream in = getContentResolver().openInputStream(data.getData());
+//                in.
+
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+
+//            UploadAttachmentBackgroundTask uploadAttachmentBackgroundTask = new UploadAttachmentBackgroundTask(this);
+//            uploadAttachmentBackgroundTask.execute(filename, filepath);
+
+
+//            Uri content_describer = data.getData();
+//            String path = content_describer.getPath();
+//            File file = new File(path);
+//            String filename = file.getName();
+////            Log.d("AddTaskActivity - path",path);
+////            String filename = content_describer.getLastPathSegment();
+//            Log.d("AddTaskActivity - filename",filename);
+
+
+
+//            try{
+//                //call the getPath uri with context and uri
+//                //To get path from uri
+//                String path = getPath(this, data.getData());
+//                File file = new File(path);
+//                String filename = file.getName();
+//                Log.d("File Name: ", filename);
+//            }catch(Exception e){
+//                Log.d("Err", e.toString());
+//            }
+        }
     }
 
     /**
@@ -507,6 +677,16 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
 
         Log.d("subtasks",subtasks.toString());
 
+        StringBuilder attachments = new StringBuilder();
+        for (int i=0;i<mAttachments.size();i++) {
+            attachments.append(mAttachments.get(i)).append(",");
+        }
+
+        if(attachments.length() > 0)
+            attachments.deleteCharAt(attachments.length()-1);
+
+        Log.d("attachments",attachments.toString());
+
 //        String date = dateField.getText().toString().trim();
 //        if(date.isEmpty()){
 //            dateField.setError("Task date is required");
@@ -533,7 +713,7 @@ public class AddTaskActivity extends AppCompatActivity implements AddTaskBackgro
         scheduleNotification(not, 60 * 1000 );
 
         AddTaskBackgroundTask addTaskBackgroundTask = new AddTaskBackgroundTask(this);
-        addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", piority, subtasks.toString());
+        addTaskBackgroundTask.execute(listID, taskName, ItemTypes.Task.toString(), fullDeadlineDate, taskDescription, recurrence.toString(), "", piority, subtasks.toString(), attachments.toString());
     }
 
     private Notification createNotification(String taskName, String taskDescription) {
