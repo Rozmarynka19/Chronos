@@ -129,4 +129,5 @@
     <string name="account_number">Account Number</string>
     <string name="save">Save</string>
     <string name="generate_qr">Generate QR</string>
+    <string name="date_dd_mm_yyyy">(Date) dd.mm.yyyy</string>
 </resources>

@@ -58,6 +58,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:weightSum="10">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -69,31 +70,48 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:drawableEnd="@drawable/calendar_ico_32"
                     android:ems="10"
                     android:gravity="center"
-                    android:hint="(Date) dd.mm.yyyy"
+                    android:hint="@string/date_dd_mm_yyyy"
                     android:inputType="date"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#FFFFFF"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    app:drawableEndCompat="@drawable/calendar_ico_32" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@drawable/light_bar">
+
             </RelativeLayout>
+
             <RelativeLayout
+                android:id="@+id/MyRelative"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="8">
+                android:layout_weight="8" >
+
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="vertical"
-                    android:fillViewport="true"
-                    >
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/textViewTask"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="#FFFFFF"
+                            android:textSize="32sp" />
+                    </LinearLayout>
                 </ScrollView>
+
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
