@@ -1,15 +1,19 @@
 package com.example.chronosapp.ui.home;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.chronosapp.MainMainActivity;
 import com.example.chronosapp.R;
 import com.google.zxing.WriterException;
 
@@ -24,6 +28,14 @@ public class generatedQRActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.generated_qr);
+
+        LinearLayout backArrow = (LinearLayout)findViewById(R.id.generate_QR_back_arrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         qrCodeIV = findViewById(R.id.idIVQrcode);
 

@@ -17,6 +17,11 @@
                     android:icon="@drawable/ic_baseline_home_24_white"
                     android:title="@string/menu_home"
                     />
+                <item
+                    android:id="@+id/calendar"
+                    android:icon="@drawable/calendar_ico_32"
+                    android:title="Calendar"
+                    />
                 <!--<item
                     android:id="@+id/todolist1"
                     android:icon="@drawable/ic_baseline_list_alt_24"

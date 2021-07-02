@@ -14,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.chronosapp.ui.home.Calendar;
 import com.example.chronosapp.ui.home.HomeFragment;
 import com.example.chronosapp.ui.home.ItemsDetailsForHomeFragmentSetListener;
 import com.example.chronosapp.ui.itemList.Item;
@@ -217,7 +218,14 @@ public class MainMainActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(this, MainMainActivity.class);
             finish();
             startActivity(intent);
-        } else if (item.getItemId() == R.id.logout) {
+        }
+        else if(item.getItemId() == R.id.calendar){
+            Intent intent = new Intent(this, Calendar.class);
+            finish();
+            startActivity(intent);
+        }
+        else if(item.getItemId() == R.id.logout)
+        {
             @SuppressLint("WrongConstant")
             SharedPreferences sharedPreferences = getSharedPreferences("userDataSharedPref", MODE_APPEND);
             SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -79,11 +79,17 @@
         <activity
             android:name=".ui.itemList.ListOfItemsMainActivity"
             android:theme="@style/Theme.ChronosApp.NoActionBar" />
+        <activity
+            android:name=".ui.home.Calendar"
+            android:theme="@style/Theme.ChronosApp.NoActionBar" />
         <receiver android:name=".NotificationPublisher"></receiver>
         <activity
             android:name=".ui.home.MyData"
             android:theme="@style/Theme.ChronosApp.NoActionBar" />
-        <activity android:name=".ui.home.generatedQRActivity" />
+        <activity
+            android:name=".ui.home.generatedQRActivity"
+            android:theme="@style/Theme.ChronosApp.NoActionBar"
+            />
     </application>
 
 </manifest>
