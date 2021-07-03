@@ -117,13 +117,13 @@ public class GetItemsForHomeFragmentBackgroundTask extends AsyncTask<String, Str
 //            Log.d("rows",String.valueOf(rows));
             for(int i=0;i<rows*3;separatedOutputCounter+=3,i+=3)
             {
-                Item item = new Item(separatedOutput[separatedOutputCounter+1],
-                                        separatedOutput[separatedOutputCounter],
+                Item item = new Item(separatedOutput[separatedOutputCounter+2],
+                                        separatedOutput[separatedOutputCounter+1],
                                         ItemTypes.Bill.toString(),
                                         context.getResources().getIdentifier("bill_layout_final",
                                                 "drawable",
                                                 context.getActivity().getPackageName()),
-                                        separatedOutput[separatedOutputCounter+2],
+                                        separatedOutput[separatedOutputCounter+3],
                                         "0");
                 mItemArrayList.add(item);
             }

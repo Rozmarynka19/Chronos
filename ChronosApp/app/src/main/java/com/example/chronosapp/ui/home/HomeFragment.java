@@ -114,6 +114,7 @@ public class HomeFragment extends Fragment implements ItemsDetailsForHomeFragmen
         mRecyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         mListItems = new ArrayList<>();
         for(Item item : mItemArrayList){
+            System.out.println(item.getDeadline() + " " +  item.getType() + " " +  item.getTitle());
             String dataOfItem = item.getDeadline().substring(0, 10);
             if(dataOfItem.equals(todayDateStr) || dataOfItem.equals(tomorrowDateStr) ){
                 mListItems.add(item);
@@ -126,7 +127,6 @@ public class HomeFragment extends Fragment implements ItemsDetailsForHomeFragmen
         sortingByDeadline();
     }
     public void sortingByDeadline() {
-        System.out.println("HELLO");
         Collections.sort(mItemArrayList, new Comparator<Item>(){
             public int compare(Item o1, Item o2)
             {
